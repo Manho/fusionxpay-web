@@ -20,7 +20,8 @@ const mockOrders: Order[] = [
     currency: 'USD',
     status: 'COMPLETED',
     createdAt: '2024-01-15T10:00:00Z',
-    merchantId: 'M001',
+    updatedAt: '2024-01-15T10:00:00Z',
+    userId: 1,
   },
   {
     orderId: 'ORD002',
@@ -29,7 +30,8 @@ const mockOrders: Order[] = [
     currency: 'EUR',
     status: 'PENDING',
     createdAt: '2024-01-16T14:30:00Z',
-    merchantId: 'M001',
+    updatedAt: '2024-01-16T14:30:00Z',
+    userId: 1,
   },
 ]
 
