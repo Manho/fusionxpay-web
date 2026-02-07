@@ -42,7 +42,7 @@ jobs:
       - name: Run smoke E2E test
         run: npx playwright test tests/e2e/login-success.spec.ts --project=chromium
         env:
-          NEXT_PUBLIC_API_URL: http://localhost:3000/api
+          CI: true
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
