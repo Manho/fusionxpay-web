@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test'
+import { setupApiMocks } from './fixtures/mock-api'
 
 test.describe('Login Failure Flow', () => {
+  test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page)
+  })
+
   test('should show error message for invalid credentials', async ({ page }) => {
     await page.goto('/login')
 
@@ -10,7 +15,7 @@ test.describe('Login Failure Flow', () => {
     await page.click('button[type="submit"]')
 
     // Should show error message
-    await expect(page.locator('text=/invalid|error|failed|incorrect/i')).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('text=Invalid email or password')).toBeVisible({ timeout: 5000 })
   })
 
   test('should show validation error for invalid email format', async ({ page }) => {

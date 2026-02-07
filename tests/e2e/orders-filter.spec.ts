@@ -1,7 +1,10 @@
 import { test, expect } from '@playwright/test'
+import { setupApiMocks } from './fixtures/mock-api'
 
 test.describe('Orders Filter', () => {
   test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page)
+
     // Login first
     await page.goto('/login')
     await page.fill('input[type="email"], input[name="email"]', 'admin@fusionxpay.com')

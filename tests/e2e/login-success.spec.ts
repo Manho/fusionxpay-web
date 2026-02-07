@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test'
+import { setupApiMocks } from './fixtures/mock-api'
 
 test.describe('Login Success Flow', () => {
+  test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page)
+  })
+
   test('should login successfully and redirect to orders page', async ({ page }) => {
     await page.goto('/login')
 
