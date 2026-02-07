@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod/v4"
 import { Loader2 } from "lucide-react"
+import axios from "axios"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -62,9 +63,13 @@ export function LoginForm() {
       }
 
       router.push("/orders")
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err)
-      setError(err.response?.data?.message || "Invalid email or password")
+      if (axios.isAxiosError<{ message?: string }>(err)) {
+        setError(err.response?.data?.message || "Invalid email or password")
+      } else {
+        setError("Invalid email or password")
+      }
     } finally {
       setIsLoading(false)
     }

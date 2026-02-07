@@ -18,18 +18,15 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { auth } from "@/lib/auth"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 import { MerchantInfo } from "@/types"
+
+const subscribe = () => () => {}
 
 export function UserNav() {
   const router = useRouter()
-  const [user, setUser] = useState<MerchantInfo | null>(null)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-    setUser(auth.getUser())
-  }, [])
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false)
+  const user: MerchantInfo | null = mounted ? auth.getUser() : null
 
   const handleLogout = () => {
     auth.removeToken()

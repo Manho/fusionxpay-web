@@ -33,9 +33,10 @@ export default function OrderDetailPage() {
       try {
         const response = await api.get<OrderDetail>(`/orders/${orderId}`)
         setOrder(response.data)
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Failed to fetch order details", err)
-        setError("Order not found or access denied")
+        const message = err instanceof Error ? err.message : "Order not found or access denied"
+        setError(message)
       } finally {
         setLoading(false)
       }
