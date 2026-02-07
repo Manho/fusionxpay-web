@@ -2,7 +2,7 @@ import axios from 'axios';
 import { auth } from './auth';
 
 // Backend URL - assuming localhost for dev, configurable via env
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8084/api/admin';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8084/api/v1/admin';
 
 const api = axios.create({
   baseURL: API_URL,

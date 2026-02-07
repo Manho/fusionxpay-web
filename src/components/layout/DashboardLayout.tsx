@@ -3,7 +3,6 @@
 import { UserNav } from "./UserNav"
 import { Sidebar } from "./Sidebar"
 import { ShieldCheck } from "lucide-react"
-import Link from "next/link"
 
 export default function DashboardLayout({
   children,

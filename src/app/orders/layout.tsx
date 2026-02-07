@@ -1,5 +1,4 @@
 import DashboardLayout from "@/components/layout/DashboardLayout"
-import { redirect } from "next/navigation"
 
 // This is a grouping layout, so we don't need "use client" unless we use hooks
 // But our DashboardLayout is a client component.
