@@ -4,12 +4,99 @@
 
 ## 当前状态
 
-- **当前计划**: Phase 2.3 联调测试
-- **阶段**: ✅ 联调测试完成
+- **当前计划**: Phase 2 自动化测试 + CI/CD
+- **阶段**: ✅ Phase 2 全部完成，待合并到 main
 
 ---
 
 ## 进度记录
+
+### 2026-02-07 (Phase 2 自动化测试 + CI/CD 完成)
+
+#### ✅ 完成项 - 后端 (claude-Fusionxpay)
+
+**Task 0: 测试基础设施**
+- [x] 父 pom 添加 Testcontainers BOM 1.19.3 + WireMock BOM 3.3.1
+- [x] 所有服务 pom 添加 failsafe 插件
+- [x] 创建 `AbstractIntegrationTest.java` 基类 (MySQL + Redis + Kafka 容器)
+- [x] 创建 `WireMockConfig.java` Stripe/PayPal stub 工厂
+
+**Task 1: payment-service 集成测试 (19 测试方法)**
+- [x] `PaymentFlowIntegrationTest.java` - 支付流程端到端测试
+- [x] `RefundFlowIntegrationTest.java` - 退款场景测试
+- [x] `IdempotencyIntegrationTest.java` - 重复 Webhook 幂等性测试
+
+**Task 2: order/notification 集成测试 (17 测试方法)**
+- [x] `OrderStateMachineIntegrationTest.java` - 状态机转换测试
+- [x] `KafkaMessageFlowIntegrationTest.java` - Kafka 消息流测试
+- [x] `NotificationKafkaConsumerIntegrationTest.java` - 通知消费测试
+
+**Task 3: admin/gateway 集成测试 (23 测试方法)**
+- [x] `AdminAuthIntegrationTest.java` - JWT 认证测试
+- [x] `AdminRBACIntegrationTest.java` - RBAC 权限隔离测试
+- [x] `ApiKeyAuthFlowIntegrationTest.java` - API Key 验证测试
+
+**Task 5: Docker 容器化**
+- [x] 5 个多阶段 Dockerfile (api-gateway, payment, order, notification, admin)
+- [x] `docker-compose.prod.yml` 生产级编排 (healthcheck + 资源限制)
+- [x] `.dockerignore` 优化构建上下文
+
+**Task 6: CI/CD GitHub Actions (后端)**
+- [x] `backend-ci.yml` - PR 快速检查 (unit + smoke IT)
+- [x] `backend-ci-full.yml` - main/nightly 全量测试 + 覆盖率
+- [x] `docker-build.yml` - 5 服务镜像构建 → GHCR
+
+#### ✅ 完成项 - 前端 (fusionxpay-web)
+
+**Task 4: 前端测试体系**
+- [x] Vitest + React Testing Library 组件测试 (16 个测试)
+  - `LoginForm.test.tsx` - 登录表单验证
+  - `OrderTable.test.tsx` - 订单列表渲染
+  - `OrderStatusBadge.test.tsx` - 状态徽章样式
+- [x] Playwright E2E 测试 (5 个 spec)
+  - `login-success.spec.ts` - 登录成功跳转
+  - `login-failure.spec.ts` - 错误提示
+  - `auth-redirect.spec.ts` - 未登录重定向
+  - `orders-filter.spec.ts` - 分页筛选
+  - `order-detail.spec.ts` - 详情展示
+
+**Task 6: CI/CD GitHub Actions (前端)**
+- [x] `frontend-ci.yml` - PR 快速检查 (lint + vitest + smoke E2E)
+- [x] `frontend-ci-full.yml` - main/nightly 全量测试
+
+#### 📦 Git 提交记录
+
+**后端 `feature/claude-phaze2` 分支:**
+- `d63828c` - feat(test): add Testcontainers and WireMock infrastructure
+- `62e860c` - feat(docker): add multi-stage Dockerfiles and production docker-compose
+- `9c17e56` - feat(order,notification): add integration tests for Kafka message flow
+- `5a4b7a5` - feat(payment-service): add integration tests for payment flow
+- `a6b0bb2` - feat(admin,gateway): add integration tests for auth and RBAC
+- `3ece08d` - feat(ci): add GitHub Actions workflows for backend CI/CD
+
+**前端 `feature/claude-phaze2` 分支:**
+- `42be93d` - feat(test): add Vitest and Playwright testing infrastructure
+- `9e48945` - feat(ci): add GitHub Actions workflows for frontend CI/CD
+
+#### 📊 Phase 2 统计
+
+| 指标 | 数量 |
+|------|------|
+| 后端集成测试 | 59 个测试方法 |
+| 前端组件测试 | 16 个测试 |
+| 前端 E2E 测试 | 5 个 spec |
+| Dockerfile | 5 个 |
+| CI Workflows | 5 个 |
+| Git 提交 | 8 个 |
+
+#### 🚀 下一步
+
+1. 运行 `mvn verify` 验证后端测试
+2. 运行 `npm test && npm run test:e2e` 验证前端测试
+3. 创建 PR: `feature/claude-phaze2` → `main` (两个仓库)
+4. 进入 Phase 3: 云端部署 + Landing Page + 文档
+
+---
 
 ### 2026-01-22 (会话 5 - 文档优化)
 

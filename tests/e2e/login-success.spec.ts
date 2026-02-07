@@ -6,7 +6,7 @@ test.describe('Login Success Flow', () => {
 
     // Fill in login form
     await page.fill('input[type="email"], input[name="email"]', 'admin@fusionxpay.com')
-    await page.fill('input[type="password"], input[name="password"]', 'password123')
+    await page.fill('input[type="password"], input[name="password"]', 'admin123')
 
     // Click login button
     await page.click('button[type="submit"]')

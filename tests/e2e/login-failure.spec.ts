@@ -17,7 +17,7 @@ test.describe('Login Failure Flow', () => {
     await page.goto('/login')
 
     await page.fill('input[type="email"], input[name="email"]', 'invalid-email')
-    await page.fill('input[type="password"], input[name="password"]', 'password123')
+    await page.fill('input[type="password"], input[name="password"]', 'somepassword')
 
     await page.click('button[type="submit"]')
 

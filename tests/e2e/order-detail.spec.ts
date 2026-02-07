@@ -4,7 +4,7 @@ test.describe('Order Detail', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/login')
     await page.fill('input[type="email"], input[name="email"]', 'admin@fusionxpay.com')
-    await page.fill('input[type="password"], input[name="password"]', 'password123')
+    await page.fill('input[type="password"], input[name="password"]', 'admin123')
     await page.click('button[type="submit"]')
     await expect(page).toHaveURL(/.*orders.*/, { timeout: 10000 })
   })
