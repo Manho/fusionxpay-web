@@ -32,9 +32,9 @@ test.describe('Orders Filter', () => {
     // Navigate to orders page fresh
     await page.goto('/orders')
 
-    // Should show loading indicator or table (check separately to avoid invalid selector)
-    const hasTable = await page.locator('table').isVisible()
-    const hasLoading = await page.locator('text=/loading/i').isVisible()
-    expect(hasTable || hasLoading).toBeTruthy()
+    // Wait for either loading indicator or table to appear (with proper waiting)
+    await expect(
+      page.locator('table').or(page.locator('text=/loading/i'))
+    ).toBeVisible({ timeout: 10000 })
   })
 })
