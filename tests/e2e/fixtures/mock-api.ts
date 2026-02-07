@@ -69,25 +69,14 @@ export async function setupApiMocks(page: Page) {
     }
   })
 
-  // Mock orders list API
-  await page.route('**/api/v1/admin/orders', async (route) => {
-    if (route.request().method() === 'GET') {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockOrdersResponse),
-      })
-    } else {
-      await route.continue()
-    }
-  })
+  // Mock orders list API (with query params support)
+  await page.route('**/api/v1/admin/orders**', async (route) => {
+    const url = route.request().url()
 
-  // Mock single order API
-  await page.route('**/api/v1/admin/orders/*', async (route) => {
-    if (route.request().method() === 'GET') {
-      const url = route.request().url()
-      const orderId = url.split('/').pop()
-
+    // Check if this is a single order request (has order ID in path, not just query params)
+    const pathMatch = url.match(/\/orders\/([^?/]+)/)
+    if (pathMatch && route.request().method() === 'GET') {
+      const orderId = pathMatch[1]
       const order = mockOrdersResponse.orders.find((o) => o.orderId === orderId)
       if (order) {
         await route.fulfill({
@@ -102,6 +91,16 @@ export async function setupApiMocks(page: Page) {
           body: JSON.stringify({ message: 'Order not found' }),
         })
       }
+      return
+    }
+
+    // Orders list request
+    if (route.request().method() === 'GET') {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockOrdersResponse),
+      })
     } else {
       await route.continue()
     }

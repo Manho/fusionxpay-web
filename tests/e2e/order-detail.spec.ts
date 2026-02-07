@@ -16,27 +16,31 @@ test.describe('Order Detail', () => {
     // Wait for table to load
     await page.waitForSelector('table', { timeout: 10000 })
 
-    // Click on actions menu for first order if available
-    const actionsButton = page.locator('button[aria-haspopup="menu"]').first()
-    const isVisible = await actionsButton.isVisible()
+    // Verify table is visible with order data
+    await expect(page.locator('table')).toBeVisible()
 
-    if (isVisible) {
+    // Check that we have at least one order row displayed
+    const orderRows = page.locator('table tbody tr')
+    const rowCount = await orderRows.count()
+    expect(rowCount).toBeGreaterThan(0)
+
+    // Click on actions menu for first order
+    const actionsButton = page.locator('button[aria-haspopup="menu"]').first()
+    const hasActionsMenu = await actionsButton.count() > 0
+
+    if (hasActionsMenu) {
       await actionsButton.click()
 
-      // Click on View Details
+      // Click on View Details if available
       const viewDetails = page.locator('text=/view details/i')
-      const detailsVisible = await viewDetails.isVisible()
+      const hasViewDetails = await viewDetails.count() > 0
 
-      if (detailsVisible) {
+      if (hasViewDetails) {
         await viewDetails.click()
-
         // Should be on order detail page
         await expect(page).toHaveURL(/.*orders\/.*/)
       }
     }
-
-    // Test passes if we got here - actions menu interaction is optional based on UI
-    expect(true).toBeTruthy()
   })
 
   test('should display order detail page elements', async ({ page }) => {
