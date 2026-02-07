@@ -24,6 +24,11 @@ test.describe('Order Detail', () => {
     await expect(orderRows.first()).toBeVisible()
     const rowCount = await orderRows.count()
     expect(rowCount).toBeGreaterThan(0)
+
+    // Verify action buttons exist in table rows
+    const actionButtons = page.locator('table tbody button, table tbody [role="button"]')
+    const buttonCount = await actionButtons.count()
+    expect(buttonCount).toBeGreaterThan(0)
   })
 
   test('should display order detail page elements', async ({ page }) => {
