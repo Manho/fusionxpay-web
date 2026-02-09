@@ -4,14 +4,18 @@ import type { NextRequest } from 'next/server'
 const TOKEN_KEY = 'fusionxpay_admin_token'
 
 // Routes that don't require authentication
-const publicRoutes = ['/', '/login']
+// Use exact match for root, startsWith for others
+const publicRoutesExact = ['/']
+const publicRoutesPrefix = ['/login']
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get(TOKEN_KEY)?.value
 
-  // Check if it's a public route
-  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route))
+  // Check if it's a public route (exact match for root, prefix match for others)
+  const isPublicRoute =
+    publicRoutesExact.includes(pathname) ||
+    publicRoutesPrefix.some(route => pathname.startsWith(route))
 
   // If no token and trying to access protected route, redirect to login
   if (!token && !isPublicRoute) {
