@@ -18,7 +18,10 @@ export default function Hero() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true);
+    const timer = requestAnimationFrame(() => {
+      setIsLoaded(true);
+    });
+    return () => cancelAnimationFrame(timer);
   }, []);
 
   useEffect(() => {
