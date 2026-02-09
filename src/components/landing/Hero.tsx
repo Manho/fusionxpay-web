@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Shield, Zap, Globe } from "lucide-react";
+import { ArrowRight, Sparkles, Shield, Globe, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const stats = [
@@ -11,121 +12,231 @@ const stats = [
 ];
 
 export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+      const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+      setMousePosition({ x, y });
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("mousemove", handleMouseMove);
+      return () => container.removeEventListener("mousemove", handleMouseMove);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (imageRef.current) {
+      const rotateX = mousePosition.y * -8;
+      const rotateY = mousePosition.x * 8;
+      imageRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+    }
+  }, [mousePosition]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Background Effects */}
+    <section
+      ref={containerRef}
+      className="relative min-h-screen w-full overflow-hidden"
+    >
+      {/* Animated Background */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Grid pattern */}
+        {/* Gradient Orbs */}
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#2d1ef5]/20 rounded-full blur-[120px] animate-float" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#ffe9a9]/10 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#2d1ef5]/10 rounded-full blur-[150px]" />
+
+        {/* Grid Pattern */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(245,158,11,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.3) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundSize: "50px 50px",
           }}
         />
-        {/* Gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-primary/5 blur-[100px] animate-pulse-glow [animation-delay:1.5s]" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm text-muted-foreground mb-8">
-            <Zap className="w-4 h-4 text-primary" />
-            <span>Enterprise-Grade Payment Infrastructure</span>
-          </div>
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center pt-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center w-full py-12">
+          {/* Left Column - Text */}
+          <div className="space-y-8">
+            {/* Badge */}
+            <div
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#2d1ef5]/30 transition-all duration-1000 ${
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-[#ffe9a9]" />
+              <span className="text-sm text-gray-300">
+                Next-Gen Payment Infrastructure
+              </span>
+            </div>
 
-          {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
-            Unified Payments,{" "}
-            <span className="text-gradient">Infinite Possibilities</span>
-          </h1>
+            {/* Title */}
+            <h1
+              className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight transition-all duration-1000 delay-200 ${
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
+              <span className="text-white">Unified Payments,</span>
+              <br />
+              <span className="text-gradient">Infinite Possibilities</span>
+            </h1>
 
-          {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            Aggregate PayPal, Stripe, and 50+ payment channels through a single
-            API. Built for developers, designed for scale.
-          </p>
+            {/* Description */}
+            <p
+              className={`text-lg sm:text-xl text-gray-400 max-w-lg leading-relaxed transition-all duration-1000 delay-300 ${
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
+              Aggregate PayPal, Stripe, and 50+ payment channels through a single
+              API. Built for developers, designed for scale.
+            </p>
 
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Button size="lg" className="text-base px-8" asChild>
-              <Link href="/login">
-                Start Integrating <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" className="text-base px-8" asChild>
-              <a href="#features">View Documentation</a>
-            </Button>
-          </div>
+            {/* CTA Buttons */}
+            <div
+              className={`flex flex-wrap gap-4 transition-all duration-1000 delay-500 ${
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
+              <Button
+                size="lg"
+                className="bg-[#2d1ef5] hover:bg-[#4a3fff] text-white px-8 py-6 text-lg rounded-xl group relative overflow-hidden"
+                asChild
+              >
+                <Link href="/login">
+                  <span className="relative z-10 flex items-center gap-2">
+                    Start Integrating
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#4a3fff] to-[#2d1ef5] opacity-0 group-hover:opacity-100 transition-opacity" />
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-white/20 text-white hover:bg-white/10 px-8 py-6 text-lg rounded-xl"
+                asChild
+              >
+                <a href="#features">View Documentation</a>
+              </Button>
+            </div>
 
-          {/* Stats */}
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-16">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-3xl sm:text-4xl font-bold text-gradient mb-1">
-                  {stat.value}
+            {/* Stats */}
+            <div
+              className={`flex gap-8 pt-4 transition-all duration-1000 delay-700 ${
+                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
+              {stats.map((stat, idx) => (
+                <div key={stat.label} className="flex items-center gap-6">
+                  <div>
+                    <div className="text-2xl sm:text-3xl font-bold text-white">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-gray-500">{stat.label}</div>
+                  </div>
+                  {idx < stats.length - 1 && (
+                    <div className="w-px h-12 bg-white/10" />
+                  )}
                 </div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Dashboard Preview */}
-        <div className="mt-20 max-w-5xl mx-auto">
-          <div className="relative">
-            <div className="absolute -inset-4 bg-primary/5 rounded-2xl blur-2xl" />
-            <div className="relative glass rounded-2xl p-1 glow-amber">
-              <div className="rounded-xl bg-card overflow-hidden">
-                {/* Mock Dashboard UI */}
-                <div className="p-4 border-b border-border flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-destructive/60" />
-                  <div className="w-3 h-3 rounded-full bg-primary/40" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/40" />
+          {/* Right Column - Dashboard Preview */}
+          <div
+            className={`relative transition-all duration-1000 delay-300 ${
+              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+            }`}
+          >
+            <div
+              ref={imageRef}
+              className="relative transition-transform duration-200 ease-out"
+              style={{ transformStyle: "preserve-3d" }}
+            >
+              {/* Glow Effect */}
+              <div className="absolute -inset-4 bg-[#2d1ef5]/30 rounded-3xl blur-2xl" />
+
+              {/* Dashboard Card */}
+              <div className="relative glass rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                {/* Browser Bar */}
+                <div className="p-4 border-b border-white/10 flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/60" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/60" />
                   <div className="flex-1 mx-4">
-                    <div className="h-6 bg-muted rounded-md max-w-md mx-auto flex items-center justify-center text-xs text-muted-foreground">
+                    <div className="h-6 bg-white/5 rounded-md max-w-md mx-auto flex items-center justify-center text-xs text-gray-500">
                       dashboard.fusionxpay.com
                     </div>
                   </div>
                 </div>
-                <div className="p-6 sm:p-8 grid grid-cols-3 gap-4">
+
+                {/* Stats Grid */}
+                <div className="p-6 grid grid-cols-3 gap-4">
                   {[
-                    { icon: Shield, label: "Transactions", val: "12,847" },
-                    { icon: Globe, label: "Revenue", val: "$2.4M" },
-                    { icon: Zap, label: "Success Rate", val: "99.2%" },
+                    { icon: Shield, label: "Transactions", val: "12,847", color: "#2d1ef5" },
+                    { icon: Globe, label: "Revenue", val: "$2.4M", color: "#ffe9a9" },
+                    { icon: Zap, label: "Success Rate", val: "99.2%", color: "#2d1ef5" },
                   ].map((item) => (
                     <div
                       key={item.label}
-                      className="glass rounded-xl p-4 text-center"
+                      className="glass rounded-xl p-4 text-center hover-glow cursor-default"
                     >
-                      <item.icon className="w-5 h-5 text-primary mx-auto mb-2" />
-                      <div className="text-lg sm:text-xl font-bold">{item.val}</div>
-                      <div className="text-xs text-muted-foreground">{item.label}</div>
+                      <item.icon
+                        className="w-5 h-5 mx-auto mb-2"
+                        style={{ color: item.color }}
+                      />
+                      <div className="text-lg sm:text-xl font-bold text-white">
+                        {item.val}
+                      </div>
+                      <div className="text-xs text-gray-500">{item.label}</div>
                     </div>
                   ))}
                 </div>
-                {/* Chart placeholder */}
-                <div className="px-6 sm:px-8 pb-6 sm:pb-8">
-                  <div className="h-32 bg-muted/30 rounded-xl flex items-end justify-around px-4 pb-4 gap-2">
+
+                {/* Chart */}
+                <div className="px-6 pb-6">
+                  <div className="h-32 bg-white/5 rounded-xl flex items-end justify-around px-4 pb-4 gap-2">
                     {[40, 65, 45, 80, 55, 70, 90, 60, 75, 85, 50, 95].map(
                       (h, i) => (
                         <div
                           key={i}
-                          className="flex-1 bg-primary/30 rounded-t-sm"
-                          style={{ height: `${h}%` }}
+                          className="flex-1 rounded-t-sm transition-all duration-300 hover:opacity-80"
+                          style={{
+                            height: `${h}%`,
+                            background: `linear-gradient(to top, #2d1ef5, #6b5fff)`,
+                          }}
                         />
                       )
                     )}
                   </div>
                 </div>
               </div>
+
+              {/* Floating Elements */}
+              <div className="absolute -top-6 -right-6 w-20 h-20 bg-[#ffe9a9]/20 rounded-2xl backdrop-blur-xl border border-[#ffe9a9]/30 animate-float" />
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#2d1ef5]/30 rounded-full backdrop-blur-xl border border-[#2d1ef5]/40 animate-float-slow animate-pulse-glow" />
             </div>
           </div>
         </div>
       </div>
+
+      {/* Bottom Gradient Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 }

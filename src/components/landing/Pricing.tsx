@@ -57,16 +57,22 @@ const plans = [
 export default function Pricing() {
   return (
     <section id="pricing" className="py-24 relative">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#ffe9a9]/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#2d1ef5]/5 rounded-full blur-[120px]" />
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-primary text-sm font-medium uppercase tracking-wider">
+          <span className="text-[#ffe9a9] text-sm font-medium uppercase tracking-wider">
             Pricing
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold mt-3 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
             Simple, <span className="text-gradient">Transparent</span> Pricing
           </h2>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-gray-400 leading-relaxed">
             Start free and scale as you grow. No hidden fees, no surprises.
           </p>
         </div>
@@ -76,44 +82,45 @@ export default function Pricing() {
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`relative glass rounded-2xl p-6 flex flex-col ${
-                plan.popular ? "border-primary/30 glow-amber" : ""
+              className={`relative glass rounded-2xl p-6 flex flex-col transition-all duration-300 hover-lift ${
+                plan.popular
+                  ? "border-[#2d1ef5]/50 glow-blue"
+                  : "hover-glow"
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary text-primary-foreground text-xs font-medium">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#2d1ef5] to-[#6b5fff] text-white text-xs font-medium">
                   Most Popular
                 </div>
               )}
 
               <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-1">{plan.name}</h3>
-                <p className="text-xs text-muted-foreground mb-4">
-                  {plan.description}
-                </p>
+                <h3 className="text-lg font-semibold mb-1 text-white">{plan.name}</h3>
+                <p className="text-xs text-gray-500 mb-4">{plan.description}</p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold">{plan.price}</span>
-                  <span className="text-sm text-muted-foreground">
-                    {plan.period}
-                  </span>
+                  <span className="text-4xl font-bold text-white">{plan.price}</span>
+                  <span className="text-sm text-gray-500">{plan.period}</span>
                 </div>
               </div>
 
               <ul className="space-y-3 mb-8 flex-1">
                 {plan.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2 text-sm text-muted-foreground"
-                  >
-                    <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                  <li key={f} className="flex items-center gap-2 text-sm text-gray-400">
+                    <Check
+                      className="w-4 h-4 flex-shrink-0"
+                      style={{ color: plan.popular ? "#2d1ef5" : "#ffe9a9" }}
+                    />
                     {f}
                   </li>
                 ))}
               </ul>
 
               <Button
-                variant={plan.popular ? "default" : "outline"}
-                className="w-full"
+                className={`w-full ${
+                  plan.popular
+                    ? "bg-[#2d1ef5] hover:bg-[#4a3fff] text-white"
+                    : "bg-transparent border border-white/20 text-white hover:bg-white/10"
+                }`}
                 asChild
               >
                 <Link href="/login">{plan.cta}</Link>

@@ -25,19 +25,17 @@ export default function Navigation() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "glass-dark py-3"
-          : "bg-transparent py-5"
+        scrolled ? "glass-dark py-3" : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-base">F</span>
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 rounded-lg bg-[#2d1ef5] flex items-center justify-center group-hover:glow-blue transition-all duration-300">
+            <span className="text-white font-bold text-base">F</span>
           </div>
-          <span className="text-foreground font-bold text-xl tracking-tight">
-            FusionX<span className="text-primary">Pay</span>
+          <span className="text-white font-bold text-xl tracking-tight">
+            FusionX<span className="text-[#ffe9a9]">Pay</span>
           </span>
         </Link>
 
@@ -47,26 +45,36 @@ export default function Navigation() {
             <a
               key={link.href}
               href={link.href}
-              className="text-muted-foreground text-sm hover:text-foreground transition-colors"
+              className="text-gray-400 text-sm hover:text-white transition-colors relative group"
             >
               {link.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2d1ef5] group-hover:w-full transition-all duration-300" />
             </a>
           ))}
         </div>
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" size="sm" asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-gray-300 hover:text-white hover:bg-white/10"
+            asChild
+          >
             <Link href="/login">Sign In</Link>
           </Button>
-          <Button size="sm" asChild>
+          <Button
+            size="sm"
+            className="bg-[#2d1ef5] hover:bg-[#4a3fff] text-white"
+            asChild
+          >
             <Link href="/login">Get Started</Link>
           </Button>
         </div>
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-foreground"
+          className="md:hidden text-white"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -76,22 +84,22 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden glass-dark mt-2 mx-4 rounded-xl p-6 space-y-4">
+        <div className="md:hidden glass-dark mt-2 mx-4 rounded-xl p-6 space-y-4 animate-scale-in">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="block text-muted-foreground hover:text-foreground transition-colors"
+              className="block text-gray-400 hover:text-white transition-colors"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}
             </a>
           ))}
-          <div className="pt-4 border-t border-border space-y-2">
-            <Button variant="outline" className="w-full" asChild>
+          <div className="pt-4 border-t border-white/10 space-y-2">
+            <Button variant="outline" className="w-full border-white/20 text-white" asChild>
               <Link href="/login">Sign In</Link>
             </Button>
-            <Button className="w-full" asChild>
+            <Button className="w-full bg-[#2d1ef5] hover:bg-[#4a3fff]" asChild>
               <Link href="/login">Get Started</Link>
             </Button>
           </div>
