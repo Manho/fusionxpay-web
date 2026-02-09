@@ -9,8 +9,12 @@ const ibmPlexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "FusionXPay Admin",
-  description: "Enterprise Payment Gateway Management",
+  title: {
+    default: "FusionXPay - Unified Payment Gateway",
+    template: "%s | FusionXPay",
+  },
+  description:
+    "Aggregate PayPal, Stripe, and 50+ payment channels through a single API. Built for developers, designed for scale.",
 };
 
 export default function RootLayout({
