@@ -118,7 +118,11 @@ bun install
 cp .env.example .env.local
 
 # Edit with your API endpoint
-# NEXT_PUBLIC_API_URL=http://localhost:8084
+# Local:
+# NEXT_PUBLIC_API_URL=http://localhost:8080/api/v1/admin
+#
+# Production:
+# NEXT_PUBLIC_API_URL=https://api.<your-domain>/api/v1/admin
 ```
 
 ### 3. Start Development Server
@@ -242,7 +246,14 @@ npx tsc --noEmit
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `NEXT_PUBLIC_API_URL` | Backend API endpoint | `http://localhost:8084` |
+| `NEXT_PUBLIC_API_URL` | Backend API base URL for admin endpoints | `http://localhost:8080/api/v1/admin` |
+
+### Vercel Environment Setup
+
+Set the same variable name in Vercel for both environments:
+
+1. Preview: `NEXT_PUBLIC_API_URL=https://api.<your-domain>/api/v1/admin`
+2. Production: `NEXT_PUBLIC_API_URL=https://api.<your-domain>/api/v1/admin`
 
 ---
 
