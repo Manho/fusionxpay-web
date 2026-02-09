@@ -1,0 +1,164 @@
+"use client";
+
+import { useState } from "react";
+import { Code, Settings, Rocket } from "lucide-react";
+
+const tabs = [
+  {
+    id: "integrate",
+    icon: Code,
+    label: "Integrate",
+    title: "Simple API Integration",
+    description:
+      "Connect to our RESTful API with just a few lines of code. Our SDKs handle authentication, serialization, and error handling out of the box.",
+    features: [
+      "RESTful API with OpenAPI 3.0 spec",
+      "SDKs for Java, Python, Node.js, and more",
+      "Sandbox environment for testing",
+      "Comprehensive webhook support",
+    ],
+    code: `// Create a payment order
+const order = await fusionxpay.orders.create({
+  amount: 99.99,
+  currency: "USD",
+  provider: "stripe",
+  description: "Premium Plan",
+  callbackUrl: "https://your-site.com/webhook"
+});
+
+// Redirect to payment
+window.location.href = order.paymentUrl;`,
+  },
+  {
+    id: "configure",
+    icon: Settings,
+    label: "Configure",
+    title: "Flexible Configuration",
+    description:
+      "Configure payment providers, routing rules, and notification preferences through our admin dashboard or API.",
+    features: [
+      "Multi-provider management",
+      "Custom routing rules",
+      "Real-time notifications via Kafka",
+      "Role-based access control",
+    ],
+    code: `// Configure payment routing
+const rule = await fusionxpay.routing.create({
+  conditions: {
+    amount: { gte: 100 },
+    currency: "USD"
+  },
+  provider: "stripe",
+  fallback: "paypal",
+  priority: 1
+});`,
+  },
+  {
+    id: "launch",
+    icon: Rocket,
+    label: "Go Live",
+    title: "Production Ready",
+    description:
+      "Deploy with confidence. Our microservices architecture ensures 99.9% uptime with automatic failover and horizontal scaling.",
+    features: [
+      "99.9% uptime SLA",
+      "Auto-scaling microservices",
+      "Prometheus + Grafana monitoring",
+      "Automated backup & recovery",
+    ],
+    code: `// Health check endpoint
+GET /actuator/health
+{
+  "status": "UP",
+  "components": {
+    "gateway": { "status": "UP" },
+    "payment": { "status": "UP" },
+    "order":   { "status": "UP" },
+    "notification": { "status": "UP" }
+  }
+}`,
+  },
+];
+
+export default function HowItWorks() {
+  const [active, setActive] = useState(0);
+  const current = tabs[active];
+
+  return (
+    <section id="how-it-works" className="py-24 relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-primary text-sm font-medium uppercase tracking-wider">
+            How It Works
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-bold mt-3 mb-4">
+            Get Started in <span className="text-gradient">Three Steps</span>
+          </h2>
+          <p className="text-muted-foreground leading-relaxed">
+            From integration to production in minutes, not months.
+          </p>
+        </div>
+
+        {/* Tabs */}
+        <div className="grid lg:grid-cols-[280px_1fr] gap-8 max-w-5xl mx-auto">
+          {/* Tab Nav */}
+          <div className="flex lg:flex-col gap-2">
+            {tabs.map((tab, idx) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActive(idx)}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all w-full ${
+                    active === idx
+                      ? "bg-primary/10 text-primary border border-primary/20"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  }`}
+                >
+                  <Icon className="w-5 h-5 flex-shrink-0" />
+                  <div>
+                    <div className="font-medium text-sm">{tab.label}</div>
+                    <div className="text-xs opacity-70 hidden lg:block">
+                      Step {idx + 1}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Tab Content */}
+          <div className="glass rounded-2xl p-6 sm:p-8">
+            <h3 className="text-xl font-semibold mb-2">{current.title}</h3>
+            <p className="text-muted-foreground text-sm mb-6">
+              {current.description}
+            </p>
+            <ul className="space-y-2 mb-6">
+              {current.features.map((f) => (
+                <li
+                  key={f}
+                  className="flex items-center gap-2 text-sm text-muted-foreground"
+                >
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            {/* Code Block */}
+            <div className="rounded-xl bg-background/80 border border-border overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-muted/30">
+                <div className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
+                <div className="w-2.5 h-2.5 rounded-full bg-primary/30" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/30" />
+              </div>
+              <pre className="p-4 text-xs sm:text-sm overflow-x-auto">
+                <code className="text-muted-foreground">{current.code}</code>
+              </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

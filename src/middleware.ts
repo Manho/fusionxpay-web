@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 const TOKEN_KEY = 'fusionxpay_admin_token'
 
 // Routes that don't require authentication
-const publicRoutes = ['/login']
+const publicRoutes = ['/', '/login']
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
