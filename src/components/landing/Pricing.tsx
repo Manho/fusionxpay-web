@@ -72,7 +72,7 @@ export default function Pricing() {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
             Simple, <span className="text-gradient">Transparent</span> Pricing
           </h2>
-          <p className="text-gray-400 leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed">
             Start free and scale as you grow. No hidden fees, no surprises.
           </p>
         </div>
@@ -95,17 +95,17 @@ export default function Pricing() {
               )}
 
               <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-1 text-white">{plan.name}</h3>
-                <p className="text-xs text-gray-500 mb-4">{plan.description}</p>
+                <h3 className="text-lg font-semibold mb-1 text-foreground">{plan.name}</h3>
+                <p className="text-xs text-muted-foreground/80 mb-4">{plan.description}</p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold text-white">{plan.price}</span>
-                  <span className="text-sm text-gray-500">{plan.period}</span>
+                  <span className="text-4xl font-bold text-foreground">{plan.price}</span>
+                  <span className="text-sm text-muted-foreground/80">{plan.period}</span>
                 </div>
               </div>
 
               <ul className="space-y-3 mb-8 flex-1">
                 {plan.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-gray-400">
+                  <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Check
                       className="w-4 h-4 flex-shrink-0"
                       style={{ color: plan.popular ? "#2d1ef5" : "#ffe9a9" }}
@@ -119,7 +119,7 @@ export default function Pricing() {
                 className={`w-full ${
                   plan.popular
                     ? "bg-[#2d1ef5] hover:bg-[#4a3fff] text-white"
-                    : "bg-transparent border border-white/20 text-white hover:bg-white/10"
+                    : "bg-transparent border border-border/70 text-foreground hover:bg-accent/70"
                 }`}
                 asChild
               >

@@ -96,7 +96,7 @@ export default function Features() {
             Everything You Need to{" "}
             <span className="text-gradient">Accept Payments</span>
           </h2>
-          <p className="text-gray-400 leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed">
             A complete payment infrastructure built with Spring Boot microservices,
             designed for reliability at any scale.
           </p>
@@ -125,10 +125,10 @@ export default function Features() {
                 >
                   <Icon className="w-6 h-6" style={{ color: feature.color }} />
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-white">
+                <h3 className="text-lg font-semibold mb-2 text-foreground">
                   {feature.title}
                 </h3>
-                <p className="text-sm text-gray-400 leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
               </div>

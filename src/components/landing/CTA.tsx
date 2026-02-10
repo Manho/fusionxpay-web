@@ -23,7 +23,7 @@ export default function CTA() {
               Ready to{" "}
               <span className="text-gradient">Transform Your Payments</span>?
             </h2>
-            <p className="text-gray-400 max-w-xl mx-auto mb-8 leading-relaxed relative">
+            <p className="text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed relative">
               Join hundreds of businesses already using FusionXPay to simplify
               their payment infrastructure. Get started in minutes.
             </p>
@@ -41,7 +41,7 @@ export default function CTA() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10 text-base px-8"
+                className="border-border/70 text-foreground hover:bg-accent/70 text-base px-8"
                 asChild
               >
                 <a href="#pricing">View Pricing</a>

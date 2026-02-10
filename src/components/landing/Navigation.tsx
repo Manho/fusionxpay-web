@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ThemeModeSwitcher from "@/components/theme/ThemeModeSwitcher";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -34,7 +35,7 @@ export default function Navigation() {
           <div className="w-9 h-9 rounded-lg bg-[#2d1ef5] flex items-center justify-center group-hover:glow-blue transition-all duration-300">
             <span className="text-white font-bold text-base">F</span>
           </div>
-          <span className="text-white font-bold text-xl tracking-tight">
+          <span className="text-foreground font-bold text-xl tracking-tight">
             FusionX<span className="text-[#ffe9a9]">Pay</span>
           </span>
         </Link>
@@ -47,7 +48,7 @@ export default function Navigation() {
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noopener noreferrer" : undefined}
-              className="text-gray-400 text-sm hover:text-white transition-colors relative group"
+              className="text-muted-foreground text-sm hover:text-foreground transition-colors relative group"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2d1ef5] group-hover:w-full transition-all duration-300" />
@@ -57,10 +58,11 @@ export default function Navigation() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
+          <ThemeModeSwitcher />
           <Button
             variant="ghost"
             size="sm"
-            className="text-gray-300 hover:text-white hover:bg-white/10"
+            className="text-muted-foreground hover:text-foreground hover:bg-accent/70"
             asChild
           >
             <Link href="/login">Sign In</Link>
@@ -76,7 +78,7 @@ export default function Navigation() {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-white"
+          className="md:hidden text-foreground"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -93,14 +95,17 @@ export default function Navigation() {
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noopener noreferrer" : undefined}
-              className="block text-gray-400 hover:text-white transition-colors"
+              className="block text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}
             </a>
           ))}
-          <div className="pt-4 border-t border-white/10 space-y-2">
-            <Button variant="outline" className="w-full border-white/20 text-white" asChild>
+          <div className="pt-4 border-t border-border/60 space-y-2">
+            <div className="flex justify-end">
+              <ThemeModeSwitcher />
+            </div>
+            <Button variant="outline" className="w-full border-border/70 text-foreground" asChild>
               <Link href="/login">Sign In</Link>
             </Button>
             <Button className="w-full bg-[#2d1ef5] hover:bg-[#4a3fff]" asChild>

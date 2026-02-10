@@ -17,9 +17,9 @@ const logos = [
 
 export default function LogoMarquee() {
   return (
-    <section className="py-16 border-y border-white/5 overflow-hidden">
+    <section className="py-16 border-y border-border/50 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-center text-sm text-muted-foreground/80">
           Trusted by teams processing millions in payments worldwide
         </p>
       </div>
@@ -34,7 +34,7 @@ export default function LogoMarquee() {
               key={i}
               className="flex-shrink-0 mx-10 flex items-center justify-center group"
             >
-              <span className="text-gray-600 font-semibold text-lg whitespace-nowrap transition-colors duration-300 group-hover:text-[#2d1ef5]">
+              <span className="text-muted-foreground/70 font-semibold text-lg whitespace-nowrap transition-colors duration-300 group-hover:text-[#2d1ef5]">
                 {logo}
               </span>
             </div>
