@@ -15,6 +15,7 @@ import {
   Home,
   Sparkles,
 } from "lucide-react";
+import ThemeModeSwitcher from "@/components/theme/ThemeModeSwitcher";
 
 interface DocPageProps {
   params: Promise<{
@@ -432,7 +433,7 @@ export default async function DocPage({ params }: DocPageProps) {
         <h2
           {...props}
           id={id}
-          className="group mt-16 border-t border-white/10 pt-8 text-3xl font-semibold tracking-tight text-white"
+          className="group mt-16 border-t border-border/60 pt-8 text-3xl font-semibold tracking-tight text-foreground"
         >
           {children}
         </h2>
@@ -444,7 +445,7 @@ export default async function DocPage({ params }: DocPageProps) {
         <h3
           {...props}
           id={id}
-          className="mt-10 text-2xl font-semibold tracking-tight text-white"
+          className="mt-10 text-2xl font-semibold tracking-tight text-foreground"
         >
           {children}
         </h3>
@@ -452,7 +453,7 @@ export default async function DocPage({ params }: DocPageProps) {
     },
     p({ children, ...props }) {
       return (
-        <p {...props} className="my-6 text-[1.05rem] leading-8 text-gray-300">
+        <p {...props} className="my-6 text-[1.05rem] leading-8 text-muted-foreground">
           {children}
         </p>
       );
@@ -476,7 +477,7 @@ export default async function DocPage({ params }: DocPageProps) {
     },
     ul({ children, ...props }) {
       return (
-        <ul {...props} className="my-6 list-none space-y-3 pl-0 text-gray-300">
+        <ul {...props} className="my-6 list-none space-y-3 pl-0 text-muted-foreground">
           {children}
         </ul>
       );
@@ -485,7 +486,7 @@ export default async function DocPage({ params }: DocPageProps) {
       return (
         <ol
           {...props}
-          className="my-6 list-decimal space-y-3 pl-6 text-gray-300 marker:font-semibold marker:text-[#8f86ff]"
+          className="my-6 list-decimal space-y-3 pl-6 text-muted-foreground marker:font-semibold marker:text-[#8f86ff]"
         >
           {children}
         </ol>
@@ -506,9 +507,9 @@ export default async function DocPage({ params }: DocPageProps) {
 
       const normalizedChildren = normalizeChecklistPrefix(children);
       return (
-        <li {...props} className="leading-7 text-gray-300">
+        <li {...props} className="leading-7 text-muted-foreground">
           <span className="flex items-start gap-3">
-            <span className="mt-1 inline-flex h-5 w-5 flex-none items-center justify-center rounded-full bg-gradient-to-br from-[#2d1ef5]/45 to-[#ffe9a9]/45 ring-1 ring-white/20">
+            <span className="mt-1 inline-flex h-5 w-5 flex-none items-center justify-center rounded-full bg-gradient-to-br from-[#2d1ef5]/45 to-[#ffe9a9]/45 ring-1 ring-border/70">
               <svg
                 viewBox="0 0 16 16"
                 fill="none"
@@ -533,7 +534,7 @@ export default async function DocPage({ params }: DocPageProps) {
       return (
         <blockquote
           {...props}
-          className="my-8 rounded-r-xl border-l-4 border-[#2d1ef5] bg-[#2d1ef5]/10 px-5 py-4 text-gray-200"
+          className="my-8 rounded-r-xl border-l-4 border-[#2d1ef5] bg-[#2d1ef5]/10 px-5 py-4 text-muted-foreground"
         >
           {children}
         </blockquote>
@@ -554,16 +555,16 @@ export default async function DocPage({ params }: DocPageProps) {
       }
 
       return (
-        <div className="my-8 overflow-hidden rounded-2xl border border-white/10 bg-[#090b16] shadow-[0_20px_55px_rgba(10,14,38,0.55)]">
-          <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5 text-xs">
-            <span className="font-medium uppercase tracking-wider text-gray-400">Code</span>
+        <div className="my-8 overflow-hidden rounded-2xl border border-border/60 bg-card/80 shadow-[0_20px_55px_rgba(10,14,38,0.25)] dark:shadow-[0_20px_55px_rgba(10,14,38,0.55)]">
+          <div className="flex items-center justify-between border-b border-border/60 px-4 py-2.5 text-xs">
+            <span className="font-medium uppercase tracking-wider text-muted-foreground">Code</span>
             <span className="rounded-full border border-[#2d1ef5]/40 bg-[#2d1ef5]/20 px-2.5 py-1 font-medium text-[#c7c2ff]">
               {language}
             </span>
           </div>
           <pre
             {...props}
-            className="overflow-x-auto px-4 py-4 text-[0.88rem] leading-7 text-[#e8e9ff] [&_code]:bg-transparent [&_code]:p-0"
+            className="overflow-x-auto px-4 py-4 text-[0.88rem] leading-7 text-foreground [&_code]:bg-transparent [&_code]:p-0"
           >
             {children}
           </pre>
@@ -582,7 +583,7 @@ export default async function DocPage({ params }: DocPageProps) {
       return (
         <code
           {...props}
-          className="rounded-md border border-[#2d1ef5]/30 bg-[#1a1c2e] px-1.5 py-0.5 font-mono text-[0.9em] text-[#ffe9a9]"
+          className="rounded-md border border-[#2d1ef5]/30 bg-[#2d1ef5]/10 px-1.5 py-0.5 font-mono text-[0.9em] text-[#2d1ef5] dark:text-[#ffe9a9]"
         >
           {children}
         </code>
@@ -590,8 +591,8 @@ export default async function DocPage({ params }: DocPageProps) {
     },
     table({ children, ...props }) {
       return (
-        <div className="my-8 overflow-hidden rounded-2xl border border-white/10">
-          <table {...props} className="w-full border-collapse text-left text-sm text-gray-300">
+        <div className="my-8 overflow-hidden rounded-2xl border border-border/60">
+          <table {...props} className="w-full border-collapse text-left text-sm text-muted-foreground">
             {children}
           </table>
         </div>
@@ -599,32 +600,32 @@ export default async function DocPage({ params }: DocPageProps) {
     },
     thead({ children, ...props }) {
       return (
-        <thead {...props} className="bg-white/5 text-sm uppercase tracking-wider text-gray-200">
+        <thead {...props} className="bg-accent/45 text-sm uppercase tracking-wider text-muted-foreground">
           {children}
         </thead>
       );
     },
     th({ children, ...props }) {
       return (
-        <th {...props} className="border-b border-white/10 px-4 py-3.5 font-semibold">
+        <th {...props} className="border-b border-border/60 px-4 py-3.5 font-semibold">
           {children}
         </th>
       );
     },
     td({ children, ...props }) {
       return (
-        <td {...props} className="border-b border-white/10 px-4 py-3 align-top leading-7">
+        <td {...props} className="border-b border-border/60 px-4 py-3 align-top leading-7">
           {children}
         </td>
       );
     },
     hr({ ...props }) {
-      return <hr {...props} className="my-12 border-white/10" />;
+      return <hr {...props} className="my-12 border-border/60" />;
     },
   };
 
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-[#080a12] text-white">
+    <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[12%] top-[18%] h-[26rem] w-[26rem] rounded-full bg-[#2d1ef5]/20 blur-[120px]" />
         <div className="absolute right-[10%] top-[42%] h-[22rem] w-[22rem] rounded-full bg-[#ffe9a9]/12 blur-[100px]" />
@@ -632,42 +633,45 @@ export default async function DocPage({ params }: DocPageProps) {
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)",
+              "linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)",
             backgroundSize: "44px 44px",
           }}
         />
       </div>
 
-      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-black/35 backdrop-blur-2xl">
+      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-border/60 bg-card/70 backdrop-blur-2xl">
         <div className="container mx-auto flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <Link href="/" className="group flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#2d1ef5] transition-all duration-300 group-hover:glow-blue">
               <span className="text-base font-bold text-white">F</span>
             </div>
-            <span className="text-xl font-bold tracking-tight text-white">
+            <span className="text-xl font-bold tracking-tight text-foreground">
               FusionX<span className="text-[#ffe9a9]">Pay</span>
             </span>
           </Link>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm text-gray-300 transition-colors hover:text-white"
-          >
-            <Home className="h-4 w-4" />
-            Back to Home
-          </Link>
+          <div className="flex items-center gap-3">
+            <ThemeModeSwitcher />
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Home className="h-4 w-4" />
+              Back to Home
+            </Link>
+          </div>
         </div>
       </nav>
 
       <div className="relative z-10 pb-20 pt-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-400">
+          <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
             {breadcrumbs.map((crumb, index) => (
               <div key={crumb.href} className="flex items-center gap-2">
                 {index > 0 ? <ChevronRight className="h-4 w-4" /> : null}
                 <Link
                   href={crumb.href}
-                  className={`transition-colors hover:text-white ${
-                    index === breadcrumbs.length - 1 ? "text-white" : ""
+                  className={`transition-colors hover:text-foreground ${
+                    index === breadcrumbs.length - 1 ? "text-foreground" : ""
                   }`}
                 >
                   {crumb.label}
@@ -677,13 +681,13 @@ export default async function DocPage({ params }: DocPageProps) {
           </div>
 
           <div className="xl:hidden mb-6 overflow-x-auto">
-            <div className="flex min-w-max gap-2 rounded-2xl border border-white/10 bg-black/30 p-2 backdrop-blur-xl">
+            <div className="flex min-w-max gap-2 rounded-2xl border border-border/60 bg-card/60 p-2 backdrop-blur-xl">
               <Link
                 href="/docs/user-guide"
                 className={`rounded-lg px-3 py-2 text-sm transition-colors ${
                   isDocPathActive(canonicalPath, "/docs/user-guide")
-                    ? "bg-[#2d1ef5]/25 text-white"
-                    : "text-gray-300 hover:bg-white/5"
+                    ? "bg-[#2d1ef5]/25 text-foreground"
+                    : "text-muted-foreground hover:bg-accent/60"
                 }`}
               >
                 User Guide
@@ -692,15 +696,15 @@ export default async function DocPage({ params }: DocPageProps) {
                 href="/docs/developer"
                 className={`rounded-lg px-3 py-2 text-sm transition-colors ${
                   isDocPathActive(canonicalPath, "/docs/developer")
-                    ? "bg-[#2d1ef5]/25 text-white"
-                    : "text-gray-300 hover:bg-white/5"
+                    ? "bg-[#2d1ef5]/25 text-foreground"
+                    : "text-muted-foreground hover:bg-accent/60"
                 }`}
               >
                 Developer Docs
               </Link>
               <Link
                 href="/docs/user-guide/quick-start"
-                className="rounded-lg px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-white/5"
+                className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent/60"
               >
                 Quick Start
               </Link>
@@ -709,8 +713,8 @@ export default async function DocPage({ params }: DocPageProps) {
 
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-[280px_minmax(0,1fr)_250px]">
             <aside className="hidden xl:block">
-              <div className="sticky top-24 rounded-2xl border border-white/10 bg-black/35 p-5 backdrop-blur-xl">
-                <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-white">
+              <div className="sticky top-24 rounded-2xl border border-border/60 bg-card/70 p-5 backdrop-blur-xl">
+                <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-foreground">
                   <BookOpen className="h-4 w-4 text-[#8f86ff]" />
                   Documentation
                 </div>
@@ -718,7 +722,7 @@ export default async function DocPage({ params }: DocPageProps) {
                 <div className="space-y-5">
                   {DOC_NAV_SECTIONS.map((section) => (
                     <div key={section.title} className="space-y-2">
-                      <div className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">
                         <span className="mr-1">{section.icon}</span>
                         {section.title}
                       </div>
@@ -732,13 +736,13 @@ export default async function DocPage({ params }: DocPageProps) {
                               href={item.href}
                               className={`block rounded-xl border px-3 py-2 transition-all ${
                                 active
-                                  ? "border-[#2d1ef5]/45 bg-[#2d1ef5]/15 text-white shadow-[0_0_0_1px_rgba(45,30,245,0.15)]"
-                                  : "border-transparent text-gray-400 hover:border-white/10 hover:bg-white/[0.03] hover:text-white"
+                                  ? "border-[#2d1ef5]/45 bg-[#2d1ef5]/15 text-foreground shadow-[0_0_0_1px_rgba(45,30,245,0.15)]"
+                                  : "border-transparent text-muted-foreground hover:border-border/60 hover:bg-accent/45 hover:text-foreground"
                               }`}
                             >
                               <div className="text-sm font-medium">{item.title}</div>
                               {item.description ? (
-                                <p className="mt-1 text-xs leading-5 text-gray-500">{item.description}</p>
+                                <p className="mt-1 text-xs leading-5 text-muted-foreground/80">{item.description}</p>
                               ) : null}
                             </Link>
                           );
@@ -751,39 +755,39 @@ export default async function DocPage({ params }: DocPageProps) {
             </aside>
 
             <main className="min-w-0">
-              <section className="mb-6 rounded-2xl border border-white/10 bg-black/35 p-5 backdrop-blur-xl sm:p-6">
+              <section className="mb-6 rounded-2xl border border-border/60 bg-card/70 p-5 backdrop-blur-xl sm:p-6">
                 <div className="mb-3 flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center rounded-full border border-[#2d1ef5]/40 bg-[#2d1ef5]/20 px-3 py-1 text-xs font-medium text-[#c7c2ff]">
                     <Compass className="mr-1.5 h-3.5 w-3.5" />
                     {getDocFamilyLabel(canonicalPath)}
                   </span>
                   {!error ? (
-                    <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300">
+                    <span className="inline-flex items-center rounded-full border border-border/60 bg-accent/35 px-3 py-1 text-xs text-muted-foreground">
                       <Sparkles className="mr-1.5 h-3.5 w-3.5 text-[#ffe9a9]" />
                       {readingMinutes} min read
                     </span>
                   ) : null}
                   {!error ? (
-                    <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300">
+                    <span className="inline-flex items-center rounded-full border border-border/60 bg-accent/35 px-3 py-1 text-xs text-muted-foreground">
                       {tocItems.length} sections
                     </span>
                   ) : null}
                 </div>
                 {!error ? (
-                  <p className="max-w-3xl text-sm leading-7 text-gray-300 sm:text-base">{leadParagraph}</p>
+                  <p className="max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">{leadParagraph}</p>
                 ) : (
-                  <p className="max-w-3xl text-sm leading-7 text-gray-300 sm:text-base">
+                  <p className="max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">
                     We could not locate this page. Try using the left navigation or return to the docs home.
                   </p>
                 )}
               </section>
 
-              <article className="overflow-hidden rounded-3xl border border-white/10 bg-black/35 p-6 shadow-[0_30px_70px_rgba(5,8,18,0.5)] backdrop-blur-2xl sm:p-10 lg:p-12">
+              <article className="overflow-hidden rounded-3xl border border-border/60 bg-card/70 p-6 shadow-[0_30px_70px_rgba(5,8,18,0.2)] backdrop-blur-2xl dark:shadow-[0_30px_70px_rgba(5,8,18,0.5)] sm:p-10 lg:p-12">
                 {error ? (
                   <div className="py-20 text-center">
-                    <FileText className="mx-auto mb-4 h-16 w-16 text-gray-600" />
-                    <h2 className="mb-2 text-3xl font-bold text-white">Document Not Found</h2>
-                    <p className="mb-6 text-gray-400">{error}</p>
+                    <FileText className="mx-auto mb-4 h-16 w-16 text-muted-foreground/70" />
+                    <h2 className="mb-2 text-3xl font-bold text-foreground">Document Not Found</h2>
+                    <p className="mb-6 text-muted-foreground">{error}</p>
                     <Link
                       href="/docs"
                       className="inline-flex items-center gap-2 rounded-lg bg-[#2d1ef5] px-6 py-3 text-white transition-colors hover:bg-[#4a3fff]"
@@ -793,7 +797,7 @@ export default async function DocPage({ params }: DocPageProps) {
                     </Link>
                   </div>
                 ) : (
-                  <div className="prose prose-invert max-w-none prose-headings:font-semibold prose-headings:text-white prose-h1:mb-8 prose-h1:border-b prose-h1:border-white/10 prose-h1:pb-6 prose-h1:text-4xl sm:prose-h1:text-5xl prose-strong:text-white prose-img:rounded-2xl prose-img:border prose-img:border-white/10 prose-img:shadow-xl">
+                  <div className="prose max-w-none dark:prose-invert prose-headings:font-semibold prose-headings:text-foreground prose-h1:mb-8 prose-h1:border-b prose-h1:border-border/60 prose-h1:pb-6 prose-h1:text-4xl sm:prose-h1:text-5xl prose-strong:text-foreground prose-img:rounded-2xl prose-img:border prose-img:border-border/60 prose-img:shadow-xl">
                     <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
                       {content}
                     </ReactMarkdown>
@@ -806,13 +810,13 @@ export default async function DocPage({ params }: DocPageProps) {
                   {previousItem ? (
                     <Link
                       href={previousItem.href}
-                      className="group rounded-2xl border border-white/10 bg-black/30 p-4 transition-all hover:border-[#2d1ef5]/40 hover:bg-[#2d1ef5]/10"
+                      className="group rounded-2xl border border-border/60 bg-card/60 p-4 transition-all hover:border-[#2d1ef5]/40 hover:bg-[#2d1ef5]/10"
                     >
-                      <span className="mb-2 inline-flex items-center text-xs uppercase tracking-wider text-gray-500">
+                      <span className="mb-2 inline-flex items-center text-xs uppercase tracking-wider text-muted-foreground/80">
                         <ArrowLeft className="mr-1 h-3.5 w-3.5" />
                         Previous
                       </span>
-                      <p className="text-sm font-medium text-white">{previousItem.title}</p>
+                      <p className="text-sm font-medium text-foreground">{previousItem.title}</p>
                     </Link>
                   ) : (
                     <div className="hidden sm:block" />
@@ -821,13 +825,13 @@ export default async function DocPage({ params }: DocPageProps) {
                   {nextItem ? (
                     <Link
                       href={nextItem.href}
-                      className="group rounded-2xl border border-white/10 bg-black/30 p-4 text-right transition-all hover:border-[#2d1ef5]/40 hover:bg-[#2d1ef5]/10"
+                      className="group rounded-2xl border border-border/60 bg-card/60 p-4 text-right transition-all hover:border-[#2d1ef5]/40 hover:bg-[#2d1ef5]/10"
                     >
-                      <span className="mb-2 inline-flex items-center text-xs uppercase tracking-wider text-gray-500">
+                      <span className="mb-2 inline-flex items-center text-xs uppercase tracking-wider text-muted-foreground/80">
                         Next
                         <ArrowRight className="ml-1 h-3.5 w-3.5" />
                       </span>
-                      <p className="text-sm font-medium text-white">{nextItem.title}</p>
+                      <p className="text-sm font-medium text-foreground">{nextItem.title}</p>
                     </Link>
                   ) : null}
                 </div>
@@ -836,8 +840,8 @@ export default async function DocPage({ params }: DocPageProps) {
 
             <aside className="hidden xl:block">
               <div className="sticky top-24 space-y-4">
-                <div className="rounded-2xl border border-white/10 bg-black/35 p-4 backdrop-blur-xl">
-                  <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <div className="rounded-2xl border border-border/60 bg-card/70 p-4 backdrop-blur-xl">
+                  <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     On this page
                   </h3>
                   {tocItems.length > 0 ? (
@@ -846,8 +850,8 @@ export default async function DocPage({ params }: DocPageProps) {
                         <a
                           key={item.id}
                           href={`#${item.id}`}
-                          className={`block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-white/5 hover:text-white ${
-                            item.level === 3 ? "pl-5 text-gray-400" : "text-gray-300"
+                          className={`block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-accent/60 hover:text-foreground ${
+                            item.level === 3 ? "pl-5 text-muted-foreground" : "text-muted-foreground"
                           }`}
                         >
                           {item.text}
@@ -855,15 +859,15 @@ export default async function DocPage({ params }: DocPageProps) {
                       ))}
                     </nav>
                   ) : (
-                    <p className="text-sm text-gray-500">No section headings found for this page.</p>
+                    <p className="text-sm text-muted-foreground/80">No section headings found for this page.</p>
                   )}
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-black/35 p-4 backdrop-blur-xl">
-                  <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <div className="rounded-2xl border border-border/60 bg-card/70 p-4 backdrop-blur-xl">
+                  <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     Reading Tips
                   </h3>
-                  <p className="text-sm leading-6 text-gray-300">
+                  <p className="text-sm leading-6 text-muted-foreground">
                     Use the left navigation for section jumps, and this panel for quick heading-level jumps.
                   </p>
                 </div>

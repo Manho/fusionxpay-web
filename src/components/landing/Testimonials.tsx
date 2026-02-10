@@ -58,7 +58,7 @@ export default function Testimonials() {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
             Loved by <span className="text-gradient">Engineering Teams</span>
           </h2>
-          <p className="text-gray-400 leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed">
             See why developers and businesses trust FusionXPay for their payment
             infrastructure.
           </p>
@@ -83,7 +83,7 @@ export default function Testimonials() {
                 ))}
               </div>
               {/* Quote */}
-              <p className="text-sm text-gray-300 leading-relaxed mb-6">
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
                 &ldquo;{t.content}&rdquo;
               </p>
               {/* Author */}
@@ -98,8 +98,8 @@ export default function Testimonials() {
                   {t.avatar}
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-white">{t.name}</div>
-                  <div className="text-xs text-gray-500">{t.role}</div>
+                  <div className="text-sm font-medium text-foreground">{t.name}</div>
+                  <div className="text-xs text-muted-foreground/80">{t.role}</div>
                 </div>
               </div>
             </div>

@@ -100,7 +100,7 @@ export default function HowItWorks() {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
             Get Started in <span className="text-gradient">Three Steps</span>
           </h2>
-          <p className="text-gray-400 leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed">
             From integration to production in minutes, not months.
           </p>
         </div>
@@ -119,7 +119,7 @@ export default function HowItWorks() {
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all w-full ${
                     isActive
                       ? "bg-[#2d1ef5]/10 border border-[#2d1ef5]/30 glow-blue"
-                      : "text-gray-400 hover:text-white hover:bg-white/5"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent/35"
                   }`}
                 >
                   <Icon
@@ -144,27 +144,27 @@ export default function HowItWorks() {
 
           {/* Tab Content */}
           <div className="glass rounded-2xl p-6 sm:p-8 hover-glow">
-            <h3 className="text-xl font-semibold mb-2 text-white">
+            <h3 className="text-xl font-semibold mb-2 text-foreground">
               {current.title}
             </h3>
-            <p className="text-gray-400 text-sm mb-6">{current.description}</p>
+            <p className="text-muted-foreground text-sm mb-6">{current.description}</p>
             <ul className="space-y-2 mb-6">
               {current.features.map((f) => (
-                <li key={f} className="flex items-center gap-2 text-sm text-gray-400">
+                <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#2d1ef5] flex-shrink-0" />
                   {f}
                 </li>
               ))}
             </ul>
             {/* Code Block */}
-            <div className="rounded-xl bg-[#0a0a0a] border border-white/10 overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-2 border-b border-white/10 bg-white/5">
+            <div className="rounded-xl bg-card/80 border border-border/60 overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-2 border-b border-border/60 bg-accent/35">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
                 <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
               </div>
               <pre className="p-4 text-xs sm:text-sm overflow-x-auto">
-                <code className="text-gray-400">{current.code}</code>
+                <code className="text-muted-foreground">{current.code}</code>
               </pre>
             </div>
           </div>
