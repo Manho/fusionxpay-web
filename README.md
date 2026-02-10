@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js" alt="Next.js 15">
+  <img src="https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js" alt="Next.js 16">
   <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" alt="React 19">
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" alt="TypeScript 5">
   <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?style=flat-square&logo=tailwindcss" alt="Tailwind CSS">
@@ -28,7 +28,19 @@
 
 ## Overview
 
-**FusionXPay Admin Dashboard** is a sleek, enterprise-grade merchant management portal built with Next.js 15 and React 19. It provides merchants and administrators with a powerful interface to monitor transactions, manage orders, and gain insights into payment operations.
+**FusionXPay Admin Dashboard** is a sleek, enterprise-grade merchant management portal built with Next.js 16 and React 19. It provides merchants and administrators with a powerful interface to monitor transactions, manage orders, and gain insights into payment operations.
+
+## 📚 Documentation
+
+**[→ Complete Documentation Hub](./docs/README.md)**
+
+| For Merchants & Integrators | For Developers & Contributors |
+|------------------------------|-------------------------------|
+| 📘 **[User Guide](./docs/user-guide/README.md)** | 🔧 **[Developer Docs](./docs/developer/README.md)** |
+| • [Quick Start (5 min)](./docs/user-guide/quick-start.md) | • [Architecture & Services](./docs/developer/02-architecture-and-services.md) |
+| • [API Basics](./docs/user-guide/api-basics.md) | • [Environment Setup](./docs/developer/05-environment-and-deployment.md) |
+| • [Webhooks Guide](./docs/user-guide/webhooks.md) | • [Security Model](./docs/developer/07-security-model.md) |
+| • [FAQ](./docs/user-guide/faq.md) | • [Testing & CI/CD](./docs/developer/08-testing-and-ci.md) |
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -211,10 +223,10 @@ fusionxpay-web/
 │   ├── components/
 │   │   ├── layout/          # Sidebar, Navbar
 │   │   └── ui/              # shadcn/ui components
-│   ├── contexts/            # React contexts (Auth)
 │   ├── lib/                 # Utilities & API client
 │   └── types/               # TypeScript definitions
 ├── public/                  # Static assets
+├── docs/                    # System and operations documentation
 ├── .env.example            # Environment template
 └── package.json
 ```

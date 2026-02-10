@@ -6,7 +6,7 @@ const TOKEN_KEY = 'fusionxpay_admin_token'
 // Routes that don't require authentication
 // Use exact match for root, startsWith for others
 const publicRoutesExact = ['/']
-const publicRoutesPrefix = ['/login']
+const publicRoutesPrefix = ['/login', '/docs']
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl

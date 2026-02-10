@@ -1,3 +1,5 @@
+"use client";
+
 import { LoginForm } from "@/components/auth/LoginForm"
 import { ShieldCheck } from "lucide-react"
 

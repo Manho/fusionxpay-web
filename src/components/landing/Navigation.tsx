@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Features", href: "#features" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
-  { label: "Testimonials", href: "#testimonials" },
+  { label: "Documentation", href: "/docs", external: false },
 ];
 
 export default function Navigation() {
@@ -45,6 +45,8 @@ export default function Navigation() {
             <a
               key={link.href}
               href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               className="text-gray-400 text-sm hover:text-white transition-colors relative group"
             >
               {link.label}
@@ -89,6 +91,8 @@ export default function Navigation() {
             <a
               key={link.href}
               href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               className="block text-gray-400 hover:text-white transition-colors"
               onClick={() => setMobileOpen(false)}
             >
