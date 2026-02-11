@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { ChevronLeft, ChevronRight, Search } from "lucide-react"
+import { ChevronLeft, ChevronRight, Loader2, Search } from "lucide-react"
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([])
@@ -27,11 +27,24 @@ export default function OrdersPage() {
 
   // Filters
   const [statusFilter, setStatusFilter] = useState<string>("ALL")
+  const [orderNumberInput, setOrderNumberInput] = useState("")
+  const [debouncedOrderNumber, setDebouncedOrderNumber] = useState("")
 
   // Fix hydration mismatch
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    const timer = window.setTimeout(() => {
+      setDebouncedOrderNumber(orderNumberInput.trim())
+      setPage(0)
+    }, 300)
+
+    return () => window.clearTimeout(timer)
+  }, [mounted, orderNumberInput])
 
   const fetchOrders = useCallback(async () => {
     setLoading(true)
@@ -46,6 +59,10 @@ export default function OrdersPage() {
         params.append("status", statusFilter)
       }
 
+      if (debouncedOrderNumber) {
+        params.append("orderNumber", debouncedOrderNumber)
+      }
+
       const response = await api.get<PageResponse<Order>>(`/orders?${params.toString()}`)
 
       setOrders(response.data.orders || [])
@@ -58,7 +75,7 @@ export default function OrdersPage() {
     } finally {
       setLoading(false)
     }
-  }, [page, size, statusFilter])
+  }, [debouncedOrderNumber, page, size, statusFilter])
 
   // Reload when page or filters change
   useEffect(() => {
@@ -77,6 +94,9 @@ export default function OrdersPage() {
     setStatusFilter(val)
     setPage(0) // Reset to first page
   }
+
+  const isSearching = orderNumberInput.trim() !== debouncedOrderNumber
+  const isSearchLoading = isSearching || (loading && debouncedOrderNumber.length > 0)
 
   // Calculate display values safely
   const ordersCount = orders?.length || 0
@@ -102,10 +122,14 @@ export default function OrdersPage() {
         <div className="relative w-64">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search order ID..."
+            placeholder="Search order number..."
             className="pl-9"
-            disabled // Search by ID backend not yet implemented in MVP
+            value={orderNumberInput}
+            onChange={(event) => setOrderNumberInput(event.target.value)}
           />
+          {isSearchLoading && (
+            <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin text-muted-foreground" />
+          )}
         </div>
         {mounted && (
           <Select value={statusFilter} onValueChange={handleStatusChange}>
