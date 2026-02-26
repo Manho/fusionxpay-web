@@ -19,6 +19,40 @@ export interface MerchantInfo {
   status?: 'ACTIVE' | 'DISABLED';
 }
 
+export interface MerchantListItem {
+  id: number;
+  merchantCode: string;
+  merchantName: string;
+  email: string;
+  role: 'ADMIN' | 'MERCHANT';
+  status: 'ACTIVE' | 'DISABLED';
+  createdAt: string;
+}
+
+export interface MerchantPageResponse {
+  merchants: MerchantListItem[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+}
+
+export interface ApiKeyInfoResponse {
+  id: number;
+  keyPrefix: string;
+  lastFour: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+  revokedAt?: string | null;
+}
+
+export interface ApiKeySecretResponse {
+  apiKey: string;
+}
+
 // Backend uses camelCase
 export interface Order {
   orderId: string;

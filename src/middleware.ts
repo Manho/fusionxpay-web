@@ -2,15 +2,29 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 const TOKEN_KEY = 'fusionxpay_admin_token'
+const USER_KEY = 'fusionxpay_admin_user'
 
 // Routes that don't require authentication
 // Use exact match for root, startsWith for others
 const publicRoutesExact = ['/']
-const publicRoutesPrefix = ['/login', '/docs']
+const publicRoutesPrefix = ['/login', '/register', '/docs']
+
+function parseUserRole(request: NextRequest): 'ADMIN' | 'MERCHANT' | null {
+  const raw = request.cookies.get(USER_KEY)?.value
+  if (!raw) return null
+  try {
+    const decoded = decodeURIComponent(raw)
+    const user = JSON.parse(decoded) as { role?: 'ADMIN' | 'MERCHANT' }
+    return user.role ?? null
+  } catch {
+    return null
+  }
+}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get(TOKEN_KEY)?.value
+  const role = parseUserRole(request)
 
   // Check if it's a public route (exact match for root, prefix match for others)
   const isPublicRoute =
@@ -24,8 +38,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
-  // If has token and trying to access login page, redirect to orders
-  if (token && pathname === '/login') {
+  // If has token and trying to access auth pages, redirect to default area.
+  if (token && (pathname === '/login' || pathname === '/register')) {
+    return NextResponse.redirect(new URL(role === 'ADMIN' ? '/dashboard' : '/orders', request.url))
+  }
+
+  // Merchant users should not access admin dashboard routes.
+  if (token && role === 'MERCHANT' && pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/orders', request.url))
   }
 
