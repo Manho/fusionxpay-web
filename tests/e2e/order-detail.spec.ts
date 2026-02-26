@@ -9,7 +9,11 @@ test.describe('Order Detail', () => {
     await page.fill('input[type="email"], input[name="email"]', 'admin@fusionxpay.com')
     await page.fill('input[type="password"], input[name="password"]', 'admin123')
     await page.click('button[type="submit"]')
-    await expect(page).toHaveURL(/.*orders.*/, { timeout: 10000 })
+    await expect(page).toHaveURL(/.*(dashboard|orders).*/, { timeout: 10000 })
+    if (page.url().includes('/dashboard')) {
+      await page.goto('/orders')
+      await expect(page).toHaveURL(/.*orders.*/, { timeout: 10000 })
+    }
   })
 
   test('should display orders table with action buttons', async ({ page }) => {

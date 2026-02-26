@@ -6,7 +6,7 @@ test.describe('Login Success Flow', () => {
     await setupApiMocks(page)
   })
 
-  test('should login successfully and redirect to orders page', async ({ page }) => {
+  test('should login successfully and redirect admin to dashboard page', async ({ page }) => {
     await page.goto('/login')
 
     // Fill in login form
@@ -16,8 +16,8 @@ test.describe('Login Success Flow', () => {
     // Click login button
     await page.click('button[type="submit"]')
 
-    // Wait for navigation to orders page
-    await expect(page).toHaveURL(/.*orders.*/, { timeout: 10000 })
+    // ADMIN user should land on dashboard after login.
+    await expect(page).toHaveURL(/.*dashboard.*/, { timeout: 10000 })
   })
 
   test('should display login form correctly', async ({ page }) => {
