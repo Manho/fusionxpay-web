@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod/v4"
 import { Loader2 } from "lucide-react"
 import axios from "axios"
+import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -62,7 +63,11 @@ export function LoginForm() {
         auth.setUser(merchant)
       }
 
-      router.push("/orders")
+      if (merchant?.role === "ADMIN") {
+        router.push("/dashboard")
+      } else {
+        router.push("/orders")
+      }
     } catch (err: unknown) {
       console.error(err)
       if (axios.isAxiosError<{ message?: string }>(err)) {
@@ -127,7 +132,15 @@ export function LoginForm() {
         </Form>
       </CardContent>
       <CardFooter className="flex justify-center text-sm text-muted-foreground">
-        <span>Protected by FusionXPay Security</span>
+        <div className="space-y-2 text-center">
+          <p>Protected by FusionXPay Security</p>
+          <p>
+            Need a merchant account?{" "}
+            <Link href="/register" className="text-primary hover:underline">
+              Register here
+            </Link>
+          </p>
+        </div>
       </CardFooter>
     </Card>
   )

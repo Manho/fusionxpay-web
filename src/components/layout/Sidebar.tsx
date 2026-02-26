@@ -4,6 +4,8 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { LayoutDashboard, ShoppingCart, Settings, ShieldCheck } from "lucide-react"
+import { useSyncExternalStore } from "react"
+import { auth } from "@/lib/auth"
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {
@@ -44,12 +46,18 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
 }
 
 export function Sidebar() {
+  const subscribe = () => () => {}
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false)
+  const userRole = mounted ? auth.getUser()?.role : null
+
   const sidebarItems = [
-    {
-      title: "Dashboard",
-      href: "/dashboard", // Currently placeholder, might redirect to orders
-      icon: <LayoutDashboard className="h-4 w-4" />,
-    },
+    ...(userRole === "ADMIN"
+      ? [{
+          title: "Dashboard",
+          href: "/dashboard",
+          icon: <LayoutDashboard className="h-4 w-4" />,
+        }]
+      : []),
     {
       title: "Orders",
       href: "/orders",
