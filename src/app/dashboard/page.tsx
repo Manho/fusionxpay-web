@@ -239,9 +239,9 @@ export default function DashboardPage() {
       {/* ── Order summary + Recent orders ───────────────────────────────────── */}
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Order status summary */}
-        <div>
+        <div className="flex flex-col">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Orders by Status</h2>
-          <Card className="lg:h-full">
+          <Card className="flex-1">
             <CardContent className="pt-6 space-y-4">
               {statsLoading || !orderSummary ? (
                 <>
@@ -274,7 +274,7 @@ export default function DashboardPage() {
             Recent Orders
           </h2>
           <Card>
-            <CardContent className="pt-0 px-0 overflow-x-auto">
+            <CardContent className="pt-0 px-0 overflow-x-auto max-h-96 lg:max-h-[480px] overflow-y-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
