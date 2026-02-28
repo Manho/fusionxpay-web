@@ -96,15 +96,17 @@ export async function getMerchantStats() {
 
 /** Order counts per status for the dashboard status summary */
 export async function getOrderStatusSummary() {
-  const [completed, pending, failed, refunded] = await Promise.all([
-    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "COMPLETED" } }),
-    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "PENDING" } }),
+  const [newOrders, processing, success, failed, refunded] = await Promise.all([
+    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "NEW" } }),
+    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "PROCESSING" } }),
+    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "SUCCESS" } }),
     api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "FAILED" } }),
     api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "REFUNDED" } }),
   ])
   return {
-    COMPLETED: completed.data.totalElements ?? 0,
-    PENDING: pending.data.totalElements ?? 0,
+    NEW: newOrders.data.totalElements ?? 0,
+    PROCESSING: processing.data.totalElements ?? 0,
+    SUCCESS: success.data.totalElements ?? 0,
     FAILED: failed.data.totalElements ?? 0,
     REFUNDED: refunded.data.totalElements ?? 0,
   }

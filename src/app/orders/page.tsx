@@ -138,8 +138,9 @@ export default function OrdersPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="ALL">All Statuses</SelectItem>
-              <SelectItem value="COMPLETED">Completed</SelectItem>
-              <SelectItem value="PENDING">Pending</SelectItem>
+              <SelectItem value="NEW">New</SelectItem>
+              <SelectItem value="PROCESSING">Processing</SelectItem>
+              <SelectItem value="SUCCESS">Success</SelectItem>
               <SelectItem value="FAILED">Failed</SelectItem>
               <SelectItem value="REFUNDED">Refunded</SelectItem>
             </SelectContent>

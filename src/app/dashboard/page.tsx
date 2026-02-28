@@ -75,8 +75,9 @@ function StatCard({ title, value, icon, valueClassName = "", loading }: StatCard
 // ─── Order status badge ────────────────────────────────────────────────────────
 
 const ORDER_STATUS_META: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline"; icon: React.ReactNode }> = {
-  COMPLETED: { label: "Completed", variant: "default", icon: <CheckCircle2 className="h-3.5 w-3.5" /> },
-  PENDING: { label: "Pending", variant: "secondary", icon: <Clock className="h-3.5 w-3.5" /> },
+  NEW: { label: "New", variant: "outline", icon: <Clock className="h-3.5 w-3.5" /> },
+  PROCESSING: { label: "Processing", variant: "secondary", icon: <Loader2 className="h-3.5 w-3.5" /> },
+  SUCCESS: { label: "Success", variant: "default", icon: <CheckCircle2 className="h-3.5 w-3.5" /> },
   FAILED: { label: "Failed", variant: "destructive", icon: <XCircle className="h-3.5 w-3.5" /> },
   REFUNDED: { label: "Refunded", variant: "outline", icon: <RotateCcw className="h-3.5 w-3.5" /> },
 }
