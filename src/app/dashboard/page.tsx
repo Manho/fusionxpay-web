@@ -241,7 +241,7 @@ export default function DashboardPage() {
         {/* Order status summary */}
         <div>
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Orders by Status</h2>
-          <Card className="h-full">
+          <Card className="lg:h-full">
             <CardContent className="pt-6 space-y-4">
               {statsLoading || !orderSummary ? (
                 <>
