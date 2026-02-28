@@ -13,15 +13,19 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
     title: string
     icon: React.ReactNode
   }[]
+  vertical?: boolean
 }
 
-export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
+export function SidebarNav({ className, items, vertical, ...props }: SidebarNavProps) {
   const pathname = usePathname()
 
   return (
     <nav
       className={cn(
-        "flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1",
+        "flex",
+        vertical
+          ? "flex-col space-y-1"
+          : "space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1",
         className
       )}
       {...props}
@@ -46,17 +50,17 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
 }
 
 export function Sidebar() {
-  const subscribe = () => () => {}
+  const subscribe = () => () => { }
   const mounted = useSyncExternalStore(subscribe, () => true, () => false)
   const userRole = mounted ? auth.getUser()?.role : null
 
   const sidebarItems = [
     ...(userRole === "ADMIN"
       ? [{
-          title: "Dashboard",
-          href: "/dashboard",
-          icon: <LayoutDashboard className="h-4 w-4" />,
-        }]
+        title: "Dashboard",
+        href: "/dashboard",
+        icon: <LayoutDashboard className="h-4 w-4" />,
+      }]
       : []),
     {
       title: "Orders",
