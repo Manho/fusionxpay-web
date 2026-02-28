@@ -274,7 +274,7 @@ export default function DashboardPage() {
             Recent Orders
           </h2>
           <Card>
-            <CardContent className="pt-0 px-0">
+            <CardContent className="pt-0 px-0 overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
