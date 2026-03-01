@@ -24,7 +24,7 @@ describe('Navigation', () => {
 
     expect(screen.getAllByRole('link', { name: 'Features' }).length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: 'How It Works' }).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('link', { name: 'Pricing' }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: 'Architecture' }).length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: 'Documentation' }).length).toBeGreaterThan(0)
   })
 
