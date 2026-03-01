@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeModeSwitcher from "@/components/theme/ThemeModeSwitcher";
 
 const navLinks = [
   { label: "Features", href: "#features" },
+  { label: "Architecture", href: "#architecture" },
   { label: "How It Works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
   { label: "Documentation", href: "/docs", external: false },
 ];
 
@@ -25,9 +25,8 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-dark py-3" : "bg-transparent py-5"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "glass-dark py-3" : "bg-transparent py-5"
+        }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
@@ -36,7 +35,7 @@ export default function Navigation() {
             <span className="text-white font-bold text-base">F</span>
           </div>
           <span className="text-foreground font-bold text-xl tracking-tight">
-            FusionX<span className="text-[#ffe9a9]">Pay</span>
+            FusionX<span className="text-[var(--cream)]">Pay</span>
           </span>
         </Link>
 
@@ -58,6 +57,15 @@ export default function Navigation() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
+          <a
+            href="https://github.com/Manho/FusionXPay"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="GitHub"
+          >
+            <Github className="w-5 h-5" />
+          </a>
           <ThemeModeSwitcher />
           <Button
             variant="ghost"
@@ -102,7 +110,16 @@ export default function Navigation() {
             </a>
           ))}
           <div className="pt-4 border-t border-border/60 space-y-2">
-            <div className="flex justify-end">
+            <div className="flex items-center justify-between">
+              <a
+                href="https://github.com/Manho/FusionXPay"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="GitHub"
+              >
+                <Github className="w-5 h-5" />
+              </a>
               <ThemeModeSwitcher />
             </div>
             <Button variant="outline" className="w-full border-border/70 text-foreground" asChild>

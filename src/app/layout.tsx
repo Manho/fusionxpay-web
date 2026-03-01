@@ -11,11 +11,29 @@ const ibmPlexSans = IBM_Plex_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "FusionXPay - Unified Payment Gateway",
+    default: "FusionXPay - Enterprise Payment Gateway Platform",
     template: "%s | FusionXPay",
   },
   description:
-    "Aggregate PayPal, Stripe, and 50+ payment channels through a single API. Built for developers, designed for scale.",
+    "A production-ready microservices payment gateway built with Java 21, Spring Boot, Kafka, and Next.js. Supports Stripe and PayPal with full webhook lifecycle, CI/CD, and observability.",
+  openGraph: {
+    title: "FusionXPay - Enterprise Payment Gateway Platform",
+    description:
+      "Production-ready microservices payment gateway with Stripe, PayPal, CI/CD, and observability stack.",
+    url: "https://fusionxpay.site",
+    siteName: "FusionXPay",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FusionXPay - Enterprise Payment Gateway",
+    description:
+      "Microservices payment gateway built with Java 21, Spring Boot, Kafka, Redis, and Next.js.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const themeInitScript = `

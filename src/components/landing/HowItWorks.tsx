@@ -3,6 +3,34 @@
 import { useState } from "react";
 import { Code, Settings, Rocket } from "lucide-react";
 
+function highlightCode(code: string): string {
+  const escaped = code
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  return escaped
+    .split("\n")
+    .map((line) => {
+      if (line.trimStart().startsWith("//")) {
+        return `<span style="color:#6b7280">${line}</span>`;
+      }
+      let result = line;
+      // Strings
+      result = result.replace(
+        /("(?:[^"\\]|\\.)*")/g,
+        '<span style="color:#7b6fff">$1</span>'
+      );
+      // Keywords
+      result = result.replace(
+        /\b(const|await|window|GET|POST|return|new)\b/g,
+        '<span style="color:#6b5fff">$1</span>'
+      );
+      return result;
+    })
+    .join("\n");
+}
+
 const tabs = [
   {
     id: "integrate",
@@ -88,13 +116,13 @@ export default function HowItWorks() {
     <section id="how-it-works" className="py-24 relative">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#ffe9a9]/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#7b6fff]/5 rounded-full blur-[120px]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-[#ffe9a9] text-sm font-medium uppercase tracking-wider">
+          <span className="text-[var(--cream)] text-sm font-medium uppercase tracking-wider">
             How It Works
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
@@ -116,11 +144,10 @@ export default function HowItWorks() {
                 <button
                   key={tab.id}
                   onClick={() => setActive(idx)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all w-full ${
-                    isActive
-                      ? "bg-[#2d1ef5]/10 border border-[#2d1ef5]/30 glow-blue"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent/35"
-                  }`}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all w-full ${isActive
+                    ? "bg-[#2d1ef5]/10 border border-[#2d1ef5]/30 glow-blue"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/35"
+                    }`}
                 >
                   <Icon
                     className="w-5 h-5 flex-shrink-0"
@@ -164,7 +191,12 @@ export default function HowItWorks() {
                 <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
               </div>
               <pre className="p-4 text-xs sm:text-sm overflow-x-auto">
-                <code className="text-muted-foreground">{current.code}</code>
+                <code
+                  className="text-muted-foreground"
+                  dangerouslySetInnerHTML={{
+                    __html: highlightCode(current.code),
+                  }}
+                />
               </pre>
             </div>
           </div>

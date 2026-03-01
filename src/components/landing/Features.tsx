@@ -23,7 +23,7 @@ const features = [
     title: "Sub-300ms Latency",
     description:
       "Lightning-fast payment processing powered by our distributed microservices architecture.",
-    color: "#ffe9a9",
+    color: "#2d1ef5",
   },
   {
     icon: Shield,
@@ -37,7 +37,7 @@ const features = [
     title: "Real-Time Analytics",
     description:
       "Monitor transactions, revenue, and success rates with our comprehensive admin dashboard.",
-    color: "#ffe9a9",
+    color: "#2d1ef5",
   },
   {
     icon: Lock,
@@ -51,7 +51,7 @@ const features = [
     title: "Webhook Notifications",
     description:
       "Real-time event-driven notifications via Kafka for payment status updates and order lifecycle.",
-    color: "#ffe9a9",
+    color: "#2d1ef5",
   },
 ];
 
@@ -112,11 +112,10 @@ export default function Features() {
                 key={feature.title}
                 ref={(el) => { itemRefs.current[idx] = el; }}
                 data-index={idx}
-                className={`group glass rounded-2xl p-6 hover-lift hover-glow cursor-default transition-all duration-700 ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-8"
-                }`}
+                className={`group glass rounded-2xl p-6 hover-lift hover-glow cursor-default transition-all duration-700 ${isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+                  }`}
                 style={{ transitionDelay: `${idx * 100}ms` }}
               >
                 <div
