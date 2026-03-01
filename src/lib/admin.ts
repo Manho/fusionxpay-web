@@ -4,6 +4,8 @@ import {
   ApiKeySecretResponse,
   MerchantInfo,
   MerchantPageResponse,
+  Order,
+  PageResponse,
 } from "@/types"
 
 export interface RegisterMerchantPayload {
@@ -76,4 +78,44 @@ export async function listMerchantApiKeys(merchantId: string) {
 export async function revealMerchantApiKey(merchantId: string) {
   const response = await api.post<ApiKeySecretResponse>(`/merchants/${merchantId}/api-keys/reveal`)
   return response.data
+}
+
+/** Global merchant counts for the dashboard stats cards */
+export async function getMerchantStats() {
+  const [total, active, disabled] = await Promise.all([
+    api.get<MerchantPageResponse>("/merchants", { params: { size: 1 } }),
+    api.get<MerchantPageResponse>("/merchants", { params: { size: 1, status: "ACTIVE" } }),
+    api.get<MerchantPageResponse>("/merchants", { params: { size: 1, status: "DISABLED" } }),
+  ])
+  return {
+    total: total.data.totalElements ?? 0,
+    active: active.data.totalElements ?? 0,
+    disabled: disabled.data.totalElements ?? 0,
+  }
+}
+
+/** Order counts per status for the dashboard status summary */
+export async function getOrderStatusSummary() {
+  const [newOrders, processing, success, failed, refunded] = await Promise.all([
+    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "NEW" } }),
+    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "PROCESSING" } }),
+    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "SUCCESS" } }),
+    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "FAILED" } }),
+    api.get<PageResponse<Order>>("/orders", { params: { size: 1, status: "REFUNDED" } }),
+  ])
+  return {
+    NEW: newOrders.data.totalElements ?? 0,
+    PROCESSING: processing.data.totalElements ?? 0,
+    SUCCESS: success.data.totalElements ?? 0,
+    FAILED: failed.data.totalElements ?? 0,
+    REFUNDED: refunded.data.totalElements ?? 0,
+  }
+}
+
+/** Latest orders for the dashboard recent-orders snapshot */
+export async function getRecentOrders(size = 10) {
+  const response = await api.get<PageResponse<Order>>("/orders", {
+    params: { size, page: 0 },
+  })
+  return response.data.orders ?? []
 }

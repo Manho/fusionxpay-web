@@ -256,19 +256,20 @@
 .animate-scale-in { animation: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-spin-slow { animation: spin-slow 20s linear infinite; }
 
-/* Scrollbar Styling */
+/* Scrollbar Styling — subtle, near-transparent */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2d1ef5;
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #4a3fff;
+  background: rgba(0, 0, 0, 0.22);
 }
 
 /* Selection Styling */
