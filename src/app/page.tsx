@@ -2,9 +2,10 @@ import Navigation from "@/components/landing/Navigation";
 import Hero from "@/components/landing/Hero";
 import LogoMarquee from "@/components/landing/LogoMarquee";
 import Features from "@/components/landing/Features";
+import Architecture from "@/components/landing/Architecture";
 import HowItWorks from "@/components/landing/HowItWorks";
-import Testimonials from "@/components/landing/Testimonials";
-import Pricing from "@/components/landing/Pricing";
+import ProjectHighlights from "@/components/landing/ProjectHighlights";
+import TechStack from "@/components/landing/TechStack";
 import CTA from "@/components/landing/CTA";
 import Footer from "@/components/landing/Footer";
 
@@ -15,9 +16,10 @@ export default function Home() {
       <Hero />
       <LogoMarquee />
       <Features />
+      <Architecture />
       <HowItWorks />
-      <Testimonials />
-      <Pricing />
+      <ProjectHighlights />
+      <TechStack />
       <CTA />
       <Footer />
     </main>

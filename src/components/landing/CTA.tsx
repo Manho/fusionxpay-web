@@ -11,7 +11,7 @@ export default function CTA() {
         <div className="relative max-w-4xl mx-auto">
           {/* Animated background blobs */}
           <div className="absolute -top-20 -left-20 w-60 h-60 bg-[#2d1ef5]/30 rounded-full blur-[80px] animate-blob" />
-          <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-[#ffe9a9]/20 rounded-full blur-[80px] animate-blob [animation-delay:2s]" />
+          <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-[#7b6fff]/20 rounded-full blur-[80px] animate-blob [animation-delay:2s]" />
 
           <div className="relative glass rounded-3xl p-8 sm:p-12 lg:p-16 text-center border border-[#2d1ef5]/20 glow-blue">
             {/* Shimmer effect */}

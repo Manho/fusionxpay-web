@@ -88,7 +88,7 @@
 - Smooth animations
 
 ### ⚡ Performance
-- Next.js 15 App Router
+- Next.js 16 App Router
 - React 19 with Turbopack
 - Optimized bundle size
 - Edge-ready architecture
@@ -179,7 +179,7 @@ Comprehensive order view with payment information and raw JSON response viewer.
 <tr>
 <td align="center" width="96">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="48" height="48" alt="Next.js" />
-  <br>Next.js 15
+  <br>Next.js 16
 </td>
 <td align="center" width="96">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="48" height="48" alt="React" />
