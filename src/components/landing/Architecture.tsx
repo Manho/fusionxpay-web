@@ -317,7 +317,7 @@ export default function Architecture() {
                         <line x1="120" y1="231" x2="220" y2="420"
                             stroke="#00897b" strokeWidth="1" strokeDasharray="4,3"
                             style={{ opacity: lineOpacity("order", "mysql"), transition: "opacity 0.3s" }} />
-                        <line x1="330" y1="350" x2="270" y2="420"
+                        <line x1="330" y1="231" x2="270" y2="420"
                             stroke="#00897b" strokeWidth="1" strokeDasharray="4,3"
                             style={{ opacity: lineOpacity("payment", "mysql"), transition: "opacity 0.3s" }} />
                         <line x1="540" y1="231" x2="290" y2="420"
