@@ -229,132 +229,134 @@ export default function Architecture() {
                             </text>
                         </g>
 
-                        {/* ==================== Layer 3: Kafka ==================== */}
+                        {/* ==================== Layer 3: Data Stores + Kafka (same row) ==================== */}
+
+                        {/* MySQL (far left) */}
+                        <g
+                            style={nodeStyle("mysql")}
+                            onMouseEnter={() => setHoveredNode("mysql")}
+                            onMouseLeave={() => setHoveredNode(null)}
+                        >
+                            <rect x="10" y="320" width="160" height="54" rx="8"
+                                fill="rgba(0,137,123,0.08)" stroke="#00897b" strokeWidth="2" />
+                            <text x="90" y="345" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#00897b">
+                                MySQL
+                            </text>
+                            <text x="90" y="362" textAnchor="middle" fontSize="10" fill="#4db6ac">
+                                Shared Database
+                            </text>
+                            <text x="90" y="385" fontFamily="monospace" fontSize="10" textAnchor="middle" className="fill-muted-foreground">
+                                :3306
+                            </text>
+                        </g>
+
+                        {/* Apache Kafka (center) */}
                         <g
                             style={nodeStyle("kafka")}
                             onMouseEnter={() => setHoveredNode("kafka")}
                             onMouseLeave={() => setHoveredNode(null)}
                         >
-                            <rect x="200" y="300" width="480" height="50" rx="8"
+                            <rect x="210" y="320" width="460" height="50" rx="8"
                                 fill="rgba(255,143,0,0.08)" stroke="#ff8f00" strokeWidth="2" />
-                            <text x="440" y="322" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#ff8f00">
+                            <text x="440" y="342" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#ff8f00">
                                 Apache Kafka
                             </text>
-                            <text x="440" y="340" textAnchor="middle" fontFamily="monospace" fontSize="10" fill="#ffb300">
+                            <text x="440" y="360" textAnchor="middle" fontFamily="monospace" fontSize="10" fill="#ffb300">
                                 topic: payment-events
+                            </text>
+                        </g>
+
+                        {/* Redis (far right) */}
+                        <g
+                            style={nodeStyle("redis")}
+                            onMouseEnter={() => setHoveredNode("redis")}
+                            onMouseLeave={() => setHoveredNode(null)}
+                        >
+                            <rect x="700" y="320" width="160" height="54" rx="8"
+                                fill="rgba(0,137,123,0.08)" stroke="#00897b" strokeWidth="2" />
+                            <text x="780" y="345" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#00897b">
+                                Redis
+                            </text>
+                            <text x="780" y="362" textAnchor="middle" fontSize="10" fill="#4db6ac">
+                                Rate Limit · Idempotency
+                            </text>
+                            <text x="780" y="385" fontFamily="monospace" fontSize="10" textAnchor="middle" className="fill-muted-foreground">
+                                :6379
                             </text>
                         </g>
 
                         {/* Payment → Kafka (produce) */}
                         <g style={{ opacity: lineOpacity("payment", "kafka"), transition: "opacity 0.3s" }}>
-                            <line x1="330" y1="231" x2="330" y2="300"
+                            <line x1="330" y1="231" x2="330" y2="320"
                                 stroke="#ff8f00" strokeWidth="1.5" />
-                            <polygon points="326,295 334,295 330,304" fill="#ff8f00" />
-                            <text x="345" y="270" fontSize="9" fill="#ff8f00" fontStyle="italic">
+                            <polygon points="326,315 334,315 330,324" fill="#ff8f00" />
+                            <text x="345" y="280" fontSize="9" fill="#ff8f00" fontStyle="italic">
                                 produce
                             </text>
                         </g>
 
                         {/* Kafka → Order (consume) */}
                         <g style={{ opacity: lineOpacity("kafka", "order"), transition: "opacity 0.3s" }}>
-                            <line x1="300" y1="300" x2="140" y2="231"
+                            <line x1="300" y1="320" x2="140" y2="231"
                                 stroke="#1976d2" strokeWidth="1.5" />
                             <polygon points="144,236 136,236 140,227" fill="#1976d2" />
-                            <text x="200" y="272" fontSize="9" fill="#1976d2" fontStyle="italic">
+                            <text x="200" y="282" fontSize="9" fill="#1976d2" fontStyle="italic">
                                 consume
                             </text>
                         </g>
 
                         {/* Kafka → Notification (consume) */}
                         <g style={{ opacity: lineOpacity("kafka", "notification"), transition: "opacity 0.3s" }}>
-                            <line x1="580" y1="300" x2="740" y2="231"
+                            <line x1="580" y1="320" x2="740" y2="231"
                                 stroke="#1976d2" strokeWidth="1.5" />
                             <polygon points="744,236 736,236 740,227" fill="#1976d2" />
-                            <text x="680" y="272" fontSize="9" fill="#1976d2" fontStyle="italic">
+                            <text x="680" y="282" fontSize="9" fill="#1976d2" fontStyle="italic">
                                 consume
                             </text>
                         </g>
 
-                        {/* MySQL */}
-                        <g
-                            style={nodeStyle("mysql")}
-                            onMouseEnter={() => setHoveredNode("mysql")}
-                            onMouseLeave={() => setHoveredNode(null)}
-                        >
-                            <rect x="180" y="420" width="160" height="54" rx="8"
-                                fill="rgba(0,137,123,0.08)" stroke="#00897b" strokeWidth="2" />
-                            <text x="260" y="445" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#00897b">
-                                MySQL
-                            </text>
-                            <text x="260" y="462" textAnchor="middle" fontSize="10" fill="#4db6ac">
-                                All services share one database
-                            </text>
-                            <text x="348" y="450" fontFamily="monospace" fontSize="10" className="fill-muted-foreground">
-                                :3306
-                            </text>
-                        </g>
-
-                        {/* Redis */}
-                        <g
-                            style={nodeStyle("redis")}
-                            onMouseEnter={() => setHoveredNode("redis")}
-                            onMouseLeave={() => setHoveredNode(null)}
-                        >
-                            <rect x="500" y="420" width="160" height="54" rx="8"
-                                fill="rgba(0,137,123,0.08)" stroke="#00897b" strokeWidth="2" />
-                            <text x="580" y="445" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#00897b">
-                                Redis
-                            </text>
-                            <text x="580" y="462" textAnchor="middle" fontSize="10" fill="#4db6ac">
-                                Rate Limit · Idempotency
-                            </text>
-                            <text x="668" y="450" fontFamily="monospace" fontSize="10" className="fill-muted-foreground">
-                                :6379
-                            </text>
-                        </g>
-
-                        {/* Services → MySQL (dashed lines) */}
-                        <line x1="120" y1="231" x2="220" y2="420"
+                        {/* Services → MySQL (dashed, all route LEFT of Kafka) */}
+                        <line x1="120" y1="231" x2="50" y2="320"
                             stroke="#00897b" strokeWidth="1" strokeDasharray="4,3"
                             style={{ opacity: lineOpacity("order", "mysql"), transition: "opacity 0.3s" }} />
-                        <line x1="330" y1="350" x2="270" y2="420"
+                        <line x1="330" y1="231" x2="90" y2="320"
                             stroke="#00897b" strokeWidth="1" strokeDasharray="4,3"
                             style={{ opacity: lineOpacity("payment", "mysql"), transition: "opacity 0.3s" }} />
-                        <line x1="540" y1="231" x2="290" y2="420"
+                        <line x1="540" y1="231" x2="130" y2="320"
                             stroke="#00897b" strokeWidth="1" strokeDasharray="4,3"
                             style={{ opacity: lineOpacity("admin", "mysql"), transition: "opacity 0.3s" }} />
-                        <line x1="755" y1="231" x2="310" y2="420"
+                        <line x1="755" y1="231" x2="160" y2="320"
                             stroke="#00897b" strokeWidth="1" strokeDasharray="4,3"
                             style={{ opacity: lineOpacity("notification", "mysql"), transition: "opacity 0.3s" }} />
 
-                        {/* GW → Redis */}
-                        <line x1="580" y1="112" x2="580" y2="420"
+                        {/* GW → Redis (routes RIGHT of Kafka) */}
+                        <line x1="600" y1="112" x2="740" y2="320"
                             stroke="#00897b" strokeWidth="1" strokeDasharray="4,3"
                             style={{ opacity: lineOpacity("gateway", "redis"), transition: "opacity 0.3s" }} />
 
                         {/* Payment → Redis */}
-                        <line x1="380" y1="231" x2="530" y2="420"
+                        <line x1="380" y1="231" x2="720" y2="320"
                             stroke="#00897b" strokeWidth="1" strokeDasharray="4,3"
                             style={{ opacity: lineOpacity("payment", "redis"), transition: "opacity 0.3s" }} />
 
-                        {/* ==================== Layer 5: Monitoring ==================== */}
+                        {/* ==================== Layer 4: Monitoring ==================== */}
                         <g
                             style={nodeStyle("monitoring")}
                             onMouseEnter={() => setHoveredNode("monitoring")}
                             onMouseLeave={() => setHoveredNode(null)}
                         >
-                            <rect x="200" y="540" width="480" height="44" rx="8"
+                            <rect x="200" y="450" width="480" height="44" rx="8"
                                 fill="rgba(63,81,181,0.08)" stroke="#3f51b5" strokeWidth="1.5" />
-                            <text x="440" y="566" textAnchor="middle" fontWeight="bold" fontSize="12" fill="#5c6bc0">
+                            <text x="440" y="476" textAnchor="middle" fontWeight="bold" fontSize="12" fill="#5c6bc0">
                                 Prometheus · Grafana · Loki · Promtail
                             </text>
                         </g>
 
                         {/* Monitoring dashed connections */}
-                        <line x1="260" y1="474" x2="350" y2="540"
+                        <line x1="90" y1="374" x2="350" y2="450"
                             stroke="#7986cb" strokeWidth="1" strokeDasharray="3,3"
                             style={{ opacity: lineOpacity("mysql", "monitoring"), transition: "opacity 0.3s" }} />
-                        <line x1="580" y1="474" x2="530" y2="540"
+                        <line x1="780" y1="374" x2="530" y2="450"
                             stroke="#7986cb" strokeWidth="1" strokeDasharray="3,3"
                             style={{ opacity: lineOpacity("redis", "monitoring"), transition: "opacity 0.3s" }} />
                     </svg>
