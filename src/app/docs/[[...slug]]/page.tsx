@@ -493,19 +493,32 @@ export default async function DocPage({ params }: DocPageProps) {
       );
     },
     li({ node, children, ...props }) {
+      const normalizedChildren = normalizeChecklistPrefix(children);
+
+      // Extract leading text to detect emoji or number prefix
+      const textContent = String(
+        Array.isArray(normalizedChildren)
+          ? normalizedChildren.find((c) => typeof c === "string") ?? ""
+          : typeof normalizedChildren === "string" ? normalizedChildren : ""
+      ).trimStart();
+
+      const startsWithEmoji = /^[\p{Emoji_Presentation}\p{Extended_Pictographic}]/u.test(textContent);
+      const startsWithNumber = /^\d+[\.\)]\s/.test(textContent);
+
+      // Check if parent is an ordered list via node
       const parentTag = (
         node as unknown as { parent?: { tagName?: string } } | undefined
       )?.parent?.tagName;
+      const isOrdered = parentTag === "ol";
 
-      if (parentTag === "ol") {
+      if (startsWithEmoji || startsWithNumber || isOrdered) {
         return (
-          <li {...props} className="pl-1 leading-7">
-            {children}
+          <li {...props} className="pl-1 leading-7 text-foreground/75 dark:text-muted-foreground">
+            {normalizedChildren}
           </li>
         );
       }
 
-      const normalizedChildren = normalizeChecklistPrefix(children);
       return (
         <li {...props} className="leading-7 text-foreground/75 dark:text-muted-foreground">
           <span className="flex items-start gap-3">
@@ -671,7 +684,7 @@ export default async function DocPage({ params }: DocPageProps) {
             <div className="flex min-w-max gap-2 rounded-2xl border border-border/60 bg-card/60 p-2 backdrop-blur-xl">
               <Link
                 href="/docs/user-guide"
-                className={`rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 ${isDocPathActive(canonicalPath, "/docs/user-guide")
+                className={`rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 ${isDocPathActive(canonicalPath, "/docs/user-guide") && !isDocPathActive(canonicalPath, "/docs/user-guide/quick-start")
                   ? "bg-[#2d1ef5]/20 text-[#2d1ef5] dark:text-foreground shadow-[0_2px_12px_rgba(45,30,245,0.25)] border border-[#2d1ef5]/30"
                   : "text-muted-foreground hover:bg-[#2d1ef5]/10 hover:text-[#2d1ef5] dark:hover:text-foreground hover:shadow-[0_4px_16px_rgba(45,30,245,0.2)] hover:-translate-y-0.5"
                   }`}
@@ -689,7 +702,10 @@ export default async function DocPage({ params }: DocPageProps) {
               </Link>
               <Link
                 href="/docs/user-guide/quick-start"
-                className="rounded-lg px-4 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-[#2d1ef5]/10 hover:text-[#2d1ef5] dark:hover:text-foreground hover:shadow-[0_4px_16px_rgba(45,30,245,0.2)] hover:-translate-y-0.5"
+                className={`rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 ${isDocPathActive(canonicalPath, "/docs/user-guide/quick-start")
+                  ? "bg-[#2d1ef5]/20 text-[#2d1ef5] dark:text-foreground shadow-[0_2px_12px_rgba(45,30,245,0.25)] border border-[#2d1ef5]/30"
+                  : "text-muted-foreground hover:bg-[#2d1ef5]/10 hover:text-[#2d1ef5] dark:hover:text-foreground hover:shadow-[0_4px_16px_rgba(45,30,245,0.2)] hover:-translate-y-0.5"
+                  }`}
               >
                 Quick Start
               </Link>
@@ -740,19 +756,16 @@ export default async function DocPage({ params }: DocPageProps) {
 
             <main className="min-w-0">
               <section className="mb-6 rounded-2xl border border-border/60 bg-gradient-to-r from-[#2d1ef5]/5 via-card/70 to-[#7b6fff]/5 dark:from-card/70 dark:via-card/70 dark:to-card/70 p-5 backdrop-blur-xl sm:p-6 shadow-sm">
-                <div className="mb-3 flex flex-wrap items-center gap-2">
+                <div className="mb-3 flex flex-wrap items-center gap-3">
                   <span className="inline-flex items-center rounded-full border border-[#2d1ef5]/40 bg-[#2d1ef5]/20 px-3 py-1 text-xs font-medium text-[#2d1ef5] dark:text-[#c7c2ff]">
                     <Compass className="mr-1.5 h-3.5 w-3.5" />
                     {getDocFamilyLabel(canonicalPath)}
                   </span>
                   {!error ? (
-                    <span className="inline-flex items-center rounded-full border border-border/60 bg-accent/35 px-3 py-1 text-xs text-muted-foreground">
-                      <Sparkles className="mr-1.5 h-3.5 w-3.5 text-[#7b6fff] dark:text-[#a5a0ff]" />
+                    <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                      <Sparkles className="h-3.5 w-3.5 text-[#7b6fff] dark:text-[#a5a0ff]" />
                       {readingMinutes} min read
-                    </span>
-                  ) : null}
-                  {!error ? (
-                    <span className="inline-flex items-center rounded-full border border-border/60 bg-accent/35 px-3 py-1 text-xs text-muted-foreground">
+                      <span className="text-border">·</span>
                       {tocItems.length} sections
                     </span>
                   ) : null}
