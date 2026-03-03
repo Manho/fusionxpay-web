@@ -26,10 +26,10 @@ This documentation is for developers who want to contribute to FusionXPay or run
 
 ## Fast Paths by Role
 
-- **Product / Demo owner**: `01` → `05` → `06` → `09`
-- **Frontend engineer**: `04` → `03` → `08`
-- **Backend engineer**: `02` → `03` → `07` → `08`
-- **DevOps / Operator**: `05` → `06` → `07` → `09`
+- **Product / Demo owner**: [`01`](./01-project-overview.md) → [`05`](./05-environment-and-deployment.md) → [`06`](./06-operations-observability.md) → [`09`](./09-troubleshooting.md)
+- **Frontend engineer**: [`04`](./04-frontend-application.md) → [`03`](./03-api-and-auth.md) → [`08`](./08-testing-and-ci.md)
+- **Backend engineer**: [`02`](./02-architecture-and-services.md) → [`03`](./03-api-and-auth.md) → [`07`](./07-security-model.md) → [`08`](./08-testing-and-ci.md)
+- **DevOps / Operator**: [`05`](./05-environment-and-deployment.md) → [`06`](./06-operations-observability.md) → [`07`](./07-security-model.md) → [`09`](./09-troubleshooting.md)
 
 ## Sources of Truth
 
