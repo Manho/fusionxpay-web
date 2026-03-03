@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import ThemeModeSwitcher from "@/components/theme/ThemeModeSwitcher";
 import Architecture from "@/components/landing/Architecture";
+import PaymentFlow from "@/components/docs/PaymentFlow";
 
 interface DocPageProps {
   params: Promise<{
@@ -602,6 +603,14 @@ export default async function DocPage({ params }: DocPageProps) {
         return (
           <div className="my-8 w-full overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-b from-background to-background/50">
             <Architecture variant="docs" />
+          </div>
+        );
+      }
+
+      if (displayLang === "payment-flow") {
+        return (
+          <div className="my-8 w-full overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-b from-background to-background/50">
+            <PaymentFlow />
           </div>
         );
       }

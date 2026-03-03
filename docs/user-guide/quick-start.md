@@ -140,7 +140,8 @@ curl -X GET https://api.fusionx.fun/api/v1/orders/FXP-20260210-123456 \
 
 ## Payment Flow Diagram
 
-![Payment Process Flow](/process-flow.svg)
+```payment-flow
+```
 
 ---
 
