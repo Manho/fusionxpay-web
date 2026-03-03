@@ -581,8 +581,8 @@ export default async function DocPage({ params }: DocPageProps) {
       const displayLang = highlight?.lang ?? language;
 
       return (
-        <div className="my-6 overflow-hidden rounded-xl border border-white/10 shadow-xl" style={{ background: "#0d1117" }}>
-          <div className="flex items-center gap-2 border-b border-white/10 px-4 py-2.5" style={{ background: "#161b22" }}>
+        <div className="my-6 overflow-hidden rounded-xl border border-border/60 shadow-xl">
+          <div className="flex items-center gap-2 border-b border-border/60 px-4 py-2.5 bg-muted/50">
             <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
             <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
             <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
@@ -593,7 +593,7 @@ export default async function DocPage({ params }: DocPageProps) {
           </div>
           {highlight ? (
             <div
-              className="overflow-x-auto text-[0.88rem] leading-7 [&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:px-4 [&_pre]:py-4 [&_pre]:bg-transparent! [&_code]:bg-transparent!"
+              className="overflow-x-auto text-[0.88rem] leading-7 [&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:px-4 [&_pre]:py-4"
               dangerouslySetInnerHTML={{ __html: highlight.html }}
             />
           ) : (

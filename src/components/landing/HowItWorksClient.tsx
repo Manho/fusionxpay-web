@@ -98,18 +98,18 @@ export default function HowItWorksClient({ tabs }: Props) {
                         </ul>
 
                         {/* Code Block — Shiki highlighted */}
-                        <div className="rounded-xl overflow-hidden border border-white/10 shadow-xl" style={{ background: "#0d1117" }}>
-                            <div className="flex items-center gap-2 px-4 py-2 border-b border-white/10" style={{ background: "#161b22" }}>
+                        <div className="rounded-xl overflow-hidden border border-border/60 shadow-xl">
+                            <div className="flex items-center gap-2 px-4 py-2 border-b border-border/60 bg-muted/50">
                                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
                                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
                                 <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
                                 <div className="flex-1" />
-                                <span className="text-[10px] uppercase tracking-wider font-medium text-[#8f86ff]">
+                                <span className="text-[10px] uppercase tracking-wider font-medium text-[#2d1ef5] dark:text-[#8f86ff]">
                                     {current.lang}
                                 </span>
                             </div>
                             <div
-                                className="text-xs sm:text-sm overflow-x-auto [&_pre]:m-0 [&_pre]:px-4 [&_pre]:py-4 [&_pre]:bg-transparent! [&_code]:bg-transparent!"
+                                className="text-xs sm:text-sm overflow-x-auto [&_pre]:m-0 [&_pre]:px-4 [&_pre]:py-4"
                                 dangerouslySetInnerHTML={{ __html: current.highlightedCode }}
                             />
                         </div>

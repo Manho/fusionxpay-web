@@ -29,7 +29,7 @@ let highlighterPromise: Promise<Highlighter> | null = null;
 function getHighlighter(): Promise<Highlighter> {
     if (!highlighterPromise) {
         highlighterPromise = createHighlighter({
-            themes: ["github-dark"],
+            themes: ["github-light", "github-dark"],
             langs: [...SUPPORTED_LANGS],
         });
     }
@@ -38,7 +38,6 @@ function getHighlighter(): Promise<Highlighter> {
 
 function normalizeLang(lang: string): SupportedLang {
     const l = lang.toLowerCase().trim();
-    // Common aliases
     if (l === "js") return "javascript";
     if (l === "ts") return "typescript";
     if (l === "sh" || l === "zsh" || l === "console") return "bash";
@@ -48,21 +47,23 @@ function normalizeLang(lang: string): SupportedLang {
 }
 
 /**
- * Highlight a code string with Shiki (github-dark theme).
- * Returns an HTML string ready for dangerouslySetInnerHTML.
- * The inline background-color on <pre> is stripped so the caller
- * can control the container background.
+ * Highlight a code string with Shiki using dual themes (github-light + github-dark).
+ * The output HTML contains CSS variables:
+ *   --shiki-light / --shiki-dark  → token colors
+ *   --shiki-light-bg / --shiki-dark-bg → background
+ * globals.css wires these vars to the active theme via the .dark class.
  */
 export async function highlightCode(
     code: string,
     lang: string = "text"
 ): Promise<string> {
     const highlighter = await getHighlighter();
-    const html = highlighter.codeToHtml(code, {
+    return highlighter.codeToHtml(code, {
         lang: normalizeLang(lang),
-        theme: "github-dark",
+        themes: {
+            light: "github-light",
+            dark: "github-dark",
+        },
+        defaultColor: false, // Let CSS variables control the active color
     });
-
-    // Strip Shiki's inline background-color so our wrapper controls the bg
-    return html.replace(/(<pre[^>]*?) style="[^"]*"/g, "$1");
 }
