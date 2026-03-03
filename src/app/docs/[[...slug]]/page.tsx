@@ -511,7 +511,7 @@ export default async function DocPage({ params }: DocPageProps) {
       return (
         <ol
           {...props}
-          className="my-6 list-decimal space-y-3 pl-6 text-muted-foreground marker:font-semibold marker:text-[#2d1ef5] dark:marker:text-[#8f86ff]"
+          className="my-6 list-decimal space-y-3 pl-6 text-muted-foreground marker:font-semibold marker:text-foreground/75 dark:marker:text-muted-foreground"
         >
           {orderedChildren}
         </ol>
@@ -548,7 +548,7 @@ export default async function DocPage({ params }: DocPageProps) {
       return (
         <li {...restProps} className="leading-7 text-foreground/75 dark:text-muted-foreground">
           <span className="flex items-start gap-3">
-            <span className="mt-2.5 inline-block h-2 w-2 flex-none rounded-full bg-[#2d1ef5]" />
+            <span className="mt-2.5 inline-block h-2 w-2 flex-none rounded-full bg-foreground/60 dark:bg-muted-foreground" />
             <span className="min-w-0">{normalizedChildren}</span>
           </span>
         </li>
