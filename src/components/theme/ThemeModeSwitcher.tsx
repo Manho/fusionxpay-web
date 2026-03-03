@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +32,7 @@ interface ThemeModeSwitcherProps {
 
 const subscribeToThemeMode = (onStoreChange: () => void) => {
   if (typeof window === "undefined") {
-    return () => {};
+    return () => { };
   }
 
   const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -54,13 +54,21 @@ const subscribeToThemeMode = (onStoreChange: () => void) => {
 };
 
 export default function ThemeModeSwitcher({ className }: ThemeModeSwitcherProps) {
-  const mode = useSyncExternalStore<ThemeMode>(
-    subscribeToThemeMode,
-    () => getStoredThemeMode(),
-    () => "system" as ThemeMode
-  );
+  const [mounted, setMounted] = useState(false);
+  const [mode, setMode] = useState<ThemeMode>("system");
 
-  const Icon = useMemo(() => themeIconMap[mode], [mode]);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: hydration-safe mount pattern
+    setMounted(true);
+    setMode(getStoredThemeMode());
+
+    return subscribeToThemeMode(() => {
+      setMode(getStoredThemeMode());
+    });
+  }, []);
+
+  const safeMode = mounted ? mode : "system";
+  const Icon = useMemo(() => themeIconMap[safeMode], [safeMode]);
 
   const handleThemeChange = (value: string) => {
     if (value !== "light" && value !== "dark" && value !== "system") {

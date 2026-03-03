@@ -12,21 +12,52 @@
 
 | Route | Description |
 |---|---|
-| `/` | Redirects to `/orders` |
+| `/` | Landing page (marketing site) |
 | `/login` | Login page |
+| `/register` | Merchant registration page |
+| `/dashboard` | Admin dashboard with global stats and order summary |
+| `/dashboard/merchants/[id]` | Merchant detail page |
 | `/orders` | Order list with pagination/filter |
 | `/orders/[id]` | Order detail |
+| `/settings` | Account and system settings |
+| `/docs/[[...slug]]` | Documentation viewer (embedded docs) |
 | `/error` | Global error page |
 | `/orders/error` | Orders scoped error page |
 
-## 4.3 API Integration Entry
+## 4.3 Landing Page
+
+The landing page (`/`) is a fully-featured marketing site built with 15 components:
+
+| Component | Purpose |
+|---|---|
+| `Navigation` | Fixed nav with glass morphism, theme switcher, and mobile menu |
+| `Hero` | Animated hero with stats counters and dashboard preview |
+| `LogoMarquee` | Scrolling partner/tech logo strip |
+| `Features` | Feature cards with icons and hover effects |
+| `Architecture` | Interactive microservices architecture diagram |
+| `HowItWorks` | Step-by-step integration flow |
+| `ProjectHighlights` | Key project statistics and highlights |
+| `TechStack` | Technology stack showcase |
+| `Testimonials` | User testimonials section |
+| `Pricing` | Pricing tiers (placeholder) |
+| `CTA` | Call-to-action section |
+| `Footer` | Site footer with links |
+
+**Design system:**
+- Brand color: `#2d1ef5` (electric blue) with `#7b6fff` accent
+- Glassmorphism effects (`glass`, `glass-dark` CSS classes)
+- Smooth animations (`float`, `marquee`, `reveal-up`, `scale-in`)
+- Light/dark theme support via `ThemeModeSwitcher`
+
+## 4.4 API Integration Entry
 
 - API client: `src/lib/api.ts`
+- Admin utilities: `src/lib/admin.ts`
 - Base URL source: `NEXT_PUBLIC_API_URL`
 - Local fallback: `http://localhost:8080/api/v1/admin`
 - Auth header injection: `Authorization: Bearer <token>`
 
-## 4.4 Authentication in Frontend
+## 4.5 Authentication in Frontend
 
 - Token cookie key: `fusionxpay_admin_token`
 - User cookie key: `fusionxpay_admin_user`
@@ -35,7 +66,7 @@
   - No token -> redirect to `/login`
   - Has token and visit `/login` -> redirect to `/orders`
 
-## 4.5 Data Contracts
+## 4.6 Data Contracts
 
 Main types are defined in:
 
@@ -46,13 +77,15 @@ Includes:
 - `LoginRequest`, `LoginResponse`, `MerchantInfo`
 - `Order`, `OrderDetail`, `PageResponse<T>`
 
-## 4.6 UI Components
+## 4.7 UI Components
 
+- Landing page components under `src/components/landing/`
+- Theme switcher under `src/components/theme/`
 - Order table and status badge components under `src/components/orders/`
 - Layout shell components under `src/components/layout/`
 - Shared UI primitives under `src/components/ui/`
 
-## 4.7 Environment Variables
+## 4.8 Environment Variables
 
 File template:
 
@@ -66,10 +99,14 @@ Recommended production value:
 
 - `https://api.<your-domain>/api/v1/admin`
 
-## 4.8 Source References
+## 4.9 Source References
 
 - Routes: `src/app/**`
+- Landing page: `src/components/landing/**`
 - API client: `src/lib/api.ts`
+- Admin utilities: `src/lib/admin.ts`
 - Auth storage: `src/lib/auth.ts`
 - Middleware: `src/middleware.ts`
 - Types: `src/types/index.ts`
+- Theme: `src/components/theme/**`
+- Global styles: `src/app/globals.css`

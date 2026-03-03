@@ -34,7 +34,7 @@ Common questions and troubleshooting.
 
 ```javascript
 // Create a payment order
-const response = await fetch('https://api.fusionxpay.site/api/v1/orders', {
+const response = await fetch('https://api.fusionx.fun/api/v1/orders', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -58,8 +58,8 @@ const order = await response.json();
 
 | Environment | API Base URL | Purpose |
 |-------------|--------------|---------|
-| **Sandbox** | `https://sandbox-api.fusionxpay.site/api/v1` | Testing & Development |
-| **Production** | `https://api.fusionxpay.site/api/v1` | Live payments |
+| **Local** | `http://localhost:8080/api/v1` | Testing & Development |
+| **Production** | `https://api.fusionx.fun/api/v1` | Live payments |
 
 ---
 

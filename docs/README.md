@@ -45,4 +45,4 @@ Welcome to the FusionXPay documentation! Choose your path:
 
 - 🐛 [Report a Bug](https://github.com/Manho/fusionxpay-web/issues)
 - 💡 [Request a Feature](https://github.com/Manho/fusionxpay-web/issues)
-- 📧 Contact: [support@fusionxpay.site](mailto:support@fusionxpay.site)
+- 📧 Contact: [support@fusionx.fun](mailto:support@fusionx.fun)

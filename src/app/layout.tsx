@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "FusionXPay - Enterprise Payment Gateway Platform",
     description:
       "Production-ready microservices payment gateway with Stripe, PayPal, CI/CD, and observability stack.",
-    url: "https://fusionxpay.site",
+    url: "https://fusionx.fun",
     siteName: "FusionXPay",
     type: "website",
   },

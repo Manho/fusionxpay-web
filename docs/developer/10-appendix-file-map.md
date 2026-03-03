@@ -47,13 +47,48 @@
 
 ## 10.2 Frontend Key Files
 
-- `src/lib/api.ts`
-- `src/lib/auth.ts`
-- `src/middleware.ts`
-- `src/types/index.ts`
+### App Routes
+
+- `src/app/page.tsx` — Landing page (marketing site)
 - `src/app/login/page.tsx`
+- `src/app/register/page.tsx`
+- `src/app/dashboard/page.tsx`
+- `src/app/dashboard/merchants/[id]/page.tsx`
 - `src/app/orders/page.tsx`
 - `src/app/orders/[id]/page.tsx`
+- `src/app/settings/page.tsx`
+- `src/app/docs/[[...slug]]/page.tsx`
+
+### Landing Page Components
+
+- `src/components/landing/Navigation.tsx`
+- `src/components/landing/Hero.tsx`
+- `src/components/landing/Features.tsx`
+- `src/components/landing/Architecture.tsx`
+- `src/components/landing/HowItWorks.tsx`
+- `src/components/landing/LogoMarquee.tsx`
+- `src/components/landing/ProjectHighlights.tsx`
+- `src/components/landing/TechStack.tsx`
+- `src/components/landing/Testimonials.tsx`
+- `src/components/landing/Pricing.tsx`
+- `src/components/landing/CTA.tsx`
+- `src/components/landing/Footer.tsx`
+
+### Core Libraries
+
+- `src/lib/api.ts`
+- `src/lib/auth.ts`
+- `src/lib/admin.ts`
+- `src/middleware.ts`
+- `src/types/index.ts`
+
+### Theme & Styles
+
+- `src/components/theme/ThemeModeSwitcher.tsx`
+- `src/app/globals.css`
+
+### CI / Config
+
 - `.env.example`
 - `.github/workflows/frontend-ci.yml`
 - `.github/workflows/frontend-ci-full.yml`

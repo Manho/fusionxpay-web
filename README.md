@@ -11,7 +11,7 @@
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#quick-start">Quick Start</a> •
-  <a href="#screenshots">Screenshots</a> •
+  <a href="#architecture">Architecture</a> •
   <a href="#tech-stack">Tech Stack</a> •
   <a href="#development">Development</a>
 </p>
@@ -30,6 +30,8 @@
 
 **FusionXPay Admin Dashboard** is a sleek, enterprise-grade merchant management portal built with Next.js 16 and React 19. It provides merchants and administrators with a powerful interface to monitor transactions, manage orders, and gain insights into payment operations.
 
+The project includes a **full-featured landing page** with interactive architecture diagrams, animated stats, glassmorphism design, and light/dark theme support.
+
 ## 📚 Documentation
 
 **[→ Complete Documentation Hub](./docs/README.md)**
@@ -42,22 +44,6 @@
 | • [Webhooks Guide](./docs/user-guide/webhooks.md) | • [Security Model](./docs/developer/07-security-model.md) |
 | • [FAQ](./docs/user-guide/faq.md) | • [Testing & CI/CD](./docs/developer/08-testing-and-ci.md) |
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    FusionXPay Admin Dashboard                    │
-├─────────────────────────────────────────────────────────────────┤
-│  ┌──────────┐  ┌──────────────────────────────────────────────┐ │
-│  │          │  │                                              │ │
-│  │ Sidebar  │  │              Order List / Details            │ │
-│  │          │  │                                              │ │
-│  │ • Orders │  │  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ │ │
-│  │ • Stats  │  │  │ Order  │ │ Order  │ │ Order  │ │ Order  │ │ │
-│  │ • Users  │  │  │  #001  │ │  #002  │ │  #003  │ │  #004  │ │ │
-│  │          │  │  └────────┘ └────────┘ └────────┘ └────────┘ │ │
-│  └──────────┘  └──────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-```
-
 ---
 
 ## Features
@@ -67,35 +53,70 @@
 <td width="50%">
 
 ### 🔐 Authentication
-- JWT-based secure login
+- JWT-based secure login & registration
 - Role-based access control (Admin/Merchant)
 - Protected routes with middleware
-- Persistent sessions
+- Persistent sessions via cookies
 
-### 📊 Order Management
-- Paginated order listing
-- Advanced filtering & search
-- Real-time status updates
-- Detailed order view with JSON response
+### 📊 Dashboard & Orders
+- Global stats dashboard with merchant overview
+- Paginated order listing with filtering & search
+- Real-time status updates with badges
+- Detailed order view with JSON response viewer
 
 </td>
 <td width="50%">
 
 ### 🎨 Modern UI/UX
-- Dark mode enterprise theme
-- Responsive design
-- shadcn/ui components
-- Smooth animations
+- Light & dark mode with theme switcher
+- Glassmorphism cards and navigation
+- Responsive design for all screen sizes
+- Smooth micro-animations and transitions
+- Electric blue/purple brand palette
 
-### ⚡ Performance
-- Next.js 16 App Router
-- React 19 with Turbopack
-- Optimized bundle size
-- Edge-ready architecture
+### ⚡ Landing Page
+- Interactive architecture diagram
+- Animated stat counters
+- Logo marquee, tech stack showcase
+- Features, testimonials, pricing sections
+- Full SEO-ready marketing site
 
 </td>
 </tr>
 </table>
+
+---
+
+## Architecture
+
+FusionXPay uses a microservices architecture with 5 backend services:
+
+```
+                    ┌──────────────────────┐
+                    │   Cloudflare Tunnel   │
+                    └──────────┬───────────┘
+                               │
+                    ┌──────────▼───────────┐
+                    │    API Gateway :8080  │
+                    └──┬───┬───┬───┬───────┘
+                       │   │   │   │
+          ┌────────────┘   │   │   └────────────┐
+          ▼                ▼   ▼                ▼
+   ┌──────────┐   ┌────────┐  ┌─────────┐  ┌──────────────┐
+   │  Admin   │   │ Order  │  │ Payment │  │ Notification │
+   │ :8084    │   │ :8082  │  │ :8081   │  │   :8083      │
+   └──────────┘   └────────┘  └─────────┘  └──────────────┘
+          │            │           │              │
+          └────────────┴─────┬─────┴──────────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+          ┌───────┐    ┌─────────┐    ┌─────────┐
+          │ MySQL │    │  Redis  │    │  Kafka  │
+          └───────┘    └─────────┘    └─────────┘
+```
+
+> See the interactive version on the [landing page](https://fusionx.fun) or in the [Architecture docs](./docs/developer/02-architecture-and-services.md).
 
 ---
 
@@ -117,10 +138,6 @@ cd fusionxpay-web
 
 # Install dependencies
 npm install
-# or
-pnpm install
-# or
-bun install
 ```
 
 ### 2. Configure Environment
@@ -141,15 +158,11 @@ cp .env.example .env.local
 
 ```bash
 npm run dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 ### 4. Open Browser
 
-Visit [http://localhost:3000](http://localhost:3000)
+Visit [http://localhost:3000](http://localhost:3000) — you'll see the landing page.
 
 **Test Accounts:**
 
@@ -162,14 +175,14 @@ Visit [http://localhost:3000](http://localhost:3000)
 
 ## Screenshots
 
-### Login Page
-Clean, modern authentication interface with dark theme.
+### Landing Page
+Modern marketing site with glassmorphism design, animated statistics, and interactive architecture diagrams. Supports both light and dark themes.
 
-### Order List
-Paginated table with status badges, filtering, and search capabilities.
+### Dashboard
+Admin dashboard with global stats overview, merchant management, and order summary charts.
 
-### Order Details
-Comprehensive order view with payment information and raw JSON response viewer.
+### Order Management
+Paginated table with status badges, advanced filtering, and comprehensive order detail view with JSON response viewer.
 
 ---
 
@@ -215,19 +228,29 @@ Comprehensive order view with payment information and raw JSON response viewer.
 ```
 fusionxpay-web/
 ├── src/
-│   ├── app/                  # Next.js App Router
-│   │   ├── login/           # Login page
-│   │   ├── orders/          # Order list & details
-│   │   ├── layout.tsx       # Root layout
-│   │   └── page.tsx         # Home redirect
+│   ├── app/                     # Next.js App Router
+│   │   ├── page.tsx             # Landing page (marketing site)
+│   │   ├── login/               # Login page
+│   │   ├── register/            # Registration page
+│   │   ├── dashboard/           # Admin dashboard & merchant detail
+│   │   ├── orders/              # Order list & details
+│   │   ├── settings/            # Settings page
+│   │   ├── docs/                # Embedded documentation viewer
+│   │   ├── layout.tsx           # Root layout with theme provider
+│   │   └── globals.css          # Global styles & design tokens
 │   ├── components/
-│   │   ├── layout/          # Sidebar, Navbar
-│   │   └── ui/              # shadcn/ui components
-│   ├── lib/                 # Utilities & API client
-│   └── types/               # TypeScript definitions
-├── public/                  # Static assets
-├── docs/                    # System and operations documentation
-├── .env.example            # Environment template
+│   │   ├── landing/             # Landing page components (15 files)
+│   │   ├── layout/              # Sidebar, Navbar
+│   │   ├── orders/              # Order table, status badges
+│   │   ├── theme/               # Theme mode switcher
+│   │   └── ui/                  # shadcn/ui components
+│   ├── lib/                     # API client, auth, admin utilities
+│   └── types/                   # TypeScript definitions
+├── public/                      # Static assets (logo, icons)
+├── docs/                        # Documentation (developer + user guide)
+├── tests/                       # E2E tests (Playwright)
+├── .github/                     # CI/CD workflows
+├── .env.example                 # Environment template
 └── package.json
 ```
 
@@ -252,6 +275,12 @@ npm run lint
 
 # Type check
 npx tsc --noEmit
+
+# Unit tests
+npm run test
+
+# E2E tests
+npm run test:e2e
 ```
 
 ### Environment Variables
@@ -273,7 +302,7 @@ Set the same variable name in Vercel for both environments:
 
 | Project | Description |
 |---------|-------------|
-| [FusionXPay](https://github.com/Manho/FusionXPay) | Backend microservices |
+| [FusionXPay](https://github.com/Manho/FusionXPay) | Backend microservices (Java/Spring Boot) |
 
 ---
 
