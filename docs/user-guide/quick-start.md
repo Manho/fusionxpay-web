@@ -140,15 +140,7 @@ curl -X GET https://api.fusionx.fun/api/v1/orders/FXP-20260210-123456 \
 
 ## Payment Flow Diagram
 
-```
-1. Your App        →  FusionXPay API (Create Order)
-2. FusionXPay API  →  Your App (Payment URL)
-3. Your App        →  Customer (Redirect to Payment URL)
-4. Customer        →  Payment Provider (Complete Payment)
-5. Payment Provider→  FusionXPay (Payment Result)
-6. FusionXPay      →  Your App (Webhook Notification)
-7. Your App        →  Customer (Show Success Page)
-```
+![Payment Process Flow](/process-flow.svg)
 
 ---
 
