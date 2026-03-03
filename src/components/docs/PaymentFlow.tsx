@@ -9,6 +9,8 @@ interface Step {
     subtitle: string;
     from: string;
     to: string;
+    fromFull: string;
+    toFull: string;
     type: "sync" | "async" | "internal";
 }
 
@@ -19,7 +21,9 @@ const STEPS: Step[] = [
         title: "Create Order",
         subtitle: "Status → NEW",
         from: "Merchant",
-        to: "Order Service",
+        fromFull: "Merchant",
+        to: "Order Svc",
+        toFull: "Order Service",
         type: "sync",
     },
     {
@@ -28,7 +32,9 @@ const STEPS: Step[] = [
         title: "Initiate Payment",
         subtitle: "Forward to processor",
         from: "Merchant",
-        to: "Payment Service",
+        fromFull: "Merchant",
+        to: "Payment Svc",
+        toFull: "Payment Service",
         type: "sync",
     },
     {
@@ -36,8 +42,10 @@ const STEPS: Step[] = [
         number: 3,
         title: "Publish Event",
         subtitle: "Status → PROCESSING",
-        from: "Payment Service",
+        from: "Payment Svc",
+        fromFull: "Payment Service",
         to: "Event Queue",
+        toFull: "Event Queue",
         type: "async",
     },
     {
@@ -45,8 +53,10 @@ const STEPS: Step[] = [
         number: 4,
         title: "Process Payment",
         subtitle: "Charge via provider",
-        from: "Payment Service",
-        to: "Payment Provider",
+        from: "Payment Svc",
+        fromFull: "Payment Service",
+        to: "Provider",
+        toFull: "Payment Provider",
         type: "sync",
     },
     {
@@ -54,8 +64,10 @@ const STEPS: Step[] = [
         number: 5,
         title: "Payment Callback",
         subtitle: "Result notification",
-        from: "Payment Provider",
-        to: "Payment Service",
+        from: "Provider",
+        fromFull: "Payment Provider",
+        to: "Payment Svc",
+        toFull: "Payment Service",
         type: "async",
     },
     {
@@ -63,8 +75,10 @@ const STEPS: Step[] = [
         number: 6,
         title: "Update Status",
         subtitle: "Record transaction",
-        from: "Payment Service",
-        to: "Payment Service",
+        from: "Payment Svc",
+        fromFull: "Payment Service",
+        to: "Payment Svc",
+        toFull: "Payment Service",
         type: "internal",
     },
     {
@@ -72,8 +86,10 @@ const STEPS: Step[] = [
         number: 7,
         title: "Publish Result",
         subtitle: "SUCCESS / FAILED",
-        from: "Payment Service",
+        from: "Payment Svc",
+        fromFull: "Payment Service",
         to: "Event Queue",
+        toFull: "Event Queue",
         type: "async",
     },
     {
@@ -82,7 +98,9 @@ const STEPS: Step[] = [
         title: "Deliver Updates",
         subtitle: "Order + Webhook",
         from: "Event Queue",
+        fromFull: "Event Queue",
         to: "Notification",
+        toFull: "Notification Service",
         type: "async",
     },
 ];
@@ -248,7 +266,7 @@ export default function PaymentFlow() {
                                     {/* From → To */}
                                     <div className="mt-3 pt-3 border-t border-border/40 relative z-10">
                                         <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/70">
-                                            <span className="rounded-md bg-foreground/5 px-1.5 py-0.5 font-medium text-foreground/60 truncate max-w-[5.5rem]">
+                                            <span title={step.fromFull} className="rounded-md bg-foreground/5 px-1.5 py-0.5 font-medium text-foreground/60 whitespace-nowrap">
                                                 {step.from}
                                             </span>
                                             <svg
@@ -303,7 +321,7 @@ export default function PaymentFlow() {
                                                     </>
                                                 )}
                                             </svg>
-                                            <span className="rounded-md bg-foreground/5 px-1.5 py-0.5 font-medium text-foreground/60 truncate max-w-[5.5rem]">
+                                            <span title={step.toFull} className="rounded-md bg-foreground/5 px-1.5 py-0.5 font-medium text-foreground/60 whitespace-nowrap">
                                                 {step.to}
                                             </span>
                                         </div>
