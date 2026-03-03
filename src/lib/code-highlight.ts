@@ -48,10 +48,13 @@ function normalizeLang(lang: string): SupportedLang {
 
 /**
  * Highlight a code string with Shiki using dual themes (github-light + github-dark).
- * The output HTML contains CSS variables:
- *   --shiki-light / --shiki-dark  → token colors
- *   --shiki-light-bg / --shiki-dark-bg → background
- * globals.css wires these vars to the active theme via the .dark class.
+ *
+ * defaultColor: 'light' → Shiki writes github-light colors directly as inline style="color: #xxx"
+ * on every token span, so light mode always renders correctly without extra CSS.
+ * It also emits --shiki-dark CSS variables on each span.
+ *
+ * Our globals.css then overrides `.dark .shiki span { color: var(--shiki-dark) !important }` to
+ * switch to the dark palette when the .dark class is present.
  */
 export async function highlightCode(
     code: string,
@@ -64,6 +67,6 @@ export async function highlightCode(
             light: "github-light",
             dark: "github-dark",
         },
-        defaultColor: false, // Let CSS variables control the active color
+        defaultColor: "light", // Light colors as default inline style; dark via CSS vars
     });
 }
