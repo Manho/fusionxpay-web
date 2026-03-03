@@ -58,6 +58,7 @@ export default function ThemeModeSwitcher({ className }: ThemeModeSwitcherProps)
   const [mode, setMode] = useState<ThemeMode>("system");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: hydration-safe mount pattern
     setMounted(true);
     setMode(getStoredThemeMode());
 
