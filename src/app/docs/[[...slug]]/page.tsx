@@ -17,6 +17,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import ThemeModeSwitcher from "@/components/theme/ThemeModeSwitcher";
+import Architecture from "@/components/landing/Architecture";
 
 interface DocPageProps {
   params: Promise<{
@@ -590,6 +591,14 @@ export default async function DocPage({ params }: DocPageProps) {
 
       const highlight = codeHighlights.get(rawCode);
       const displayLang = highlight?.lang ?? language;
+
+      if (displayLang === "architecture" || displayLang === "mermaid") {
+        return (
+          <div className="my-8 w-full overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-b from-background to-background/50">
+            <Architecture variant="docs" />
+          </div>
+        );
+      }
 
       return (
         <div className="my-6 overflow-hidden rounded-xl border border-border/60 shadow-xl">

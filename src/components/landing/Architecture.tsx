@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function Architecture() {
+export default function Architecture({ variant = "landing" }: { variant?: "landing" | "docs" }) {
     const [isVisible, setIsVisible] = useState(false);
     const [hoveredNode, setHoveredNode] = useState<string | null>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
@@ -49,24 +49,26 @@ export default function Architecture() {
     });
 
     return (
-        <section id="architecture" className="py-24 relative" ref={sectionRef}>
+        <section id="architecture" className={variant === "landing" ? "py-24 relative" : "my-4 relative w-full"} ref={sectionRef}>
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#2d1ef5]/5 rounded-full blur-[150px]" />
             </div>
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center max-w-2xl mx-auto mb-12">
-                    <span className="text-[#2d1ef5] text-sm font-medium uppercase tracking-wider">
-                        Architecture
-                    </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-                        Microservices <span className="text-gradient">Design</span>
-                    </h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                        6 independently deployable services communicating through Kafka event
-                        streams, with service discovery via Eureka and Redis rate limiting.
-                    </p>
-                </div>
+            <div className={`relative z-10 ${variant === "landing" ? "container mx-auto px-4 sm:px-6 lg:px-8" : "w-full"}`}>
+                {variant === "landing" && (
+                    <div className="text-center max-w-2xl mx-auto mb-12">
+                        <span className="text-[#2d1ef5] text-sm font-medium uppercase tracking-wider">
+                            Architecture
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
+                            Microservices <span className="text-gradient">Design</span>
+                        </h2>
+                        <p className="text-muted-foreground leading-relaxed">
+                            6 independently deployable services communicating through Kafka event
+                            streams, with service discovery via Eureka and Redis rate limiting.
+                        </p>
+                    </div>
+                )}
 
                 {/* SVG Architecture Diagram */}
                 <div

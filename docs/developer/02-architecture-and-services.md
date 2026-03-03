@@ -19,7 +19,7 @@ Middleware and platform dependencies are externalized (NAS/local infra):
 
 ### Architecture Diagram
 
-```mermaid
+```architecture
 graph TB
     Client["Client / Browser"]
     CF["Cloudflare Tunnel"]
