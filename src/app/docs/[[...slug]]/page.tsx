@@ -410,7 +410,6 @@ export default async function DocPage({ params }: DocPageProps) {
 
   const tocItems = content ? extractTableOfContents(content) : [];
   const readingMinutes = content ? estimateReadingMinutes(content) : 0;
-  const leadParagraph = content ? extractLeadParagraph(content) : "";
 
   // Pre-highlight all code blocks in the markdown so the pre renderer can
   // inject Shiki HTML without needing an async component function.
@@ -829,13 +828,6 @@ export default async function DocPage({ params }: DocPageProps) {
                     </span>
                   ) : null}
                 </div>
-                {!error ? (
-                  <p className="max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">{leadParagraph}</p>
-                ) : (
-                  <p className="max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">
-                    We could not locate this page. Try using the left navigation or return to the docs home.
-                  </p>
-                )}
               </section>
 
               <article className="overflow-hidden rounded-3xl border border-[#2d1ef5]/15 dark:border-border/60 bg-card/90 dark:bg-card/70 p-6 shadow-[0_20px_60px_rgba(45,30,245,0.08),0_8px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_30px_70px_rgba(5,8,18,0.5)] backdrop-blur-2xl sm:p-10 lg:p-12">
