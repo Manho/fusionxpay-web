@@ -58,7 +58,7 @@ const order = await response.json();
 
 | Environment | API Base URL | Purpose |
 |-------------|--------------|---------|
-| **Sandbox** | `https://sandbox-api.fusionxpay.site/api/v1` | Testing & Development |
+| **Local** | `http://localhost:8080/api/v1` | Testing & Development |
 | **Production** | `https://api.fusionxpay.site/api/v1` | Live payments |
 
 ---

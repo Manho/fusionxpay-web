@@ -156,7 +156,6 @@ curl -X GET https://api.fusionxpay.site/api/v1/orders/FXP-20260210-123456 \
 
 - 📖 [API Basics](./api-basics.md) - Learn more about the API
 - 🔔 [Webhooks Guide](./webhooks.md) - Secure webhook handling
-- 🎨 [Customize Payment Page](./customization.md) - Brand your checkout
 - ❓ [FAQ](./faq.md) - Common questions
 
 ---

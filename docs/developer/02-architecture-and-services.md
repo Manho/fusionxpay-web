@@ -17,6 +17,44 @@ Middleware and platform dependencies are externalized (NAS/local infra):
 - Kafka
 - Eureka
 
+### Architecture Diagram
+
+```mermaid
+graph TB
+    Client["Client / Browser"]
+    CF["Cloudflare Tunnel"]
+    GW["API Gateway :8080"]
+    Admin["Admin Service :8084"]
+    Order["Order Service :8082"]
+    Payment["Payment Service :8081"]
+    Notify["Notification Service :8083"]
+    MySQL[("MySQL")]
+    Redis[("Redis")]
+    Kafka["Kafka"]
+    Eureka["Eureka"]
+    Stripe["Stripe"]
+    PayPal["PayPal"]
+
+    Client --> CF --> GW
+    GW --> Admin
+    GW --> Order
+    GW --> Payment
+    GW --> Notify
+    Admin --> MySQL
+    Admin --> Redis
+    Order --> MySQL
+    Order --> Kafka
+    Payment --> MySQL
+    Payment --> Stripe
+    Payment --> PayPal
+    Notify --> MySQL
+    Notify --> Kafka
+    Admin --> Eureka
+    Order --> Eureka
+    Payment --> Eureka
+    Notify --> Eureka
+```
+
 ## 2.2 Service Responsibilities
 
 | Service | Default Port | Responsibility |

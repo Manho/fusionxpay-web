@@ -339,8 +339,8 @@ async function loadMarkdownDoc(slug: string[]): Promise<LoadedDoc | null> {
     slug.length === 0
       ? ["README.md"]
       : joined.endsWith(".md")
-      ? [joined]
-      : [`${joined}.md`, `${joined}/README.md`];
+        ? [joined]
+        : [`${joined}.md`, `${joined}/README.md`];
 
   for (const candidate of candidates) {
     const normalized = path.posix.normalize(candidate);
@@ -382,9 +382,9 @@ export default async function DocPage({ params }: DocPageProps) {
     canonicalPath === "/docs"
       ? []
       : canonicalPath
-          .replace(/^\/docs\//, "")
-          .split("/")
-          .filter(Boolean);
+        .replace(/^\/docs\//, "")
+        .split("/")
+        .filter(Boolean);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
@@ -433,9 +433,9 @@ export default async function DocPage({ params }: DocPageProps) {
         <h2
           {...props}
           id={id}
-          className="group mt-16 border-t border-border/60 pt-8 text-3xl font-semibold tracking-tight text-foreground"
+          className="group mt-16 border-t border-border/60 pt-8 text-3xl font-bold tracking-tight text-foreground"
         >
-          {children}
+          <span className="border-l-4 border-[#2d1ef5] pl-4">{children}</span>
         </h2>
       );
     },
@@ -447,13 +447,13 @@ export default async function DocPage({ params }: DocPageProps) {
           id={id}
           className="mt-10 text-2xl font-semibold tracking-tight text-foreground"
         >
-          {children}
+          <span className="border-l-3 border-[#7b6fff]/60 pl-3">{children}</span>
         </h3>
       );
     },
     p({ children, ...props }) {
       return (
-        <p {...props} className="my-6 text-[1.05rem] leading-8 text-muted-foreground">
+        <p {...props} className="my-5 text-[1.05rem] leading-[1.85] text-foreground/75 dark:text-muted-foreground">
           {children}
         </p>
       );
@@ -468,7 +468,7 @@ export default async function DocPage({ params }: DocPageProps) {
           href={targetHref}
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
-          className="font-medium text-[#8f86ff] underline decoration-[#8f86ff]/40 underline-offset-4 transition-colors hover:text-[#c7c2ff]"
+          className="font-medium text-[#2d1ef5] dark:text-[#8f86ff] underline decoration-[#2d1ef5]/30 dark:decoration-[#8f86ff]/40 underline-offset-4 transition-colors hover:text-[#4a3fff] dark:hover:text-[#c7c2ff]"
         >
           {children}
           {isExternal ? <span className="ml-1 inline-block text-xs">↗</span> : null}
@@ -477,7 +477,7 @@ export default async function DocPage({ params }: DocPageProps) {
     },
     ul({ children, ...props }) {
       return (
-        <ul {...props} className="my-6 list-none space-y-3 pl-0 text-muted-foreground">
+        <ul {...props} className="my-5 list-none space-y-3 pl-0">
           {children}
         </ul>
       );
@@ -486,7 +486,7 @@ export default async function DocPage({ params }: DocPageProps) {
       return (
         <ol
           {...props}
-          className="my-6 list-decimal space-y-3 pl-6 text-muted-foreground marker:font-semibold marker:text-[#8f86ff]"
+          className="my-6 list-decimal space-y-3 pl-6 text-muted-foreground marker:font-semibold marker:text-[#2d1ef5] dark:marker:text-[#8f86ff]"
         >
           {children}
         </ol>
@@ -507,24 +507,9 @@ export default async function DocPage({ params }: DocPageProps) {
 
       const normalizedChildren = normalizeChecklistPrefix(children);
       return (
-        <li {...props} className="leading-7 text-muted-foreground">
+        <li {...props} className="leading-7 text-foreground/75 dark:text-muted-foreground">
           <span className="flex items-start gap-3">
-            <span className="mt-1 inline-flex h-5 w-5 flex-none items-center justify-center rounded-full bg-gradient-to-br from-[#2d1ef5]/45 to-[#ffe9a9]/45 ring-1 ring-border/70">
-              <svg
-                viewBox="0 0 16 16"
-                fill="none"
-                className="h-3.5 w-3.5 text-white"
-                aria-hidden="true"
-              >
-                <path
-                  d="M3.5 8.5L6.5 11.5L12.5 4.5"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
+            <span className="mt-2.5 inline-block h-2 w-2 flex-none rounded-full bg-[#2d1ef5]" />
             <span className="min-w-0">{normalizedChildren}</span>
           </span>
         </li>
@@ -534,7 +519,7 @@ export default async function DocPage({ params }: DocPageProps) {
       return (
         <blockquote
           {...props}
-          className="my-8 rounded-r-xl border-l-4 border-[#2d1ef5] bg-[#2d1ef5]/10 px-5 py-4 text-muted-foreground"
+          className="my-8 rounded-r-xl border-l-4 border-[#2d1ef5] bg-gradient-to-r from-[#2d1ef5]/10 to-transparent px-5 py-4 text-foreground/70 dark:text-muted-foreground shadow-sm"
         >
           {children}
         </blockquote>
@@ -555,10 +540,13 @@ export default async function DocPage({ params }: DocPageProps) {
       }
 
       return (
-        <div className="my-8 overflow-hidden rounded-2xl border border-border/60 bg-card/80 shadow-[0_20px_55px_rgba(10,14,38,0.25)] dark:shadow-[0_20px_55px_rgba(10,14,38,0.55)]">
-          <div className="flex items-center justify-between border-b border-border/60 px-4 py-2.5 text-xs">
-            <span className="font-medium uppercase tracking-wider text-muted-foreground">Code</span>
-            <span className="rounded-full border border-[#2d1ef5]/40 bg-[#2d1ef5]/20 px-2.5 py-1 font-medium text-[#c7c2ff]">
+        <div className="my-6 overflow-hidden rounded-xl border border-border/60 bg-card/80 shadow-lg">
+          <div className="flex items-center gap-2 border-b border-border/60 px-4 py-2.5 bg-accent/35">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+            <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+            <div className="flex-1" />
+            <span className="rounded-full border border-[#2d1ef5]/30 bg-[#2d1ef5]/10 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[#2d1ef5] dark:text-[#c7c2ff]">
               {language}
             </span>
           </div>
@@ -583,7 +571,7 @@ export default async function DocPage({ params }: DocPageProps) {
       return (
         <code
           {...props}
-          className="rounded-md border border-[#2d1ef5]/30 bg-[#2d1ef5]/10 px-1.5 py-0.5 font-mono text-[0.9em] text-[#2d1ef5] dark:text-[#ffe9a9]"
+          className="rounded-md border border-[#2d1ef5]/30 bg-[#2d1ef5]/10 px-1.5 py-0.5 font-mono text-[0.9em] text-[#2d1ef5] dark:text-[#c7c2ff]"
         >
           {children}
         </code>
@@ -600,7 +588,7 @@ export default async function DocPage({ params }: DocPageProps) {
     },
     thead({ children, ...props }) {
       return (
-        <thead {...props} className="bg-accent/45 text-sm uppercase tracking-wider text-muted-foreground">
+        <thead {...props} className="bg-gradient-to-r from-[#2d1ef5]/8 to-[#7b6fff]/5 dark:bg-accent/45 text-sm uppercase tracking-wider text-foreground/60 dark:text-muted-foreground">
           {children}
         </thead>
       );
@@ -614,7 +602,7 @@ export default async function DocPage({ params }: DocPageProps) {
     },
     td({ children, ...props }) {
       return (
-        <td {...props} className="border-b border-border/60 px-4 py-3 align-top leading-7">
+        <td {...props} className="border-b border-border/60 px-4 py-3 align-top leading-7 text-foreground/75 dark:text-muted-foreground">
           {children}
         </td>
       );
@@ -628,7 +616,7 @@ export default async function DocPage({ params }: DocPageProps) {
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[12%] top-[18%] h-[26rem] w-[26rem] rounded-full bg-[#2d1ef5]/20 blur-[120px]" />
-        <div className="absolute right-[10%] top-[42%] h-[22rem] w-[22rem] rounded-full bg-[#ffe9a9]/12 blur-[100px]" />
+        <div className="absolute right-[10%] top-[42%] h-[22rem] w-[22rem] rounded-full bg-[#7b6fff]/12 blur-[100px]" />
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -646,7 +634,7 @@ export default async function DocPage({ params }: DocPageProps) {
               <span className="text-base font-bold text-white">F</span>
             </div>
             <span className="text-xl font-bold tracking-tight text-foreground">
-              FusionX<span className="text-[#ffe9a9]">Pay</span>
+              FusionX<span className="text-[var(--cream)]">Pay</span>
             </span>
           </Link>
           <div className="flex items-center gap-3">
@@ -670,9 +658,8 @@ export default async function DocPage({ params }: DocPageProps) {
                 {index > 0 ? <ChevronRight className="h-4 w-4" /> : null}
                 <Link
                   href={crumb.href}
-                  className={`transition-colors hover:text-foreground ${
-                    index === breadcrumbs.length - 1 ? "text-foreground" : ""
-                  }`}
+                  className={`transition-colors hover:text-foreground ${index === breadcrumbs.length - 1 ? "text-foreground" : ""
+                    }`}
                 >
                   {crumb.label}
                 </Link>
@@ -684,27 +671,25 @@ export default async function DocPage({ params }: DocPageProps) {
             <div className="flex min-w-max gap-2 rounded-2xl border border-border/60 bg-card/60 p-2 backdrop-blur-xl">
               <Link
                 href="/docs/user-guide"
-                className={`rounded-lg px-3 py-2 text-sm transition-colors ${
-                  isDocPathActive(canonicalPath, "/docs/user-guide")
-                    ? "bg-[#2d1ef5]/25 text-foreground"
-                    : "text-muted-foreground hover:bg-accent/60"
-                }`}
+                className={`rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 ${isDocPathActive(canonicalPath, "/docs/user-guide")
+                  ? "bg-[#2d1ef5]/20 text-[#2d1ef5] dark:text-foreground shadow-[0_2px_12px_rgba(45,30,245,0.25)] border border-[#2d1ef5]/30"
+                  : "text-muted-foreground hover:bg-[#2d1ef5]/10 hover:text-[#2d1ef5] dark:hover:text-foreground hover:shadow-[0_4px_16px_rgba(45,30,245,0.2)] hover:-translate-y-0.5"
+                  }`}
               >
                 User Guide
               </Link>
               <Link
                 href="/docs/developer"
-                className={`rounded-lg px-3 py-2 text-sm transition-colors ${
-                  isDocPathActive(canonicalPath, "/docs/developer")
-                    ? "bg-[#2d1ef5]/25 text-foreground"
-                    : "text-muted-foreground hover:bg-accent/60"
-                }`}
+                className={`rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 ${isDocPathActive(canonicalPath, "/docs/developer")
+                  ? "bg-[#2d1ef5]/20 text-[#2d1ef5] dark:text-foreground shadow-[0_2px_12px_rgba(45,30,245,0.25)] border border-[#2d1ef5]/30"
+                  : "text-muted-foreground hover:bg-[#2d1ef5]/10 hover:text-[#2d1ef5] dark:hover:text-foreground hover:shadow-[0_4px_16px_rgba(45,30,245,0.2)] hover:-translate-y-0.5"
+                  }`}
               >
                 Developer Docs
               </Link>
               <Link
                 href="/docs/user-guide/quick-start"
-                className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent/60"
+                className="rounded-lg px-4 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-[#2d1ef5]/10 hover:text-[#2d1ef5] dark:hover:text-foreground hover:shadow-[0_4px_16px_rgba(45,30,245,0.2)] hover:-translate-y-0.5"
               >
                 Quick Start
               </Link>
@@ -713,9 +698,9 @@ export default async function DocPage({ params }: DocPageProps) {
 
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-[280px_minmax(0,1fr)_250px]">
             <aside className="hidden xl:block">
-              <div className="sticky top-24 rounded-2xl border border-border/60 bg-card/70 p-5 backdrop-blur-xl">
+              <div className="sticky top-24 rounded-2xl border border-border/60 bg-gradient-to-b from-card/90 to-card/60 dark:from-card/70 dark:to-card/70 p-5 backdrop-blur-xl shadow-sm">
                 <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-foreground">
-                  <BookOpen className="h-4 w-4 text-[#8f86ff]" />
+                  <BookOpen className="h-4 w-4 text-[#2d1ef5] dark:text-[#8f86ff]" />
                   Documentation
                 </div>
 
@@ -734,11 +719,10 @@ export default async function DocPage({ params }: DocPageProps) {
                             <Link
                               key={item.href}
                               href={item.href}
-                              className={`block rounded-xl border px-3 py-2 transition-all ${
-                                active
-                                  ? "border-[#2d1ef5]/45 bg-[#2d1ef5]/15 text-foreground shadow-[0_0_0_1px_rgba(45,30,245,0.15)]"
-                                  : "border-transparent text-muted-foreground hover:border-border/60 hover:bg-accent/45 hover:text-foreground"
-                              }`}
+                              className={`block rounded-xl border px-3 py-2.5 transition-all duration-200 ${active
+                                ? "border-[#2d1ef5]/45 bg-[#2d1ef5]/15 text-[#2d1ef5] dark:text-foreground shadow-[0_2px_12px_rgba(45,30,245,0.15)] font-medium"
+                                : "border-transparent text-muted-foreground hover:border-[#2d1ef5]/20 hover:bg-[#2d1ef5]/5 hover:text-foreground hover:shadow-[0_2px_10px_rgba(45,30,245,0.1)] hover:-translate-x-0.5"
+                                }`}
                             >
                               <div className="text-sm font-medium">{item.title}</div>
                               {item.description ? (
@@ -755,15 +739,15 @@ export default async function DocPage({ params }: DocPageProps) {
             </aside>
 
             <main className="min-w-0">
-              <section className="mb-6 rounded-2xl border border-border/60 bg-card/70 p-5 backdrop-blur-xl sm:p-6">
+              <section className="mb-6 rounded-2xl border border-border/60 bg-gradient-to-r from-[#2d1ef5]/5 via-card/70 to-[#7b6fff]/5 dark:from-card/70 dark:via-card/70 dark:to-card/70 p-5 backdrop-blur-xl sm:p-6 shadow-sm">
                 <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center rounded-full border border-[#2d1ef5]/40 bg-[#2d1ef5]/20 px-3 py-1 text-xs font-medium text-[#c7c2ff]">
+                  <span className="inline-flex items-center rounded-full border border-[#2d1ef5]/40 bg-[#2d1ef5]/20 px-3 py-1 text-xs font-medium text-[#2d1ef5] dark:text-[#c7c2ff]">
                     <Compass className="mr-1.5 h-3.5 w-3.5" />
                     {getDocFamilyLabel(canonicalPath)}
                   </span>
                   {!error ? (
                     <span className="inline-flex items-center rounded-full border border-border/60 bg-accent/35 px-3 py-1 text-xs text-muted-foreground">
-                      <Sparkles className="mr-1.5 h-3.5 w-3.5 text-[#ffe9a9]" />
+                      <Sparkles className="mr-1.5 h-3.5 w-3.5 text-[#7b6fff] dark:text-[#a5a0ff]" />
                       {readingMinutes} min read
                     </span>
                   ) : null}
@@ -782,7 +766,7 @@ export default async function DocPage({ params }: DocPageProps) {
                 )}
               </section>
 
-              <article className="overflow-hidden rounded-3xl border border-border/60 bg-card/70 p-6 shadow-[0_30px_70px_rgba(5,8,18,0.2)] backdrop-blur-2xl dark:shadow-[0_30px_70px_rgba(5,8,18,0.5)] sm:p-10 lg:p-12">
+              <article className="overflow-hidden rounded-3xl border border-[#2d1ef5]/15 dark:border-border/60 bg-card/90 dark:bg-card/70 p-6 shadow-[0_20px_60px_rgba(45,30,245,0.08),0_8px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_30px_70px_rgba(5,8,18,0.5)] backdrop-blur-2xl sm:p-10 lg:p-12">
                 {error ? (
                   <div className="py-20 text-center">
                     <FileText className="mx-auto mb-4 h-16 w-16 text-muted-foreground/70" />
@@ -850,9 +834,8 @@ export default async function DocPage({ params }: DocPageProps) {
                         <a
                           key={item.id}
                           href={`#${item.id}`}
-                          className={`block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-accent/60 hover:text-foreground ${
-                            item.level === 3 ? "pl-5 text-muted-foreground" : "text-muted-foreground"
-                          }`}
+                          className={`block rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-accent/60 hover:text-foreground ${item.level === 3 ? "pl-5 text-muted-foreground" : "text-muted-foreground"
+                            }`}
                         >
                           {item.text}
                         </a>

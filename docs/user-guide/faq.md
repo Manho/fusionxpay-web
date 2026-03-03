@@ -15,10 +15,8 @@ Yes, FusionXPay is open source (MIT license). You can self-host it for free or u
 ### Which payment providers are supported?
 
 Currently supported:
-- Credit/Debit Cards (via Stripe/PayPal)
-- Alipay
-- WeChat Pay
-- Bank Transfer
+- Credit/Debit Cards (via Stripe)
+- PayPal
 
 More providers coming soon!
 

@@ -258,45 +258,7 @@ Always save the returned `orderId` for future queries.
 
 ---
 
-## SDK Examples
-
-### Node.js
-
-```javascript
-const FusionXPay = require('fusionxpay-sdk');
-
-const client = new FusionXPay({
-  apiKey: 'YOUR_API_KEY',
-  environment: 'sandbox'
-});
-
-const order = await client.orders.create({
-  merchantOrderId: 'ORDER-001',
-  amount: 99.99,
-  currency: 'USD',
-  notifyUrl: 'https://yoursite.com/webhook'
-});
-```
-
-### Python
-
-```python
-from fusionxpay import Client
-
-client = Client(api_key='YOUR_API_KEY', environment='sandbox')
-
-order = client.orders.create(
-    merchant_order_id='ORDER-001',
-    amount=99.99,
-    currency='USD',
-    notify_url='https://yoursite.com/webhook'
-)
-```
-
----
-
 ## Next Steps
 
 - 🔔 [Webhooks Guide](./webhooks.md)
-- 🔐 [Security Best Practices](./security.md)
 - ❓ [FAQ](./faq.md)

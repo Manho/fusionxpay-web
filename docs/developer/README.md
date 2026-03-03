@@ -33,8 +33,8 @@ This documentation is for developers who want to contribute to FusionXPay or run
 
 ## Sources of Truth
 
-- Backend implementation: `/Users/manho/conductor/workspaces/FusionXPay/farmerville`
-- Frontend implementation: `/Users/manho/conductor/workspaces/fusionxpay-web/new-york`
+- Backend implementation: [FusionXPay](https://github.com/Manho/FusionXPay) (separate repository)
+- Frontend implementation: this repository (`fusionxpay-web`)
 
 ## Notes
 

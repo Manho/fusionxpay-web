@@ -367,5 +367,4 @@ app.listen(3000);
 ## Next Steps
 
 - 📖 [API Reference](./api-basics.md)
-- 🔐 [Security Guide](./security.md)
 - ❓ [FAQ](./faq.md)
