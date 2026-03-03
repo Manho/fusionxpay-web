@@ -532,13 +532,14 @@ export default async function DocPage({ params }: DocPageProps) {
 
       // Detect ordered list via data-ordered attribute injected by the ol renderer above
       const isOrdered = (props as Record<string, unknown>)["data-ordered"] === "true";
+      const isTaskList = typeof props.className === "string" && props.className.includes("task-list-item");
 
       // Strip data-ordered before passing to DOM to avoid unknown attr warning
       const { "data-ordered": _dataOrdered, ...restProps } = props as Record<string, unknown> & { "data-ordered"?: string };
 
-      if (startsWithEmoji || startsWithNumber || isOrdered) {
+      if (startsWithEmoji || startsWithNumber || isOrdered || isTaskList) {
         return (
-          <li {...restProps} className="pl-1 leading-7 text-foreground/75 dark:text-muted-foreground">
+          <li {...restProps} className={`leading-7 text-foreground/75 dark:text-muted-foreground ${isTaskList ? 'list-none flex items-start gap-2.5 my-2 [&>input]:mt-[0.35rem] [&>input]:accent-[#2d1ef5]' : 'pl-1'}`}>
             {normalizedChildren}
           </li>
         );
