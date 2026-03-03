@@ -282,8 +282,17 @@ function estimateReadingMinutes(content: string) {
 
 function extractLeadParagraph(content: string) {
   const lines = content.split(/\r?\n/);
+  let inCodeBlock = false;
+
   for (const line of lines) {
-    const trimmed = stripMarkdownDecorators(line.trim());
+    const rawTrimmed = line.trim();
+    if (rawTrimmed.startsWith("```")) {
+      inCodeBlock = !inCodeBlock;
+      continue;
+    }
+    if (inCodeBlock) continue;
+
+    const trimmed = stripMarkdownDecorators(rawTrimmed);
     if (!trimmed) {
       continue;
     }
