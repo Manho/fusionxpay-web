@@ -813,8 +813,8 @@ export default async function DocPage({ params }: DocPageProps) {
             </aside>
 
             <main className="min-w-0">
-              <section className="mb-6 rounded-2xl border border-border/60 bg-gradient-to-r from-[#2d1ef5]/5 via-card/70 to-[#7b6fff]/5 dark:from-card/70 dark:via-card/70 dark:to-card/70 p-5 backdrop-blur-xl sm:p-6 shadow-sm">
-                <div className="mb-3 flex flex-wrap items-center gap-3">
+              <section className="mb-6 rounded-2xl border border-border/60 bg-gradient-to-r from-[#2d1ef5]/5 via-card/70 to-[#7b6fff]/5 dark:from-card/70 dark:via-card/70 dark:to-card/70 px-5 py-3 sm:px-6 sm:py-4 backdrop-blur-xl shadow-sm">
+                <div className="flex flex-wrap items-center gap-3">
                   <span className="inline-flex items-center rounded-full border border-[#2d1ef5]/40 bg-[#2d1ef5]/20 px-3 py-1 text-xs font-medium text-[#2d1ef5] dark:text-[#c7c2ff]">
                     <Compass className="mr-1.5 h-3.5 w-3.5" />
                     {getDocFamilyLabel(canonicalPath)}
