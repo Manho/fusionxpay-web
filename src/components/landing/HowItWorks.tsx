@@ -1,40 +1,11 @@
-"use client";
+import { highlightCode } from "@/lib/code-highlight";
+import HowItWorksClient, { type HighlightedTab } from "./HowItWorksClient";
 
-import { useState } from "react";
-import { Code, Settings, Rocket } from "lucide-react";
-
-function highlightCode(code: string): string {
-  const escaped = code
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-
-  return escaped
-    .split("\n")
-    .map((line) => {
-      if (line.trimStart().startsWith("//")) {
-        return `<span style="color:#6b7280">${line}</span>`;
-      }
-      let result = line;
-      // Strings
-      result = result.replace(
-        /("(?:[^"\\]|\\.)*")/g,
-        '<span style="color:#7b6fff">$1</span>'
-      );
-      // Keywords
-      result = result.replace(
-        /\b(const|await|window|GET|POST|return|new)\b/g,
-        '<span style="color:#6b5fff">$1</span>'
-      );
-      return result;
-    })
-    .join("\n");
-}
-
-const tabs = [
+// Static tab data with raw code strings
+const tabsData = [
   {
     id: "integrate",
-    icon: Code,
+    iconName: "Code" as const,
     label: "Integrate",
     title: "Simple API Integration",
     description:
@@ -45,6 +16,7 @@ const tabs = [
       "Sandbox environment for testing",
       "Comprehensive webhook support",
     ],
+    lang: "javascript",
     code: `// Create a payment order
 const order = await fusionxpay.orders.create({
   amount: 99.99,
@@ -59,7 +31,7 @@ window.location.href = order.paymentUrl;`,
   },
   {
     id: "configure",
-    icon: Settings,
+    iconName: "Settings" as const,
     label: "Configure",
     title: "Flexible Configuration",
     description:
@@ -70,6 +42,7 @@ window.location.href = order.paymentUrl;`,
       "Real-time notifications via Kafka",
       "Role-based access control",
     ],
+    lang: "javascript",
     code: `// Configure payment routing
 const rule = await fusionxpay.routing.create({
   conditions: {
@@ -83,7 +56,7 @@ const rule = await fusionxpay.routing.create({
   },
   {
     id: "launch",
-    icon: Rocket,
+    iconName: "Rocket" as const,
     label: "Go Live",
     title: "Production Ready",
     description:
@@ -94,114 +67,34 @@ const rule = await fusionxpay.routing.create({
       "Prometheus + Grafana monitoring",
       "Automated backup & recovery",
     ],
-    code: `// Health check endpoint
-GET /actuator/health
+    lang: "json",
+    code: `// GET /actuator/health
 {
   "status": "UP",
   "components": {
-    "gateway": { "status": "UP" },
-    "payment": { "status": "UP" },
-    "order":   { "status": "UP" },
+    "gateway":      { "status": "UP" },
+    "payment":      { "status": "UP" },
+    "order":        { "status": "UP" },
     "notification": { "status": "UP" }
   }
 }`,
   },
 ];
 
-export default function HowItWorks() {
-  const [active, setActive] = useState(0);
-  const current = tabs[active];
-
-  return (
-    <section id="how-it-works" className="py-24 relative">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#7b6fff]/5 rounded-full blur-[120px]" />
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-[var(--cream)] text-sm font-medium uppercase tracking-wider">
-            How It Works
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-            Get Started in <span className="text-gradient">Three Steps</span>
-          </h2>
-          <p className="text-muted-foreground leading-relaxed">
-            From integration to production in minutes, not months.
-          </p>
-        </div>
-
-        {/* Tabs */}
-        <div className="grid lg:grid-cols-[280px_1fr] gap-8 max-w-5xl mx-auto">
-          {/* Tab Nav */}
-          <div className="flex lg:flex-col gap-2">
-            {tabs.map((tab, idx) => {
-              const Icon = tab.icon;
-              const isActive = active === idx;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActive(idx)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all w-full ${isActive
-                    ? "bg-[#2d1ef5]/10 border border-[#2d1ef5]/30 glow-blue"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent/35"
-                    }`}
-                >
-                  <Icon
-                    className="w-5 h-5 flex-shrink-0"
-                    style={{ color: isActive ? "#2d1ef5" : undefined }}
-                  />
-                  <div>
-                    <div
-                      className="font-medium text-sm"
-                      style={{ color: isActive ? "#fff" : undefined }}
-                    >
-                      {tab.label}
-                    </div>
-                    <div className="text-xs opacity-70 hidden lg:block">
-                      Step {idx + 1}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Tab Content */}
-          <div className="glass rounded-2xl p-6 sm:p-8 hover-glow">
-            <h3 className="text-xl font-semibold mb-2 text-foreground">
-              {current.title}
-            </h3>
-            <p className="text-muted-foreground text-sm mb-6">{current.description}</p>
-            <ul className="space-y-2 mb-6">
-              {current.features.map((f) => (
-                <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#2d1ef5] flex-shrink-0" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            {/* Code Block */}
-            <div className="rounded-xl bg-card/80 border border-border/60 overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-2 border-b border-border/60 bg-accent/35">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-              </div>
-              <pre className="p-4 text-xs sm:text-sm overflow-x-auto">
-                <code
-                  className="text-muted-foreground"
-                  dangerouslySetInnerHTML={{
-                    __html: highlightCode(current.code),
-                  }}
-                />
-              </pre>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+export default async function HowItWorks() {
+  // Pre-highlight all code blocks server-side with Shiki
+  const tabs: HighlightedTab[] = await Promise.all(
+    tabsData.map(async (tab) => ({
+      id: tab.id,
+      iconName: tab.iconName,
+      label: tab.label,
+      title: tab.title,
+      description: tab.description,
+      features: tab.features,
+      lang: tab.lang,
+      highlightedCode: await highlightCode(tab.code, tab.lang),
+    }))
   );
+
+  return <HowItWorksClient tabs={tabs} />;
 }

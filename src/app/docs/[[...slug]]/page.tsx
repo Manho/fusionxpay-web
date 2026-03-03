@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import React, { isValidElement, type ReactNode } from "react";
+import { highlightCode } from "@/lib/code-highlight";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
@@ -399,6 +400,22 @@ export default async function DocPage({ params }: DocPageProps) {
   const readingMinutes = content ? estimateReadingMinutes(content) : 0;
   const leadParagraph = content ? extractLeadParagraph(content) : "";
 
+  // Pre-highlight all code blocks in the markdown so the pre renderer can
+  // inject Shiki HTML without needing an async component function.
+  const codeHighlights = new Map<string, { html: string; lang: string }>();
+  if (content) {
+    const codeFenceRegex = /^```(\w+)?\r?\n([\s\S]*?)^```/gm;
+    await Promise.all(
+      [...content.matchAll(codeFenceRegex)].map(async ([, lang = "text", code]) => {
+        const trimmed = code.trimEnd();
+        if (!codeHighlights.has(trimmed)) {
+          const html = await highlightCode(trimmed, lang);
+          codeHighlights.set(trimmed, { html, lang: lang || "text" });
+        }
+      })
+    );
+  }
+
   const currentIndex = DOC_SEQUENCE.findIndex((item) => item.href === canonicalPath);
   const previousItem = currentIndex > 0 ? DOC_SEQUENCE[currentIndex - 1] : null;
   const nextItem =
@@ -546,49 +563,52 @@ export default async function DocPage({ params }: DocPageProps) {
         </blockquote>
       );
     },
-    pre({ children, ...props }) {
+    pre({ children }) {
+      // Extract raw code text from the children to look up Shiki-highlighted HTML
       const child = Array.isArray(children) ? children[0] : children;
+      let rawCode = "";
       let language = "text";
 
-      if (
-        isValidElement<{ className?: string }>(child) &&
-        typeof child.props.className === "string"
-      ) {
-        const match = /language-([\w-]+)/.exec(child.props.className);
-        if (match?.[1]) {
-          language = match[1];
+      if (isValidElement<{ className?: string; children?: ReactNode }>(child)) {
+        rawCode = getNodeText(child.props.children).trimEnd();
+        if (typeof child.props.className === "string") {
+          const match = /language-([\w-]+)/.exec(child.props.className);
+          if (match?.[1]) language = match[1];
         }
       }
 
+      const highlight = codeHighlights.get(rawCode);
+      const displayLang = highlight?.lang ?? language;
+
       return (
-        <div className="my-6 overflow-hidden rounded-xl border border-border/60 bg-card/80 shadow-lg">
-          <div className="flex items-center gap-2 border-b border-border/60 px-4 py-2.5 bg-accent/35">
+        <div className="my-6 overflow-hidden rounded-xl border border-white/10 shadow-xl" style={{ background: "#0d1117" }}>
+          <div className="flex items-center gap-2 border-b border-white/10 px-4 py-2.5" style={{ background: "#161b22" }}>
             <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
             <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
             <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
             <div className="flex-1" />
             <span className="rounded-full border border-[#2d1ef5]/30 bg-[#2d1ef5]/10 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[#2d1ef5] dark:text-[#c7c2ff]">
-              {language}
+              {displayLang}
             </span>
           </div>
-          <pre
-            {...props}
-            className="overflow-x-auto px-4 py-4 text-[0.88rem] leading-7 text-foreground [&_code]:bg-transparent [&_code]:p-0"
-          >
-            {children}
-          </pre>
+          {highlight ? (
+            <div
+              className="overflow-x-auto text-[0.88rem] leading-7 [&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:px-4 [&_pre]:py-4 [&_pre]:bg-transparent! [&_code]:bg-transparent!"
+              dangerouslySetInnerHTML={{ __html: highlight.html }}
+            />
+          ) : (
+            <pre className="overflow-x-auto px-4 py-4 text-[0.88rem] leading-7 text-foreground [&_code]:bg-transparent [&_code]:p-0">
+              {children}
+            </pre>
+          )}
         </div>
       );
     },
     code({ className, children, ...props }) {
+      // Only style inline code (no className means not a fenced block)
       if (className) {
-        return (
-          <code {...props} className={`${className} font-medium`}>
-            {children}
-          </code>
-        );
+        return <code {...props} className={`${className} font-medium`}>{children}</code>;
       }
-
       return (
         <code
           {...props}
