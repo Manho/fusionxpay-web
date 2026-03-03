@@ -750,7 +750,7 @@ export default async function DocPage({ params }: DocPageProps) {
 
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-[280px_minmax(0,1fr)_250px]">
             <aside className="hidden xl:block">
-              <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-2xl border border-border/60 bg-gradient-to-b from-card/90 to-card/60 dark:from-card/70 dark:to-card/70 p-5 backdrop-blur-xl shadow-sm custom-scrollbar">
+              <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-2xl border border-border/60 bg-gradient-to-b from-card/90 to-card/60 dark:from-card/70 dark:to-card/70 p-5 backdrop-blur-xl shadow-sm no-scrollbar">
                 <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-foreground">
                   <BookOpen className="h-4 w-4 text-[#2d1ef5] dark:text-[#8f86ff]" />
                   Documentation
@@ -868,7 +868,7 @@ export default async function DocPage({ params }: DocPageProps) {
             </main>
 
             <aside className="hidden xl:block">
-              <div className="sticky top-24 space-y-4">
+              <div className="sticky top-24 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar pb-8">
                 <div className="rounded-2xl border border-border/60 bg-card/70 p-4 backdrop-blur-xl">
                   <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     On this page
