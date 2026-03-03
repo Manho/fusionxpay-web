@@ -297,11 +297,13 @@ function extractLeadParagraph(content: string) {
       continue;
     }
 
-    if (trimmed.startsWith("#") || trimmed.startsWith("---")) {
-      continue;
-    }
-
-    if (/^\d+\.$/.test(trimmed)) {
+    if (
+      trimmed.startsWith("#") ||
+      trimmed.startsWith("---") ||
+      trimmed.startsWith("- ") ||
+      trimmed.startsWith("* ") ||
+      /^\d+\.$/.test(trimmed)
+    ) {
       continue;
     }
 
