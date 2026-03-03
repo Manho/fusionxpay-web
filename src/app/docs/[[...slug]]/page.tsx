@@ -249,11 +249,14 @@ function canonicalPathFromSlug(slug: string[]) {
 }
 
 function isDocPathActive(currentPath: string, href: string) {
-  if (href === "/docs") {
-    return currentPath === "/docs";
+  if (currentPath === href) {
+    return true;
   }
 
-  return currentPath === href || currentPath.startsWith(`${href}/`);
+  // Only consider sub-paths active if the parent href is NOT exactly "/docs" or the section root
+  // e.g., if href is "/docs/user-guide", we don't want it active when viewing "/docs/user-guide/quick-start"
+  // If the prompt dictates to *not* highlight the overview when in a child, we return false here.
+  return false;
 }
 
 function getDocFamilyLabel(currentPath: string) {
@@ -754,34 +757,37 @@ export default async function DocPage({ params }: DocPageProps) {
                 </div>
 
                 <div className="space-y-5">
-                  {DOC_NAV_SECTIONS.map((section) => (
-                    <div key={section.title} className="space-y-2">
-                      <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">
-                        <span className="mr-1">{section.icon}</span>
-                        {section.title}
-                      </div>
-                      <nav className="space-y-1.5">
-                        {section.items.map((item) => {
-                          const active = isDocPathActive(canonicalPath, item.href);
+                  {DOC_NAV_SECTIONS.map((section, sectionIndex) => (
+                    <React.Fragment key={section.title}>
+                      {sectionIndex > 0 && <hr className="my-5 border-border/40" />}
+                      <div className="space-y-2">
+                        <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">
+                          <span className="mr-1">{section.icon}</span>
+                          {section.title}
+                        </div>
+                        <nav className="space-y-1.5">
+                          {section.items.map((item) => {
+                            const active = isDocPathActive(canonicalPath, item.href);
 
-                          return (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block rounded-xl border px-3 py-2.5 transition-all duration-200 ${active
-                                ? "border-[#2d1ef5]/45 bg-[#2d1ef5]/15 text-[#2d1ef5] dark:text-foreground shadow-[0_2px_12px_rgba(45,30,245,0.15)] font-medium"
-                                : "border-transparent text-muted-foreground hover:border-[#2d1ef5]/20 hover:bg-[#2d1ef5]/5 hover:text-foreground hover:shadow-[0_2px_10px_rgba(45,30,245,0.1)] hover:-translate-x-0.5"
-                                }`}
-                            >
-                              <div className="text-sm font-medium">{item.title}</div>
-                              {item.description ? (
-                                <p className="mt-1 text-xs leading-5 text-muted-foreground/80">{item.description}</p>
-                              ) : null}
-                            </Link>
-                          );
-                        })}
-                      </nav>
-                    </div>
+                            return (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className={`block rounded-xl border px-3 py-2.5 transition-all duration-200 ${active
+                                  ? "border-[#2d1ef5]/45 bg-[#2d1ef5]/15 text-[#2d1ef5] dark:text-foreground shadow-[0_2px_12px_rgba(45,30,245,0.15)] font-medium"
+                                  : "border-transparent text-muted-foreground hover:border-[#2d1ef5]/20 hover:bg-[#2d1ef5]/5 hover:text-foreground hover:shadow-[0_2px_10px_rgba(45,30,245,0.1)] hover:-translate-x-0.5"
+                                  }`}
+                              >
+                                <div className="text-sm font-medium">{item.title}</div>
+                                {item.description ? (
+                                  <p className="mt-1 text-xs leading-5 text-muted-foreground/80">{item.description}</p>
+                                ) : null}
+                              </Link>
+                            );
+                          })}
+                        </nav>
+                      </div>
+                    </React.Fragment>
                   ))}
                 </div>
               </div>
