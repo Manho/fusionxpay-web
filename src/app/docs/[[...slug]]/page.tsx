@@ -277,38 +277,7 @@ function estimateReadingMinutes(content: string) {
   return Math.max(1, Math.round(words / 220));
 }
 
-function extractLeadParagraph(content: string) {
-  const lines = content.split(/\r?\n/);
-  let inCodeBlock = false;
 
-  for (const line of lines) {
-    const rawTrimmed = line.trim();
-    if (rawTrimmed.startsWith("```")) {
-      inCodeBlock = !inCodeBlock;
-      continue;
-    }
-    if (inCodeBlock) continue;
-
-    const trimmed = stripMarkdownDecorators(rawTrimmed);
-    if (!trimmed) {
-      continue;
-    }
-
-    if (
-      trimmed.startsWith("#") ||
-      trimmed.startsWith("---") ||
-      trimmed.startsWith("- ") ||
-      trimmed.startsWith("* ") ||
-      /^\d+\.$/.test(trimmed)
-    ) {
-      continue;
-    }
-
-    return trimmed;
-  }
-
-  return "Technical docs for integration, operations, and development workflows.";
-}
 
 function resolveMarkdownHref(href: string, relativePath: string | null) {
   if (/^(https?:|mailto:|tel:|#)/i.test(href)) {
@@ -553,7 +522,8 @@ export default async function DocPage({ params }: DocPageProps) {
       const isTaskList = typeof props.className === "string" && props.className.includes("task-list-item");
 
       // Strip data-ordered before passing to DOM to avoid unknown attr warning
-      const { "data-ordered": _dataOrdered, ...restProps } = props as Record<string, unknown> & { "data-ordered"?: string };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { "data-ordered": _, ...restProps } = props as Record<string, unknown> & { "data-ordered"?: string };
 
       if (startsWithEmoji || startsWithNumber || isOrdered || isTaskList) {
         return (
