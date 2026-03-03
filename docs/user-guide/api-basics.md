@@ -7,7 +7,7 @@ Complete reference for FusionXPay API.
 | Environment | Base URL |
 |-------------|----------|
 | **Sandbox** | `http://localhost:8080/api/v1` (Local) |
-| **Production** | `https://api.fusionxpay.site/api/v1` |
+| **Production** | `https://api.fusionx.fun/api/v1` |
 
 ---
 
@@ -111,7 +111,7 @@ Authorization: Bearer YOUR_TOKEN
   "amount": 99.99,
   "currency": "USD",
   "status": "PENDING",
-  "paymentUrl": "https://pay.fusionxpay.site/order/FXP-20260210-123456",
+  "paymentUrl": "https://pay.fusionx.fun/order/FXP-20260210-123456",
   "createdAt": "2026-02-10T12:00:00Z"
 }
 ```

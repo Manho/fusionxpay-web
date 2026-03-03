@@ -72,7 +72,7 @@ Need higher limits? Contact support.
 ### How do I handle refunds?
 
 ```javascript
-await fetch(`https://api.fusionxpay.site/api/v1/orders/${orderId}/refund`, {
+await fetch(`https://api.fusionx.fun/api/v1/orders/${orderId}/refund`, {
   method: 'POST',
   headers: {
     'Authorization': 'Bearer YOUR_TOKEN',
@@ -237,7 +237,7 @@ FusionXPay runs on:
 
 ### How do I upgrade my account?
 
-Contact [support@fusionxpay.site](mailto:support@fusionxpay.site)
+Contact [support@fusionx.fun](mailto:support@fusionx.fun)
 
 ### Can I change my webhook URL?
 
@@ -258,4 +258,4 @@ Contact support. Note: All transaction data will be permanently deleted.
 - 🔧 [Developer Docs](../developer/README.md)
 - 🐛 [Report a Bug](https://github.com/Manho/fusionxpay-web/issues)
 - 💬 [Community Discussions](https://github.com/Manho/fusionxpay-web/discussions)
-- 📧 Email: [support@fusionxpay.site](mailto:support@fusionxpay.site)
+- 📧 Email: [support@fusionx.fun](mailto:support@fusionx.fun)

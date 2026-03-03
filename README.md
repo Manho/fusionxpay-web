@@ -116,7 +116,7 @@ FusionXPay uses a microservices architecture with 5 backend services:
           └───────┘    └─────────┘    └─────────┘
 ```
 
-> See the interactive version on the [landing page](https://fusionxpay.site) or in the [Architecture docs](./docs/developer/02-architecture-and-services.md).
+> See the interactive version on the [landing page](https://fusionx.fun) or in the [Architecture docs](./docs/developer/02-architecture-and-services.md).
 
 ---
 

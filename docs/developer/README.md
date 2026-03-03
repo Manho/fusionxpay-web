@@ -38,5 +38,5 @@ This documentation is for developers who want to contribute to FusionXPay or run
 ## Notes
 
 - Secrets are intentionally not stored in docs.
-- Domain `fusionxpay.site` + `api.fusionxpay.site` may be pending DNS/approval during setup.
+- Domain `fusionx.fun` + `api.fusionx.fun` may be pending DNS/approval during setup.
 - Any mismatch between historical docs and code should defer to current source files listed in [Appendix: File Map](./10-appendix-file-map.md).

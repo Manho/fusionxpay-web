@@ -24,7 +24,7 @@ API Endpoint: http://localhost:8080/api/v1
 
 ### Option B: Create an Account
 
-1. Sign up at [https://fusionxpay.site](https://fusionxpay.site)
+1. Sign up at [https://fusionx.fun](https://fusionx.fun)
 2. Verify your email
 3. Get your API key from the dashboard
 
@@ -35,7 +35,7 @@ API Endpoint: http://localhost:8080/api/v1
 ### Using cURL
 
 ```bash
-curl -X POST https://api.fusionxpay.site/api/v1/orders \
+curl -X POST https://api.fusionx.fun/api/v1/orders \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
@@ -52,7 +52,7 @@ curl -X POST https://api.fusionxpay.site/api/v1/orders \
 
 ```javascript
 const createPayment = async () => {
-  const response = await fetch('https://api.fusionxpay.site/api/v1/orders', {
+  const response = await fetch('https://api.fusionx.fun/api/v1/orders', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const createPayment = async () => {
   "amount": 99.99,
   "currency": "USD",
   "status": "PENDING",
-  "paymentUrl": "https://pay.fusionxpay.site/order/FXP-20260210-123456",
+  "paymentUrl": "https://pay.fusionx.fun/order/FXP-20260210-123456",
   "createdAt": "2026-02-10T12:00:00Z"
 }
 ```
@@ -132,7 +132,7 @@ app.post('/webhook', express.json(), (req, res) => {
 Check payment status anytime:
 
 ```bash
-curl -X GET https://api.fusionxpay.site/api/v1/orders/FXP-20260210-123456 \
+curl -X GET https://api.fusionx.fun/api/v1/orders/FXP-20260210-123456 \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 

@@ -260,7 +260,7 @@ ngrok http 3000
 
 Trigger a test webhook from the admin dashboard:
 
-1. Login to [https://fusionxpay.site/admin](https://fusionxpay.site/admin)
+1. Login to [https://fusionx.fun/admin](https://fusionx.fun/admin)
 2. Go to **Settings** → **Webhooks**
 3. Click **Send Test Webhook**
 

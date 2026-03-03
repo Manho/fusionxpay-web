@@ -27,8 +27,8 @@ FusionXPay is a microservices payment platform with a dedicated admin dashboard.
 
 ## 1.4 Runtime Topology (Current Plan)
 
-1. Public user opens frontend on Vercel (`fusionxpay.site`).
-2. Frontend calls unified API base URL (`https://api.fusionxpay.site/api/v1/admin`).
+1. Public user opens frontend on Vercel (`fusionx.fun`).
+2. Frontend calls unified API base URL (`https://api.fusionx.fun/api/v1/admin`).
 3. Cloudflare Tunnel routes public traffic to local gateway (`localhost:8080`).
 4. API Gateway routes requests to internal services.
 5. Services use NAS/local middleware endpoints (DB/Redis/Kafka/Eureka).
