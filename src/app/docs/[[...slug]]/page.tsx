@@ -444,6 +444,16 @@ export default async function DocPage({ params }: DocPageProps) {
   };
 
   const markdownComponents: Components = {
+    h1({ children, ...props }) {
+      return (
+        <h1
+          {...props}
+          className="mb-8 text-4xl font-extrabold tracking-tight text-foreground lg:text-5xl"
+        >
+          {children}
+        </h1>
+      );
+    },
     h2({ children, ...props }) {
       const id = resolveHeadingId(2, children);
       return (
