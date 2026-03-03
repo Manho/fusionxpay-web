@@ -2,9 +2,100 @@
 
 import { useEffect, useRef, useState } from "react";
 
+interface Step {
+    id: string;
+    number: number;
+    title: string;
+    subtitle: string;
+    from: string;
+    to: string;
+    type: "sync" | "async" | "internal";
+}
+
+const STEPS: Step[] = [
+    {
+        id: "create",
+        number: 1,
+        title: "Create Order",
+        subtitle: "Status → NEW",
+        from: "Merchant",
+        to: "Order Service",
+        type: "sync",
+    },
+    {
+        id: "initiate",
+        number: 2,
+        title: "Initiate Payment",
+        subtitle: "Forward to processor",
+        from: "Merchant",
+        to: "Payment Service",
+        type: "sync",
+    },
+    {
+        id: "publish-processing",
+        number: 3,
+        title: "Publish Event",
+        subtitle: "Status → PROCESSING",
+        from: "Payment Service",
+        to: "Event Queue",
+        type: "async",
+    },
+    {
+        id: "process",
+        number: 4,
+        title: "Process Payment",
+        subtitle: "Charge via provider",
+        from: "Payment Service",
+        to: "Payment Provider",
+        type: "sync",
+    },
+    {
+        id: "callback",
+        number: 5,
+        title: "Payment Callback",
+        subtitle: "Result notification",
+        from: "Payment Provider",
+        to: "Payment Service",
+        type: "async",
+    },
+    {
+        id: "update",
+        number: 6,
+        title: "Update Status",
+        subtitle: "Record transaction",
+        from: "Payment Service",
+        to: "Payment Service",
+        type: "internal",
+    },
+    {
+        id: "publish-final",
+        number: 7,
+        title: "Publish Result",
+        subtitle: "SUCCESS / FAILED",
+        from: "Payment Service",
+        to: "Event Queue",
+        type: "async",
+    },
+    {
+        id: "notify",
+        number: 8,
+        title: "Deliver Updates",
+        subtitle: "Order + Webhook",
+        from: "Event Queue",
+        to: "Notification",
+        type: "async",
+    },
+];
+
+const TYPE_META: Record<Step["type"], { label: string; dot: string }> = {
+    sync: { label: "Sync", dot: "bg-[#2d1ef5]" },
+    async: { label: "Async", dot: "bg-amber-500" },
+    internal: { label: "Internal", dot: "bg-emerald-500" },
+};
+
 export default function PaymentFlow() {
     const [isVisible, setIsVisible] = useState(false);
-    const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+    const [hoveredStep, setHoveredStep] = useState<string | null>(null);
     const sectionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -12,194 +103,235 @@ export default function PaymentFlow() {
             ([entry]) => {
                 if (entry.isIntersecting) setIsVisible(true);
             },
-            { threshold: 0.1 }
+            { threshold: 0.05 }
         );
         if (sectionRef.current) observer.observe(sectionRef.current);
         return () => observer.disconnect();
     }, []);
 
-    const relations: Record<string, string[]> = {
-        merchant: ["order"],
-        order: ["merchant", "payment", "notification"],
-        payment: ["order", "queue", "provider"],
-        queue: ["payment", "order", "notification"],
-        provider: ["payment"],
-        notification: ["queue", "order"],
+    // Adjacency map for hover highlighting
+    const adjacent: Record<string, string[]> = {
+        create: ["initiate"],
+        initiate: ["create", "publish-processing"],
+        "publish-processing": ["initiate", "process"],
+        process: ["publish-processing", "callback"],
+        callback: ["process", "update"],
+        update: ["callback", "publish-final"],
+        "publish-final": ["update", "notify"],
+        notify: ["publish-final"],
     };
 
-    const isRelated = (nodeId: string) => {
-        if (!hoveredNode) return true;
-        return nodeId === hoveredNode || (relations[hoveredNode]?.includes(nodeId) ?? false);
+    const isRelated = (id: string) => {
+        if (!hoveredStep) return true;
+        return id === hoveredStep || (adjacent[hoveredStep]?.includes(id) ?? false);
     };
-
-    const lineOpacity = (from: string, to: string) => {
-        if (!hoveredNode) return 0.7;
-        if (hoveredNode === from || hoveredNode === to) return 1;
-        return 0.1;
-    };
-
-    const nodeStyle = (nodeId: string): React.CSSProperties => ({
-        opacity: isRelated(nodeId) ? 1 : 0.15,
-        transition: "opacity 0.3s, transform 0.3s",
-        cursor: "default",
-    });
 
     return (
-        <section className="my-4 relative w-full" ref={sectionRef}>
-            {/* SVG Architecture Diagram */}
+        <section ref={sectionRef} className="my-2 relative w-full">
             <div
-                className={`relative w-full max-w-4xl mx-auto overflow-hidden transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                className={`relative w-full transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                     }`}
             >
-                <svg
-                    viewBox="0 0 800 680"
-                    className="w-full h-auto p-4 sm:p-8"
-                    style={{ fontFamily: "'Inter', 'Arial', sans-serif" }}
-                >
-                    {/* Background glow lines to make it match the docs style */}
-                    <defs>
-                        <linearGradient id="flow-grad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="currentColor" stopOpacity="0.8" />
-                            <stop offset="100%" stopColor="currentColor" stopOpacity="0.1" />
-                        </linearGradient>
-                    </defs>
+                {/* Grid: 4 columns × 2 rows on lg, 2 columns on md, 1 column on sm */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-6">
+                    {STEPS.map((step, i) => {
+                        const related = isRelated(step.id);
+                        const isHovered = hoveredStep === step.id;
+                        const meta = TYPE_META[step.type];
 
-                    {/* Actors */}
-                    <g style={nodeStyle("merchant")} onMouseEnter={() => setHoveredNode("merchant")} onMouseLeave={() => setHoveredNode(null)}>
-                        <rect x="50" y="50" width="120" height="40" rx="6" fill="rgba(124, 77, 255, 0.1)" stroke="#7c4dff" strokeWidth="1.5" />
-                        <text x="110" y="74" textAnchor="middle" fontWeight="600" fontSize="13" className="fill-foreground">Merchant</text>
-                        <line x1="110" y1="90" x2="110" y2="640" stroke="url(#flow-grad)" strokeWidth="1" strokeDasharray="4,4" className="text-muted-foreground" />
-                    </g>
+                        return (
+                            <div
+                                key={step.id}
+                                className="relative group"
+                                onMouseEnter={() => setHoveredStep(step.id)}
+                                onMouseLeave={() => setHoveredStep(null)}
+                                style={{
+                                    opacity: related ? 1 : 0.2,
+                                    transition: "opacity 0.3s ease, transform 0.3s ease",
+                                    transform: isVisible
+                                        ? isHovered
+                                            ? "translateY(-2px)"
+                                            : "translateY(0)"
+                                        : "translateY(16px)",
+                                    transitionDelay: isVisible ? `${i * 80}ms` : "0ms",
+                                }}
+                            >
+                                {/* Connection arrow (hidden on last of each row) */}
+                                {i < STEPS.length - 1 && (
+                                    <div
+                                        className={`
+                                            hidden lg:block absolute -right-4 top-1/2 -translate-y-1/2 w-4 h-px z-10
+                                            ${(i + 1) % 4 === 0 ? "lg:hidden" : ""}
+                                        `}
+                                        style={{
+                                            opacity: hoveredStep
+                                                ? isRelated(step.id) && isRelated(STEPS[i + 1].id)
+                                                    ? 0.8
+                                                    : 0.1
+                                                : 0.5,
+                                            transition: "opacity 0.3s ease",
+                                        }}
+                                    >
+                                        <div
+                                            className={`absolute inset-y-0 left-0 right-1 ${step.type === "async" || STEPS[i + 1].type === "async"
+                                                ? "border-t border-dashed border-amber-500/60"
+                                                : "border-t border-[#2d1ef5]/50"
+                                                }`}
+                                        />
+                                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-[4px] border-l-[#2d1ef5]/50 border-y-[3px] border-y-transparent" />
+                                    </div>
+                                )}
 
-                    <g style={nodeStyle("order")} onMouseEnter={() => setHoveredNode("order")} onMouseLeave={() => setHoveredNode(null)}>
-                        <rect x="200" y="50" width="120" height="40" rx="6" fill="rgba(25, 118, 210, 0.1)" stroke="#1976d2" strokeWidth="1.5" />
-                        <text x="260" y="74" textAnchor="middle" fontWeight="600" fontSize="13" className="fill-foreground">Order Service</text>
-                        <line x1="260" y1="90" x2="260" y2="640" stroke="url(#flow-grad)" strokeWidth="1" strokeDasharray="4,4" className="text-muted-foreground" />
-                    </g>
+                                {/* Row transition arrow (between step 4 and 5) */}
+                                {i === 3 && (
+                                    <div
+                                        className="hidden lg:flex absolute -bottom-5 right-1/2 translate-x-1/2 flex-col items-center z-10"
+                                        style={{
+                                            opacity: hoveredStep ? 0.15 : 0.4,
+                                            transition: "opacity 0.3s ease",
+                                        }}
+                                    >
+                                        <div className="w-px h-2 bg-[#2d1ef5]/40" />
+                                        <div className="w-0 h-0 border-t-[4px] border-t-[#2d1ef5]/40 border-x-[3px] border-x-transparent" />
+                                    </div>
+                                )}
 
-                    <g style={nodeStyle("payment")} onMouseEnter={() => setHoveredNode("payment")} onMouseLeave={() => setHoveredNode(null)}>
-                        <rect x="350" y="50" width="120" height="40" rx="6" fill="rgba(25, 118, 210, 0.1)" stroke="#1976d2" strokeWidth="1.5" />
-                        <text x="410" y="74" textAnchor="middle" fontWeight="600" fontSize="13" className="fill-foreground">Payment Service</text>
-                        <line x1="410" y1="90" x2="410" y2="640" stroke="url(#flow-grad)" strokeWidth="1" strokeDasharray="4,4" className="text-muted-foreground" />
-                    </g>
+                                {/* Card */}
+                                <div
+                                    className={`
+                                        relative overflow-hidden rounded-xl
+                                        border transition-all duration-300
+                                        ${isHovered
+                                            ? "border-[#2d1ef5]/50 shadow-[0_0_24px_rgba(45,30,245,0.15)] bg-[#2d1ef5]/[0.06]"
+                                            : "border-border/60 bg-card/50 hover:border-[#2d1ef5]/30"
+                                        }
+                                        backdrop-blur-sm p-4
+                                    `}
+                                >
+                                    {/* Gradient glow on hover */}
+                                    {isHovered && (
+                                        <div className="absolute inset-0 bg-gradient-to-br from-[#2d1ef5]/10 via-transparent to-[#7b6fff]/5 pointer-events-none" />
+                                    )}
 
-                    <g style={nodeStyle("queue")} onMouseEnter={() => setHoveredNode("queue")} onMouseLeave={() => setHoveredNode(null)}>
-                        <rect x="500" y="50" width="120" height="40" rx="6" fill="rgba(255, 143, 0, 0.1)" stroke="#ff8f00" strokeWidth="1.5" />
-                        <text x="560" y="74" textAnchor="middle" fontWeight="600" fontSize="13" className="fill-foreground">Event Queue</text>
-                        <line x1="560" y1="90" x2="560" y2="640" stroke="url(#flow-grad)" strokeWidth="1" strokeDasharray="4,4" className="text-muted-foreground" />
-                    </g>
+                                    {/* Header: number badge + type tag */}
+                                    <div className="flex items-center justify-between mb-3 relative z-10">
+                                        <div
+                                            className={`
+                                                flex items-center justify-center w-7 h-7 rounded-lg text-xs font-bold
+                                                transition-all duration-300
+                                                ${isHovered
+                                                    ? "bg-[#2d1ef5] text-white shadow-[0_0_12px_rgba(45,30,245,0.4)]"
+                                                    : "bg-[#2d1ef5]/15 text-[#2d1ef5] dark:text-[#8f86ff]"
+                                                }
+                                            `}
+                                        >
+                                            {step.number}
+                                        </div>
+                                        <div className="flex items-center gap-1.5">
+                                            <span className={`w-1.5 h-1.5 rounded-full ${meta.dot}`} />
+                                            <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                                                {meta.label}
+                                            </span>
+                                        </div>
+                                    </div>
 
-                    <g style={nodeStyle("provider")} onMouseEnter={() => setHoveredNode("provider")} onMouseLeave={() => setHoveredNode(null)}>
-                        <rect x="650" y="50" width="120" height="40" rx="6" fill="rgba(0, 137, 123, 0.1)" stroke="#00897b" strokeWidth="1.5" />
-                        <text x="710" y="74" textAnchor="middle" fontWeight="600" fontSize="13" className="fill-foreground">Payment Provider</text>
-                        <line x1="710" y1="90" x2="710" y2="640" stroke="url(#flow-grad)" strokeWidth="1" strokeDasharray="4,4" className="text-muted-foreground" />
-                    </g>
+                                    {/* Title + subtitle */}
+                                    <div className="relative z-10">
+                                        <h4 className="text-sm font-semibold text-foreground mb-1 leading-tight">
+                                            {step.title}
+                                        </h4>
+                                        <p className="text-[11px] text-muted-foreground leading-relaxed">
+                                            {step.subtitle}
+                                        </p>
+                                    </div>
 
-                    <g style={nodeStyle("notification")} onMouseEnter={() => setHoveredNode("notification")} onMouseLeave={() => setHoveredNode(null)}>
-                        {/* Move notification service slightly separated at the left layer */}
-                        <rect x="650" y="560" width="120" height="40" rx="6" fill="rgba(25, 118, 210, 0.1)" stroke="#1976d2" strokeWidth="1.5" />
-                        <text x="710" y="584" textAnchor="middle" fontWeight="600" fontSize="13" className="fill-foreground">Notification Svc</text>
-                    </g>
+                                    {/* From → To */}
+                                    <div className="mt-3 pt-3 border-t border-border/40 relative z-10">
+                                        <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/70">
+                                            <span className="rounded-md bg-foreground/5 px-1.5 py-0.5 font-medium text-foreground/60 truncate max-w-[5.5rem]">
+                                                {step.from}
+                                            </span>
+                                            <svg
+                                                width="12"
+                                                height="8"
+                                                viewBox="0 0 12 8"
+                                                className="flex-none opacity-50"
+                                            >
+                                                {step.type === "async" ? (
+                                                    <>
+                                                        <line
+                                                            x1="0"
+                                                            y1="4"
+                                                            x2="8"
+                                                            y2="4"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1.2"
+                                                            strokeDasharray="2,1.5"
+                                                        />
+                                                        <polyline
+                                                            points="7,1.5 10,4 7,6.5"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1.2"
+                                                        />
+                                                    </>
+                                                ) : step.type === "internal" ? (
+                                                    <>
+                                                        <path
+                                                            d="M 2,4 Q 6,0 6,4 Q 6,8 10,4"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1.2"
+                                                        />
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <line
+                                                            x1="0"
+                                                            y1="4"
+                                                            x2="8"
+                                                            y2="4"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1.2"
+                                                        />
+                                                        <polyline
+                                                            points="7,1.5 10,4 7,6.5"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1.2"
+                                                        />
+                                                    </>
+                                                )}
+                                            </svg>
+                                            <span className="rounded-md bg-foreground/5 px-1.5 py-0.5 font-medium text-foreground/60 truncate max-w-[5.5rem]">
+                                                {step.to}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
 
-                    {/* Step 1: Create Order */}
-                    <g style={{ opacity: lineOpacity("merchant", "order"), transition: "opacity 0.3s" }}>
-                        <rect x="190" y="110" width="140" height="34" rx="4" fill="var(--card)" stroke="var(--border)" strokeWidth="1" className="bg-card/80 backdrop-blur" />
-                        <text x="260" y="131" textAnchor="middle" fontSize="11" fontWeight="500" className="fill-foreground">1. Create Order (NEW)</text>
-                        <line x1="110" y1="127" x2="190" y2="127" stroke="currentColor" strokeWidth="1.5" className="text-foreground" />
-                        <polygon points="186,123 192,127 186,131" fill="currentColor" className="text-foreground" />
-                        {/* Return Order ID */}
-                        <line x1="190" y1="145" x2="110" y2="145" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" className="text-muted-foreground" />
-                        <polygon points="115,141 109,145 115,149" fill="currentColor" className="text-muted-foreground" />
-                        <text x="150" y="141" textAnchor="middle" fontSize="10" className="fill-muted-foreground">Return orderId</text>
-                    </g>
-
-                    {/* Step 2: Initiate Payment */}
-                    <g style={{ opacity: lineOpacity("merchant", "payment"), transition: "opacity 0.3s" }}>
-                        <rect x="340" y="170" width="140" height="34" rx="4" fill="var(--card)" stroke="var(--border)" strokeWidth="1" />
-                        <text x="410" y="191" textAnchor="middle" fontSize="11" fontWeight="500" className="fill-foreground">2. Initiate Payment</text>
-                        <line x1="110" y1="187" x2="340" y2="187" stroke="currentColor" strokeWidth="1.5" className="text-foreground" />
-                        <polygon points="336,183 342,187 336,191" fill="currentColor" className="text-foreground" />
-                    </g>
-
-                    {/* Step 3: Publish Status update */}
-                    <g style={{ opacity: lineOpacity("payment", "queue"), transition: "opacity 0.3s" }}>
-                        <rect x="490" y="220" width="140" height="44" rx="4" fill="var(--card)" stroke="var(--border)" strokeWidth="1" />
-                        <text x="560" y="240" textAnchor="middle" fontSize="11" fontWeight="500" className="fill-foreground">3. Publish Status</text>
-                        <text x="560" y="254" textAnchor="middle" fontSize="10" className="fill-muted-foreground">Update (PROCESSING)</text>
-                        <line x1="410" y1="242" x2="490" y2="242" stroke="currentColor" strokeWidth="1.5" className="text-foreground" />
-                        <polygon points="486,238 492,242 486,246" fill="currentColor" className="text-foreground" />
-                    </g>
-
-                    {/* Order subscribes to status */}
-                    <g style={{ opacity: lineOpacity("queue", "order"), transition: "opacity 0.3s" }}>
-                        <rect x="190" y="270" width="140" height="34" rx="4" fill="var(--card)" stroke="var(--border)" strokeWidth="1" />
-                        <text x="260" y="291" textAnchor="middle" fontSize="11" fontWeight="500" className="fill-foreground">Update Order Status</text>
-                        <line x1="560" y1="287" x2="330" y2="287" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4,4" className="text-foreground" />
-                        <polygon points="335,283 329,287 335,291" fill="currentColor" className="text-foreground" />
-                    </g>
-
-                    {/* Step 4: Process Payment */}
-                    <g style={{ opacity: lineOpacity("payment", "provider"), transition: "opacity 0.3s" }}>
-                        <rect x="640" y="320" width="140" height="34" rx="4" fill="var(--card)" stroke="var(--border)" strokeWidth="1" />
-                        <text x="710" y="341" textAnchor="middle" fontSize="11" fontWeight="500" className="fill-foreground">4. Process Payment</text>
-                        <line x1="410" y1="337" x2="640" y2="337" stroke="currentColor" strokeWidth="1.5" className="text-foreground" />
-                        <polygon points="636,333 642,337 636,341" fill="currentColor" className="text-foreground" />
-                    </g>
-
-                    {/* Step 5: Callback */}
-                    <g style={{ opacity: lineOpacity("provider", "payment"), transition: "opacity 0.3s" }}>
-                        <rect x="340" y="380" width="140" height="34" rx="4" fill="var(--card)" stroke="var(--border)" strokeWidth="1" />
-                        <text x="410" y="401" textAnchor="middle" fontSize="11" fontWeight="500" className="fill-foreground">5. Payment Callback</text>
-                        <line x1="710" y1="397" x2="480" y2="397" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4,4" className="text-foreground" />
-                        <polygon points="485,393 479,397 485,401" fill="currentColor" className="text-foreground" />
-                    </g>
-
-                    {/* Step 6: Update Payment */}
-                    <g style={{ opacity: lineOpacity("payment", "payment"), transition: "opacity 0.3s" }}>
-                        <rect x="340" y="430" width="140" height="44" rx="4" fill="var(--card)" stroke="var(--border)" strokeWidth="1" />
-                        <text x="410" y="450" textAnchor="middle" fontSize="11" fontWeight="500" className="fill-foreground">6. Update Payment</text>
-                        <text x="410" y="464" textAnchor="middle" fontSize="10" className="fill-muted-foreground">Transaction Status</text>
-                    </g>
-
-                    {/* Step 7: Final Update */}
-                    <g style={{ opacity: lineOpacity("payment", "queue"), transition: "opacity 0.3s" }}>
-                        <rect x="490" y="490" width="140" height="44" rx="4" fill="var(--card)" stroke="var(--border)" strokeWidth="1" />
-                        <text x="560" y="510" textAnchor="middle" fontSize="11" fontWeight="500" className="fill-foreground">7. Publish Final</text>
-                        <text x="560" y="524" textAnchor="middle" fontSize="10" className="fill-muted-foreground">Status Update</text>
-                        <line x1="410" y1="512" x2="490" y2="512" stroke="currentColor" strokeWidth="1.5" className="text-foreground" />
-                        <polygon points="486,508 492,512 486,516" fill="currentColor" className="text-foreground" />
-                    </g>
-
-                    {/* Final Order Update */}
-                    <g style={{ opacity: lineOpacity("queue", "order"), transition: "opacity 0.3s" }}>
-                        <rect x="190" y="550" width="140" height="44" rx="4" fill="var(--card)" stroke="var(--border)" strokeWidth="1" />
-                        <text x="260" y="570" textAnchor="middle" fontSize="11" fontWeight="500" className="fill-foreground">Update Order Status</text>
-                        <text x="260" y="584" textAnchor="middle" fontSize="10" className="fill-muted-foreground">(SUCCESS/FAILED)</text>
-                        <line x1="560" y1="572" x2="330" y2="572" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4,4" className="text-foreground" />
-                        <polygon points="335,568 329,572 335,576" fill="currentColor" className="text-foreground" />
-                    </g>
-
-                    {/* Final Notification Update */}
-                    <g style={{ opacity: lineOpacity("queue", "notification"), transition: "opacity 0.3s" }}>
-                        <line x1="560" y1="580" x2="650" y2="580" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4,4" className="text-foreground" />
-                        <polygon points="646,576 652,580 646,584" fill="currentColor" className="text-foreground" />
-                        <text x="605" y="570" textAnchor="middle" fontSize="10" className="fill-muted-foreground">Async trigger</text>
-                    </g>
-
-                    {/* Legend */}
-                    <g className="opacity-70">
-                        <rect x="50" y="630" width="12" height="12" fill="var(--card)" stroke="var(--border)" strokeWidth="1" />
-                        <text x="68" y="640" fontSize="10" className="fill-muted-foreground">Process Step</text>
-
-                        <line x1="150" y1="636" x2="165" y2="636" stroke="currentColor" strokeWidth="1.5" className="text-foreground" />
-                        <polygon points="161,632 167,636 161,640" fill="currentColor" className="text-foreground" />
-                        <text x="175" y="640" fontSize="10" className="fill-muted-foreground">Sync Call</text>
-
-                        <line x1="250" y1="636" x2="265" y2="636" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3,3" className="text-foreground" />
-                        <polygon points="261,632 267,636 261,640" fill="currentColor" className="text-foreground" />
-                        <text x="275" y="640" fontSize="10" className="fill-muted-foreground">Async Message</text>
-                    </g>
-                </svg>
+                {/* Legend */}
+                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 px-4 pb-4 text-[10px] text-muted-foreground/60">
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#2d1ef5]" />
+                        <span>Sync Call</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                        <span>Async Message</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        <span>Internal</span>
+                    </div>
+                    <span className="text-muted-foreground/40">
+                        Hover to explore flow
+                    </span>
+                </div>
             </div>
         </section>
     );
