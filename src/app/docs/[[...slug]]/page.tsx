@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { isValidElement, type ReactNode } from "react";
+import React, { isValidElement, type ReactNode } from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
@@ -483,16 +483,24 @@ export default async function DocPage({ params }: DocPageProps) {
       );
     },
     ol({ children, ...props }) {
+      // Inject data-ordered into direct <li> children so they can suppress the bullet dot
+      const orderedChildren = Array.isArray(children)
+        ? children.map((child, i) =>
+          isValidElement<React.HTMLAttributes<HTMLElement>>(child)
+            ? React.cloneElement(child, { key: i, "data-ordered": "true" } as React.HTMLAttributes<HTMLElement>)
+            : child
+        )
+        : children;
       return (
         <ol
           {...props}
           className="my-6 list-decimal space-y-3 pl-6 text-muted-foreground marker:font-semibold marker:text-[#2d1ef5] dark:marker:text-[#8f86ff]"
         >
-          {children}
+          {orderedChildren}
         </ol>
       );
     },
-    li({ node, children, ...props }) {
+    li({ children, ...props }) {
       const normalizedChildren = normalizeChecklistPrefix(children);
 
       // Extract leading text to detect emoji or number prefix
@@ -505,22 +513,22 @@ export default async function DocPage({ params }: DocPageProps) {
       const startsWithEmoji = /^[\p{Emoji_Presentation}\p{Extended_Pictographic}]/u.test(textContent);
       const startsWithNumber = /^\d+[\.\)]\s/.test(textContent);
 
-      // Check if parent is an ordered list via node
-      const parentTag = (
-        node as unknown as { parent?: { tagName?: string } } | undefined
-      )?.parent?.tagName;
-      const isOrdered = parentTag === "ol";
+      // Detect ordered list via data-ordered attribute injected by the ol renderer above
+      const isOrdered = (props as Record<string, unknown>)["data-ordered"] === "true";
+
+      // Strip data-ordered before passing to DOM to avoid unknown attr warning
+      const { "data-ordered": _dataOrdered, ...restProps } = props as Record<string, unknown> & { "data-ordered"?: string };
 
       if (startsWithEmoji || startsWithNumber || isOrdered) {
         return (
-          <li {...props} className="pl-1 leading-7 text-foreground/75 dark:text-muted-foreground">
+          <li {...restProps} className="pl-1 leading-7 text-foreground/75 dark:text-muted-foreground">
             {normalizedChildren}
           </li>
         );
       }
 
       return (
-        <li {...props} className="leading-7 text-foreground/75 dark:text-muted-foreground">
+        <li {...restProps} className="leading-7 text-foreground/75 dark:text-muted-foreground">
           <span className="flex items-start gap-3">
             <span className="mt-2.5 inline-block h-2 w-2 flex-none rounded-full bg-[#2d1ef5]" />
             <span className="min-w-0">{normalizedChildren}</span>
