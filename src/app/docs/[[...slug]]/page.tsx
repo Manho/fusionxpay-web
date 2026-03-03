@@ -119,10 +119,6 @@ const DOC_NAV_SECTIONS: NavSection[] = [
         title: "Appendix: File Map",
         href: "/docs/developer/10-appendix-file-map",
       },
-      {
-        title: "Known Gaps & Roadmap",
-        href: "/docs/developer/11-known-gaps-and-roadmap",
-      },
     ],
   },
 ];

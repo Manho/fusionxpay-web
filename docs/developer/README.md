@@ -22,7 +22,6 @@ This documentation is for developers who want to contribute to FusionXPay or run
 8. [Testing and CI](./08-testing-and-ci.md)
 9. [Troubleshooting](./09-troubleshooting.md)
 10. [Appendix: File Map](./10-appendix-file-map.md)
-11. [Known Gaps and Roadmap](./11-known-gaps-and-roadmap.md)
 
 ## Fast Paths by Role
 
