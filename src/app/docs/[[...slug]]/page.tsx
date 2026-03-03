@@ -405,7 +405,7 @@ export default async function DocPage({ params }: DocPageProps) {
   // inject Shiki HTML without needing an async component function.
   const codeHighlights = new Map<string, { html: string; lang: string }>();
   if (content) {
-    const codeFenceRegex = /^```(\w+)?\r?\n([\s\S]*?)^```/gm;
+    const codeFenceRegex = /^```(\w+)?\s*[\r\n]([\s\S]*?)^```/gm;
     await Promise.all(
       [...content.matchAll(codeFenceRegex)].map(async ([, lang = "text", code]) => {
         const trimmed = code.trimEnd();
