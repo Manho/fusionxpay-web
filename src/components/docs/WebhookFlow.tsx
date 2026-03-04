@@ -11,107 +11,108 @@ interface Step {
     to: string;
     fromFull: string;
     toFull: string;
-    type: "sync" | "async" | "internal";
+    type: "request" | "callback" | "internal" | "notify";
 }
 
 const STEPS: Step[] = [
     {
-        id: "create",
+        id: "provider-callback",
         number: 1,
-        title: "Create Order",
-        subtitle: "Status → NEW",
-        from: "Merchant",
-        fromFull: "Merchant",
-        to: "Order Svc",
-        toFull: "Order Service",
-        type: "sync",
-    },
-    {
-        id: "initiate",
-        number: 2,
-        title: "Initiate Payment",
-        subtitle: "Forward to processor",
-        from: "Merchant",
-        fromFull: "Merchant",
-        to: "Payment Svc",
-        toFull: "Payment Service",
-        type: "sync",
-    },
-    {
-        id: "publish-processing",
-        number: 3,
-        title: "Publish Event",
-        subtitle: "Status → PROCESSING",
-        from: "Payment Svc",
-        fromFull: "Payment Service",
-        to: "Event Queue",
-        toFull: "Event Queue",
-        type: "async",
-    },
-    {
-        id: "process",
-        number: 4,
-        title: "Process Payment",
-        subtitle: "Charge via provider",
-        from: "Payment Svc",
-        fromFull: "Payment Service",
-        to: "Provider",
-        toFull: "Payment Provider",
-        type: "sync",
-    },
-    {
-        id: "callback",
-        number: 5,
         title: "Payment Callback",
-        subtitle: "Result notification",
+        subtitle: "Status notification received",
         from: "Provider",
         fromFull: "Payment Provider",
-        to: "Payment Svc",
-        toFull: "Payment Service",
-        type: "async",
+        to: "Gateway",
+        toFull: "FusionXPay Gateway",
+        type: "callback",
     },
     {
-        id: "update",
-        number: 6,
-        title: "Update Status",
-        subtitle: "Record transaction",
-        from: "Payment Svc",
-        fromFull: "Payment Service",
-        to: "Payment Svc",
-        toFull: "Payment Service",
+        id: "verify-signature",
+        number: 2,
+        title: "Verify Signature",
+        subtitle: "HMAC-SHA256 validation",
+        from: "Gateway",
+        fromFull: "FusionXPay Gateway",
+        to: "Gateway",
+        toFull: "FusionXPay Gateway",
         type: "internal",
     },
     {
-        id: "publish-final",
-        number: 7,
-        title: "Publish Result",
-        subtitle: "SUCCESS / FAILED",
-        from: "Payment Svc",
-        fromFull: "Payment Service",
-        to: "Event Queue",
-        toFull: "Event Queue",
-        type: "async",
+        id: "update-status",
+        number: 3,
+        title: "Update Order",
+        subtitle: "Status → SUCCESS / FAILED",
+        from: "Gateway",
+        fromFull: "FusionXPay Gateway",
+        to: "Database",
+        toFull: "Database",
+        type: "internal",
     },
     {
-        id: "notify",
+        id: "publish-event",
+        number: 4,
+        title: "Publish Event",
+        subtitle: "Enqueue notification",
+        from: "Gateway",
+        fromFull: "FusionXPay Gateway",
+        to: "Event Queue",
+        toFull: "Event Queue",
+        type: "notify",
+    },
+    {
+        id: "sign-payload",
+        number: 5,
+        title: "Sign Payload",
+        subtitle: "HMAC with merchant secret",
+        from: "Webhook Svc",
+        fromFull: "Webhook Service",
+        to: "Webhook Svc",
+        toFull: "Webhook Service",
+        type: "internal",
+    },
+    {
+        id: "deliver-webhook",
+        number: 6,
+        title: "Deliver Webhook",
+        subtitle: "POST to merchant URL",
+        from: "Webhook Svc",
+        fromFull: "Webhook Service",
+        to: "Merchant",
+        toFull: "Merchant Endpoint",
+        type: "request",
+    },
+    {
+        id: "merchant-process",
+        number: 7,
+        title: "Process & Respond",
+        subtitle: "Return 200 OK in 5s",
+        from: "Merchant",
+        fromFull: "Merchant Endpoint",
+        to: "Merchant",
+        toFull: "Merchant Endpoint",
+        type: "internal",
+    },
+    {
+        id: "retry-logic",
         number: 8,
-        title: "Deliver Updates",
-        subtitle: "Order + Webhook",
-        from: "Event Queue",
-        fromFull: "Event Queue",
-        to: "Notification",
-        toFull: "Notification Service",
-        type: "async",
+        title: "Retry on Failure",
+        subtitle: "Up to 5 retries with backoff",
+        from: "Webhook Svc",
+        fromFull: "Webhook Service",
+        to: "Merchant",
+        toFull: "Merchant Endpoint",
+        type: "callback",
     },
 ];
 
 const TYPE_META: Record<Step["type"], { label: string; dot: string }> = {
-    sync: { label: "Sync", dot: "bg-[#2d1ef5]" },
-    async: { label: "Async", dot: "bg-amber-500" },
+    request: { label: "Request", dot: "bg-[#2d1ef5]" },
+    callback: { label: "Callback", dot: "bg-amber-500" },
     internal: { label: "Internal", dot: "bg-emerald-500" },
+    notify: { label: "Event", dot: "bg-purple-500" },
 };
 
-export default function PaymentFlow() {
+export default function WebhookFlow() {
     const [isVisible, setIsVisible] = useState(false);
     const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -158,9 +159,11 @@ export default function PaymentFlow() {
                                         style={{ opacity: 0.5 }}
                                     >
                                         <div
-                                            className={`absolute inset-y-0 left-0 right-1 ${step.type === "async" || STEPS[i + 1].type === "async"
+                                            className={`absolute inset-y-0 left-0 right-1 ${step.type === "callback" || STEPS[i + 1].type === "callback"
                                                 ? "border-t border-dashed border-amber-500/60"
-                                                : "border-t border-[#2d1ef5]/50"
+                                                : step.type === "notify" || STEPS[i + 1].type === "notify"
+                                                    ? "border-t border-dashed border-purple-500/60"
+                                                    : "border-t border-[#2d1ef5]/50"
                                                 }`}
                                         />
                                         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-[4px] border-l-[#2d1ef5]/50 border-y-[3px] border-y-transparent" />
@@ -212,7 +215,6 @@ export default function PaymentFlow() {
                                         </p>
                                     </div>
 
-                                    {/* From → To - hidden at xl, visible at smaller widths */}
                                     <div className="mt-3 pt-3 border-t border-border/40 relative z-10 xl:hidden">
                                         <div className="flex items-baseline gap-1.5 text-[11px] text-muted-foreground/70" title={`${step.fromFull} → ${step.toFull}`}>
                                             <span className="font-medium text-foreground/60 whitespace-nowrap">{step.from}</span>
@@ -239,15 +241,19 @@ export default function PaymentFlow() {
                 <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 px-4 pb-4 text-[10px] text-muted-foreground/60">
                     <div className="flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#2d1ef5]" />
-                        <span>Sync Call</span>
+                        <span>Request</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                        <span>Async Message</span>
+                        <span>Callback</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                         <span>Internal</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                        <span>Event</span>
                     </div>
                     <span className="text-muted-foreground/40">
                         Hover to explore flow

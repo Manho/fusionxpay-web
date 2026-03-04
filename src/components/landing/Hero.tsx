@@ -101,10 +101,10 @@ export default function Hero() {
     >
       {/* Animated Background */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Gradient Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#2d1ef5]/20 rounded-full blur-[120px] animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#7b6fff]/10 rounded-full blur-[100px] animate-float-slow" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#2d1ef5]/10 rounded-full blur-[150px]" />
+        {/* Gradient Orbs - Subdued for enterprise feel */}
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#2d1ef5]/5 rounded-full blur-[120px] animate-float" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#7b6fff]/2 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#2d1ef5]/2 rounded-full blur-[150px]" />
 
         {/* Grid Pattern */}
         <div
@@ -145,7 +145,7 @@ export default function Hero() {
 
             {/* Description */}
             <p
-              className={`text-lg sm:text-xl text-muted-foreground max-w-lg leading-relaxed transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`text-lg sm:text-xl text-zinc-400 max-w-lg leading-loose tracking-wide transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
               Aggregate PayPal, Stripe, and more payment channels through a single
@@ -159,7 +159,7 @@ export default function Hero() {
             >
               <Button
                 size="lg"
-                className="bg-[#2d1ef5] hover:bg-[#4a3fff] text-white px-8 py-6 text-lg rounded-xl group relative overflow-hidden"
+                className="bg-gradient-to-r from-[#2d1ef5] to-[#4a3fff] hover:from-[#3d2eff] hover:to-[#5a4fff] text-white px-8 py-6 text-lg rounded-xl group relative overflow-hidden shadow-[0_0_30px_rgba(45,30,245,0.3)] border border-[#4a3fff]/50 transition-all duration-300"
                 asChild
               >
                 <Link href="/login">
@@ -224,14 +224,14 @@ export default function Hero() {
               <div className="absolute -inset-4 bg-[#2d1ef5]/30 rounded-3xl blur-2xl" />
 
               {/* Dashboard Card */}
-              <div className="relative glass rounded-2xl overflow-hidden border border-border/60 shadow-2xl">
+              <div className="relative glass bg-slate-900/40 rounded-2xl overflow-hidden border border-white/10 shadow-2xl backdrop-blur-md">
                 {/* Browser Bar */}
                 <div className="p-4 border-b border-border/60 flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500/60" />
                   <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
                   <div className="w-3 h-3 rounded-full bg-green-500/60" />
                   <div className="flex-1 mx-4">
-                    <div className="h-6 bg-accent/35 rounded-md max-w-md mx-auto flex items-center justify-center text-xs text-muted-foreground/80">
+                    <div className="h-6 bg-white/5 border border-white/5 rounded-md max-w-md mx-auto flex items-center justify-center text-[11px] tracking-widest text-zinc-400">
                       dashboard.fusionx.fun
                     </div>
                   </div>
@@ -253,7 +253,7 @@ export default function Hero() {
 
                 {/* Chart */}
                 <div className="px-6 pb-6">
-                  <div className="h-32 bg-accent/35 rounded-xl flex items-end justify-around px-4 pb-4 gap-2">
+                  <div className="h-32 bg-white/5 border border-white/5 rounded-xl flex items-end justify-around px-4 pb-4 gap-2">
                     {[40, 65, 45, 80, 55, 70, 90, 60, 75, 85, 50, 95].map(
                       (h, i) => (
                         <div

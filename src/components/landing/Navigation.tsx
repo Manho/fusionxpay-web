@@ -47,10 +47,10 @@ export default function Navigation() {
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noopener noreferrer" : undefined}
-              className="text-muted-foreground text-sm hover:text-foreground transition-colors relative group"
+              className="text-zinc-400 text-sm font-medium hover:text-white transition-colors relative group"
             >
               {link.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#2d1ef5] group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white/50 group-hover:w-full transition-all duration-300" />
             </a>
           ))}
         </div>
@@ -70,14 +70,14 @@ export default function Navigation() {
           <Button
             variant="ghost"
             size="sm"
-            className="text-muted-foreground hover:text-foreground hover:bg-accent/70"
+            className="text-zinc-500 hover:text-zinc-300 font-medium tracking-wide transition-colors"
             asChild
           >
             <Link href="/login">Sign In</Link>
           </Button>
           <Button
             size="sm"
-            className="bg-[#2d1ef5] hover:bg-[#4a3fff] text-white"
+            className="bg-white text-black hover:bg-zinc-200 transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] font-semibold tracking-wide border-0"
             asChild
           >
             <Link href="/login">Get Started</Link>

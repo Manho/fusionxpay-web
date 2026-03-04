@@ -19,6 +19,7 @@ import {
 import ThemeModeSwitcher from "@/components/theme/ThemeModeSwitcher";
 import Architecture from "@/components/landing/Architecture";
 import PaymentFlow from "@/components/docs/PaymentFlow";
+import WebhookFlow from "@/components/docs/WebhookFlow";
 
 interface DocPageProps {
   params: Promise<{
@@ -249,11 +250,14 @@ function canonicalPathFromSlug(slug: string[]) {
 }
 
 function isDocPathActive(currentPath: string, href: string) {
-  if (href === "/docs") {
-    return currentPath === "/docs";
+  if (currentPath === href) {
+    return true;
   }
 
-  return currentPath === href || currentPath.startsWith(`${href}/`);
+  // Only consider sub-paths active if the parent href is NOT exactly "/docs" or the section root
+  // e.g., if href is "/docs/user-guide", we don't want it active when viewing "/docs/user-guide/quick-start"
+  // If the prompt dictates to *not* highlight the overview when in a child, we return false here.
+  return false;
 }
 
 function getDocFamilyLabel(currentPath: string) {
@@ -585,6 +589,14 @@ export default async function DocPage({ params }: DocPageProps) {
         );
       }
 
+      if (displayLang === "webhook-flow") {
+        return (
+          <div className="my-8 w-full overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-b from-background to-background/50">
+            <WebhookFlow />
+          </div>
+        );
+      }
+
       return (
         <div className="my-6 overflow-hidden rounded-xl border border-border/60 shadow-xl">
           <div className="flex items-center gap-2 border-b border-border/60 px-4 py-2.5 bg-muted/50">
@@ -747,41 +759,44 @@ export default async function DocPage({ params }: DocPageProps) {
 
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-[280px_minmax(0,1fr)_250px]">
             <aside className="hidden xl:block">
-              <div className="sticky top-24 rounded-2xl border border-border/60 bg-gradient-to-b from-card/90 to-card/60 dark:from-card/70 dark:to-card/70 p-5 backdrop-blur-xl shadow-sm">
+              <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-2xl border border-border/60 bg-gradient-to-b from-card/90 to-card/60 dark:from-card/70 dark:to-card/70 p-5 backdrop-blur-xl shadow-sm no-scrollbar">
                 <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-foreground">
                   <BookOpen className="h-4 w-4 text-[#2d1ef5] dark:text-[#8f86ff]" />
                   Documentation
                 </div>
 
                 <div className="space-y-5">
-                  {DOC_NAV_SECTIONS.map((section) => (
-                    <div key={section.title} className="space-y-2">
-                      <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">
-                        <span className="mr-1">{section.icon}</span>
-                        {section.title}
-                      </div>
-                      <nav className="space-y-1.5">
-                        {section.items.map((item) => {
-                          const active = isDocPathActive(canonicalPath, item.href);
+                  {DOC_NAV_SECTIONS.map((section, sectionIndex) => (
+                    <React.Fragment key={section.title}>
+                      {sectionIndex > 0 && <hr className="my-5 border-border/40" />}
+                      <div className="space-y-2">
+                        <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">
+                          <span className="mr-1">{section.icon}</span>
+                          {section.title}
+                        </div>
+                        <nav className="space-y-1.5">
+                          {section.items.map((item) => {
+                            const active = isDocPathActive(canonicalPath, item.href);
 
-                          return (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`block rounded-xl border px-3 py-2.5 transition-all duration-200 ${active
-                                ? "border-[#2d1ef5]/45 bg-[#2d1ef5]/15 text-[#2d1ef5] dark:text-foreground shadow-[0_2px_12px_rgba(45,30,245,0.15)] font-medium"
-                                : "border-transparent text-muted-foreground hover:border-[#2d1ef5]/20 hover:bg-[#2d1ef5]/5 hover:text-foreground hover:shadow-[0_2px_10px_rgba(45,30,245,0.1)] hover:-translate-x-0.5"
-                                }`}
-                            >
-                              <div className="text-sm font-medium">{item.title}</div>
-                              {item.description ? (
-                                <p className="mt-1 text-xs leading-5 text-muted-foreground/80">{item.description}</p>
-                              ) : null}
-                            </Link>
-                          );
-                        })}
-                      </nav>
-                    </div>
+                            return (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className={`block rounded-xl border px-3 py-2.5 transition-all duration-200 ${active
+                                  ? "border-[#2d1ef5]/45 bg-[#2d1ef5]/15 text-[#2d1ef5] dark:text-foreground shadow-[0_2px_12px_rgba(45,30,245,0.15)] font-medium"
+                                  : "border-transparent text-muted-foreground hover:border-[#2d1ef5]/20 hover:bg-[#2d1ef5]/5 hover:text-foreground hover:shadow-[0_2px_10px_rgba(45,30,245,0.1)] hover:-translate-x-0.5"
+                                  }`}
+                              >
+                                <div className="text-sm font-medium">{item.title}</div>
+                                {item.description ? (
+                                  <p className="mt-1 text-xs leading-5 text-muted-foreground/80">{item.description}</p>
+                                ) : null}
+                              </Link>
+                            );
+                          })}
+                        </nav>
+                      </div>
+                    </React.Fragment>
                   ))}
                 </div>
               </div>
@@ -862,7 +877,7 @@ export default async function DocPage({ params }: DocPageProps) {
             </main>
 
             <aside className="hidden xl:block">
-              <div className="sticky top-24 space-y-4">
+              <div className="sticky top-24 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar pb-8">
                 <div className="rounded-2xl border border-border/60 bg-card/70 p-4 backdrop-blur-xl">
                   <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                     On this page

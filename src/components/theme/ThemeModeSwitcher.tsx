@@ -78,20 +78,28 @@ export default function ThemeModeSwitcher({ className }: ThemeModeSwitcherProps)
     setThemeMode(value as ThemeMode);
   };
 
+  const trigger = (
+    <Button
+      variant="outline"
+      size="icon"
+      className={cn(
+        "h-9 w-9 border-border/70 bg-card/70 text-foreground hover:bg-accent/60",
+        className
+      )}
+      aria-label="Switch theme mode"
+    >
+      <Icon className="h-4 w-4" />
+    </Button>
+  );
+
+  if (!mounted) {
+    return trigger;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className={cn(
-            "h-9 w-9 border-border/70 bg-card/70 text-foreground hover:bg-accent/60",
-            className
-          )}
-          aria-label="Switch theme mode"
-        >
-          <Icon className="h-4 w-4" />
-        </Button>
+        {trigger}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-36">
         <DropdownMenuRadioGroup value={mode} onValueChange={handleThemeChange}>
