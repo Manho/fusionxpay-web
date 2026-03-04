@@ -19,6 +19,7 @@ import {
 import ThemeModeSwitcher from "@/components/theme/ThemeModeSwitcher";
 import Architecture from "@/components/landing/Architecture";
 import PaymentFlow from "@/components/docs/PaymentFlow";
+import WebhookFlow from "@/components/docs/WebhookFlow";
 
 interface DocPageProps {
   params: Promise<{
@@ -584,6 +585,14 @@ export default async function DocPage({ params }: DocPageProps) {
         return (
           <div className="my-8 w-full overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-b from-background to-background/50">
             <PaymentFlow />
+          </div>
+        );
+      }
+
+      if (displayLang === "webhook-flow") {
+        return (
+          <div className="my-8 w-full overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-b from-background to-background/50">
+            <WebhookFlow />
           </div>
         );
       }

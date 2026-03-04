@@ -10,11 +10,7 @@ Webhooks allow FusionXPay to notify your application when payment status changes
 
 ## Webhook Flow
 
-```
-Payment Provider → FusionXPay → Your Webhook Endpoint
-                                     ↓
-                               Update Database
-                               Fulfill Order
+```webhook-flow
 ```
 
 ---
