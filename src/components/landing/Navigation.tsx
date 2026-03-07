@@ -31,8 +31,8 @@ export default function Navigation() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-lg bg-[#2563eb] flex items-center justify-center group-hover:glow-blue transition-all duration-300">
-            <span className="text-white font-bold text-base">F</span>
+          <div className="w-9 h-9 rounded-lg overflow-hidden flex items-center justify-center group-hover:glow-blue transition-all duration-300">
+            <img src="/logo.svg" alt="FusionXPay Logo" className="w-full h-full object-cover scale-[1.15]" />
           </div>
           <span className="text-foreground font-bold text-xl tracking-tight">
             FusionX<span className="text-[var(--cream)]">Pay</span>
