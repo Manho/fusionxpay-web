@@ -46,13 +46,13 @@ export default function Testimonials() {
     <section id="testimonials" className="py-24 relative">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#2d1ef5]/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#2563eb]/5 rounded-full blur-[120px]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-[#2d1ef5] text-sm font-medium uppercase tracking-wider">
+          <span className="text-[#2563eb] text-sm font-medium uppercase tracking-wider">
             Testimonials
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
@@ -70,7 +70,7 @@ export default function Testimonials() {
             <div
               key={t.name}
               className={`glass rounded-2xl p-6 hover-lift transition-all duration-300 ${
-                t.highlight ? "hover-glow border-[#2d1ef5]/20" : ""
+                t.highlight ? "hover-glow border-[#2563eb]/20" : ""
               }`}
             >
               {/* Stars */}
@@ -91,8 +91,8 @@ export default function Testimonials() {
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold"
                   style={{
-                    backgroundColor: t.highlight ? "#2d1ef520" : "#ffe9a920",
-                    color: t.highlight ? "#2d1ef5" : "#ffe9a9",
+                    backgroundColor: t.highlight ? "#2563eb20" : "#ffe9a920",
+                    color: t.highlight ? "#2563eb" : "#ffe9a9",
                   }}
                 >
                   {t.avatar}

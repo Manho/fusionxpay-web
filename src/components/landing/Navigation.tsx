@@ -31,7 +31,7 @@ export default function Navigation() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-lg bg-[#2d1ef5] flex items-center justify-center group-hover:glow-blue transition-all duration-300">
+          <div className="w-9 h-9 rounded-lg bg-[#2563eb] flex items-center justify-center group-hover:glow-blue transition-all duration-300">
             <span className="text-white font-bold text-base">F</span>
           </div>
           <span className="text-foreground font-bold text-xl tracking-tight">
@@ -125,7 +125,7 @@ export default function Navigation() {
             <Button variant="outline" className="w-full border-border/70 text-foreground" asChild>
               <Link href="/login">Sign In</Link>
             </Button>
-            <Button className="w-full bg-[#2d1ef5] hover:bg-[#4a3fff]" asChild>
+            <Button className="w-full bg-[#2563eb] hover:bg-[#3b82f6]" asChild>
               <Link href="/login">Get Started</Link>
             </Button>
           </div>

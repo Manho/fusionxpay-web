@@ -55,7 +55,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2.5 mb-6 group">
-              <div className="w-9 h-9 rounded-lg bg-[#2d1ef5] flex items-center justify-center group-hover:glow-blue transition-all duration-300">
+              <div className="w-9 h-9 rounded-lg bg-[#2563eb] flex items-center justify-center group-hover:glow-blue transition-all duration-300">
                 <span className="text-white font-bold text-base">F</span>
               </div>
               <span className="text-foreground font-bold text-xl tracking-tight">
@@ -72,7 +72,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="w-9 h-9 rounded-full glass flex items-center justify-center text-muted-foreground/80 hover:text-[#2d1ef5] hover:border-[#2d1ef5]/30 transition-all duration-300"
+                className="w-9 h-9 rounded-full glass flex items-center justify-center text-muted-foreground/80 hover:text-[#2563eb] hover:border-[#2563eb]/30 transition-all duration-300"
               >
                 <Github className="w-4 h-4" />
               </a>

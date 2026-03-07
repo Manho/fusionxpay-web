@@ -106,7 +106,7 @@ const STEPS: Step[] = [
 ];
 
 const TYPE_META: Record<Step["type"], { label: string; dot: string }> = {
-    sync: { label: "Sync", dot: "bg-[#2d1ef5]" },
+    sync: { label: "Sync", dot: "bg-[#2563eb]" },
     async: { label: "Async", dot: "bg-amber-500" },
     internal: { label: "Internal", dot: "bg-emerald-500" },
 };
@@ -160,10 +160,10 @@ export default function PaymentFlow() {
                                         <div
                                             className={`absolute inset-y-0 left-0 right-1 ${step.type === "async" || STEPS[i + 1].type === "async"
                                                 ? "border-t border-dashed border-amber-500/60"
-                                                : "border-t border-[#2d1ef5]/50"
+                                                : "border-t border-[#2563eb]/50"
                                                 }`}
                                         />
-                                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-[4px] border-l-[#2d1ef5]/50 border-y-[3px] border-y-transparent" />
+                                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-[4px] border-l-[#2563eb]/50 border-y-[3px] border-y-transparent" />
                                     </div>
                                 )}
 
@@ -173,14 +173,14 @@ export default function PaymentFlow() {
                                         className="hidden xl:flex absolute -bottom-5 right-1/2 translate-x-1/2 flex-col items-center z-10"
                                         style={{ opacity: 0.4 }}
                                     >
-                                        <div className="w-px h-2 bg-[#2d1ef5]/40" />
-                                        <div className="w-0 h-0 border-t-[4px] border-t-[#2d1ef5]/40 border-x-[3px] border-x-transparent" />
+                                        <div className="w-px h-2 bg-[#2563eb]/40" />
+                                        <div className="w-0 h-0 border-t-[4px] border-t-[#2563eb]/40 border-x-[3px] border-x-transparent" />
                                     </div>
                                 )}
 
                                 {/* Card */}
                                 <div
-                                    className="relative overflow-hidden rounded-xl h-full flex flex-col border border-border/60 bg-card/50 hover:border-[#2d1ef5]/30 backdrop-blur-sm p-4 transition-colors duration-200"
+                                    className="relative overflow-hidden rounded-xl h-full flex flex-col border border-border/60 bg-card/50 hover:border-[#2563eb]/30 backdrop-blur-sm p-4 transition-colors duration-200"
                                 >
 
                                     {/* Header: number badge + type tag */}
@@ -189,7 +189,7 @@ export default function PaymentFlow() {
                                             className={`
                                                 flex items-center justify-center w-7 h-7 rounded-lg text-xs font-bold
                                                 transition-all duration-300
-                                                bg-[#2d1ef5]/15 text-[#2d1ef5] dark:text-[#8f86ff]
+                                                bg-[#2563eb]/15 text-[#2563eb] dark:text-[#60a5fa]
                                             `}
                                         >
                                             {step.number}
@@ -238,7 +238,7 @@ export default function PaymentFlow() {
                 {/* Legend */}
                 <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 px-4 pb-4 text-[10px] text-muted-foreground/60">
                     <div className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2d1ef5]" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563eb]" />
                         <span>Sync Call</span>
                     </div>
                     <div className="flex items-center gap-1.5">

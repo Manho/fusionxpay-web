@@ -60,7 +60,7 @@ export default function Pricing() {
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#ffe9a9]/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#2d1ef5]/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#2563eb]/5 rounded-full blur-[120px]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -84,12 +84,12 @@ export default function Pricing() {
               key={plan.name}
               className={`relative glass rounded-2xl p-6 flex flex-col transition-all duration-300 hover-lift ${
                 plan.popular
-                  ? "border-[#2d1ef5]/50 glow-blue"
+                  ? "border-[#2563eb]/50 glow-blue"
                   : "hover-glow"
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#2d1ef5] to-[#6b5fff] text-white text-xs font-medium">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#2563eb] to-[#3b82f6] text-white text-xs font-medium">
                   Most Popular
                 </div>
               )}
@@ -108,7 +108,7 @@ export default function Pricing() {
                   <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Check
                       className="w-4 h-4 flex-shrink-0"
-                      style={{ color: plan.popular ? "#2d1ef5" : "#ffe9a9" }}
+                      style={{ color: plan.popular ? "#2563eb" : "#ffe9a9" }}
                     />
                     {f}
                   </li>
@@ -118,7 +118,7 @@ export default function Pricing() {
               <Button
                 className={`w-full ${
                   plan.popular
-                    ? "bg-[#2d1ef5] hover:bg-[#4a3fff] text-white"
+                    ? "bg-[#2563eb] hover:bg-[#3b82f6] text-white"
                     : "bg-transparent border border-border/70 text-foreground hover:bg-accent/70"
                 }`}
                 asChild

@@ -10,10 +10,10 @@ export default function CTA() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative max-w-4xl mx-auto">
           {/* Animated background blobs */}
-          <div className="absolute -top-20 -left-20 w-60 h-60 bg-[#2d1ef5]/30 rounded-full blur-[80px] animate-blob" />
-          <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-[#7b6fff]/20 rounded-full blur-[80px] animate-blob [animation-delay:2s]" />
+          <div className="absolute -top-20 -left-20 w-60 h-60 bg-[#2563eb]/30 rounded-full blur-[80px] animate-blob" />
+          <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-[#60a5fa]/20 rounded-full blur-[80px] animate-blob [animation-delay:2s]" />
 
-          <div className="relative glass rounded-3xl p-8 sm:p-12 lg:p-16 text-center border border-[#2d1ef5]/20 glow-blue">
+          <div className="relative glass rounded-3xl p-8 sm:p-12 lg:p-16 text-center border border-[#2563eb]/20 glow-blue">
             {/* Shimmer effect */}
             <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
               <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/5 to-transparent" />
@@ -30,7 +30,7 @@ export default function CTA() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative">
               <Button
                 size="lg"
-                className="bg-[#2d1ef5] hover:bg-[#4a3fff] text-white text-base px-8 group"
+                className="bg-[#2563eb] hover:bg-[#3b82f6] text-white text-base px-8 group"
                 asChild
               >
                 <Link href="/login">

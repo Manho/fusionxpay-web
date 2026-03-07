@@ -17,7 +17,7 @@ interface TechGroup {
 const techGroups: TechGroup[] = [
     {
         title: "Backend",
-        color: "#2d1ef5",
+        color: "#2563eb",
         items: [
             {
                 name: "Java 21",
@@ -59,7 +59,7 @@ const techGroups: TechGroup[] = [
     },
     {
         title: "Frontend",
-        color: "#2d1ef5",
+        color: "#2563eb",
         items: [
             {
                 name: "Next.js 16",
@@ -129,8 +129,8 @@ export default function TechStack() {
         <section id="tech-stack" className="py-24 relative">
             {/* Background */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#7b6fff]/5 rounded-full blur-[120px]" />
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#2d1ef5]/5 rounded-full blur-[120px]" />
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#60a5fa]/5 rounded-full blur-[120px]" />
+                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#2563eb]/5 rounded-full blur-[120px]" />
             </div>
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
