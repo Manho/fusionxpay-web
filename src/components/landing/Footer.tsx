@@ -54,10 +54,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="col-span-2">
-            <Link href="/" className="flex items-center gap-2.5 mb-6 group">
-              <div className="w-9 h-9 rounded-lg bg-[#2563eb] flex items-center justify-center group-hover:glow-blue transition-all duration-300">
-                <span className="text-white font-bold text-base">F</span>
-              </div>
+            <Link href="/" className="flex items-center mb-6 group">
               <span className="text-foreground font-bold text-xl tracking-tight">
                 FusionX<span className="text-[var(--cream)]">Pay</span>
               </span>
