@@ -16,42 +16,42 @@ const features = [
     title: "Multi-Channel Aggregation",
     description:
       "Integrate PayPal, Stripe, and 50+ payment providers through a single unified API endpoint.",
-    color: "#2d1ef5",
+    color: "#2563eb",
   },
   {
     icon: Zap,
     title: "Sub-300ms Latency",
     description:
       "Lightning-fast payment processing powered by our distributed microservices architecture.",
-    color: "#2d1ef5",
+    color: "#2563eb",
   },
   {
     icon: Shield,
     title: "Enterprise Security",
     description:
       "PCI DSS Level 1 compliant with end-to-end encryption, tokenization, and fraud detection.",
-    color: "#2d1ef5",
+    color: "#2563eb",
   },
   {
     icon: BarChart3,
     title: "Real-Time Analytics",
     description:
       "Monitor transactions, revenue, and success rates with our comprehensive admin dashboard.",
-    color: "#2d1ef5",
+    color: "#2563eb",
   },
   {
     icon: Lock,
     title: "Smart Routing",
     description:
       "Automatically route payments through the optimal provider based on cost, speed, and reliability.",
-    color: "#2d1ef5",
+    color: "#2563eb",
   },
   {
     icon: RefreshCw,
     title: "Webhook Notifications",
     description:
       "Real-time event-driven notifications via Kafka for payment status updates and order lifecycle.",
-    color: "#2d1ef5",
+    color: "#2563eb",
   },
 ];
 
@@ -83,13 +83,13 @@ export default function Features() {
     <section id="features" className="py-24 relative">
       {/* Background gradient */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#2d1ef5]/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#2563eb]/5 rounded-full blur-[120px]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-[#2d1ef5] text-sm font-medium uppercase tracking-wider">
+          <span className="text-[#2563eb] text-sm font-medium uppercase tracking-wider">
             Features
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">

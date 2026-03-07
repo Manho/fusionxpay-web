@@ -102,9 +102,9 @@ export default function Hero() {
       {/* Animated Background */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Gradient Orbs - Subdued for enterprise feel */}
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#2d1ef5]/5 rounded-full blur-[120px] animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#7b6fff]/2 rounded-full blur-[100px] animate-float-slow" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#2d1ef5]/2 rounded-full blur-[150px]" />
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#2563eb]/5 rounded-full blur-[120px] animate-float" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#60a5fa]/2 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#2563eb]/2 rounded-full blur-[150px]" />
 
         {/* Grid Pattern */}
         <div
@@ -124,7 +124,7 @@ export default function Hero() {
           <div className="space-y-8">
             {/* Badge */}
             <div
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#2d1ef5]/30 transition-all duration-1000 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#2563eb]/30 transition-all duration-1000 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
             >
               <Sparkles className="w-4 h-4 text-[var(--cream)]" />
@@ -159,7 +159,7 @@ export default function Hero() {
             >
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-[#2d1ef5] to-[#4a3fff] hover:from-[#3d2eff] hover:to-[#5a4fff] text-white px-8 py-6 text-lg rounded-xl group relative overflow-hidden shadow-[0_0_30px_rgba(45,30,245,0.3)] border border-[#4a3fff]/50 transition-all duration-300"
+                className="bg-gradient-to-r from-[#2563eb] to-[#3b82f6] hover:from-[#1d4ed8] hover:to-[#60a5fa] text-white px-8 py-6 text-lg rounded-xl group relative overflow-hidden shadow-[0_0_30px_rgba(37,99,235,0.3)] border border-[#3b82f6]/50 transition-all duration-300"
                 asChild
               >
                 <Link href="/login">
@@ -167,7 +167,7 @@ export default function Hero() {
                     Live Demo
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#4a3fff] to-[#2d1ef5] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               </Button>
               <Button
@@ -221,7 +221,7 @@ export default function Hero() {
               style={{ transformStyle: "preserve-3d" }}
             >
               {/* Glow Effect */}
-              <div className="absolute -inset-4 bg-[#2d1ef5]/30 rounded-3xl blur-2xl" />
+              <div className="absolute -inset-4 bg-[#2563eb]/30 rounded-3xl blur-2xl" />
 
               {/* Dashboard Card */}
               <div className="relative glass bg-slate-900/40 rounded-2xl overflow-hidden border border-white/10 shadow-2xl backdrop-blur-md">
@@ -240,9 +240,9 @@ export default function Hero() {
                 {/* Stats Grid */}
                 <div className="p-6 grid grid-cols-3 gap-4">
                   {[
-                    { icon: Shield, label: "Transactions", val: "12,847", color: "#2d1ef5" },
-                    { icon: Globe, label: "Revenue", val: "$2.4M", color: "#7b6fff" },
-                    { icon: Zap, label: "Success Rate", val: "99.2%", color: "#2d1ef5" },
+                    { icon: Shield, label: "Transactions", val: "12,847", color: "#2563eb" },
+                    { icon: Globe, label: "Revenue", val: "$2.4M", color: "#60a5fa" },
+                    { icon: Zap, label: "Success Rate", val: "99.2%", color: "#2563eb" },
                   ].map((item) => {
                     const Icon = item.icon;
                     return (
@@ -261,7 +261,7 @@ export default function Hero() {
                           className="flex-1 rounded-t-sm transition-all duration-300 hover:opacity-80"
                           style={{
                             height: `${h}%`,
-                            background: `linear-gradient(to top, #2d1ef5, #6b5fff)`,
+                            background: `linear-gradient(to top, #2563eb, #3b82f6)`,
                           }}
                         />
                       )
@@ -271,8 +271,8 @@ export default function Hero() {
               </div>
 
               {/* Floating Elements */}
-              <div className="absolute -top-6 -right-6 w-20 h-20 bg-[#7b6fff]/20 rounded-2xl backdrop-blur-xl border border-[#7b6fff]/30 animate-float" />
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#2d1ef5]/30 rounded-full backdrop-blur-xl border border-[#2d1ef5]/40 animate-float-slow animate-pulse-glow" />
+              <div className="absolute -top-6 -right-6 w-20 h-20 bg-[#60a5fa]/20 rounded-2xl backdrop-blur-xl border border-[#60a5fa]/30 animate-float" />
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#2563eb]/30 rounded-full backdrop-blur-xl border border-[#2563eb]/40 animate-float-slow animate-pulse-glow" />
             </div>
           </div>
         </div>

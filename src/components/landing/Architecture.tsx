@@ -51,13 +51,13 @@ export default function Architecture({ variant = "landing" }: { variant?: "landi
     return (
         <section id="architecture" className={variant === "landing" ? "py-24 relative" : "my-4 relative w-full"} ref={sectionRef}>
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#2d1ef5]/5 rounded-full blur-[150px]" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#2563eb]/5 rounded-full blur-[150px]" />
             </div>
 
             <div className={`relative z-10 ${variant === "landing" ? "container mx-auto px-4 sm:px-6 lg:px-8" : "w-full"}`}>
                 {variant === "landing" && (
                     <div className="text-center max-w-2xl mx-auto mb-12">
-                        <span className="text-[#2d1ef5] text-sm font-medium uppercase tracking-wider">
+                        <span className="text-[#2563eb] text-sm font-medium uppercase tracking-wider">
                             Architecture
                         </span>
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
@@ -92,11 +92,11 @@ export default function Architecture({ variant = "landing" }: { variant?: "landi
                             onMouseLeave={() => setHoveredNode(null)}
                         >
                             <rect x="240" y="56" width="400" height="56" rx="8"
-                                fill="rgba(45,30,245,0.08)" stroke="#7c4dff" strokeWidth="2" />
-                            <text x="440" y="82" textAnchor="middle" fontWeight="bold" fontSize="14" fill="#7c4dff">
+                                fill="rgba(37,99,235,0.08)" stroke="#2563eb" strokeWidth="2" />
+                            <text x="440" y="82" textAnchor="middle" fontWeight="bold" fontSize="14" fill="#2563eb">
                                 API Gateway
                             </text>
-                            <text x="440" y="100" textAnchor="middle" fontSize="11" fill="#9575cd">
+                            <text x="440" y="100" textAnchor="middle" fontSize="11" fill="#60a5fa">
                                 Rate Limiting · API Key Auth · RBAC
                             </text>
                             <text x="648" y="90" fontFamily="monospace" fontSize="10" className="fill-muted-foreground">
@@ -107,30 +107,30 @@ export default function Architecture({ variant = "landing" }: { variant?: "landi
                         {/* ==================== Gateway → Services arrows ==================== */}
                         {/* GW → Order */}
                         <line x1="320" y1="112" x2="120" y2="175"
-                            stroke="#5c6bc0" strokeWidth="1.5"
+                            stroke="#3b82f6" strokeWidth="1.5"
                             style={{ opacity: lineOpacity("gateway", "order"), transition: "opacity 0.3s" }} />
-                        <polygon points="124,170 116,170 120,179" fill="#5c6bc0"
+                        <polygon points="124,170 116,170 120,179" fill="#3b82f6"
                             style={{ opacity: lineOpacity("gateway", "order"), transition: "opacity 0.3s" }} />
 
                         {/* GW → Payment */}
                         <line x1="390" y1="112" x2="330" y2="175"
-                            stroke="#5c6bc0" strokeWidth="1.5"
+                            stroke="#3b82f6" strokeWidth="1.5"
                             style={{ opacity: lineOpacity("gateway", "payment"), transition: "opacity 0.3s" }} />
-                        <polygon points="334,170 326,170 330,179" fill="#5c6bc0"
+                        <polygon points="334,170 326,170 330,179" fill="#3b82f6"
                             style={{ opacity: lineOpacity("gateway", "payment"), transition: "opacity 0.3s" }} />
 
                         {/* GW → Admin */}
                         <line x1="490" y1="112" x2="540" y2="175"
-                            stroke="#5c6bc0" strokeWidth="1.5"
+                            stroke="#3b82f6" strokeWidth="1.5"
                             style={{ opacity: lineOpacity("gateway", "admin"), transition: "opacity 0.3s" }} />
-                        <polygon points="544,170 536,170 540,179" fill="#5c6bc0"
+                        <polygon points="544,170 536,170 540,179" fill="#3b82f6"
                             style={{ opacity: lineOpacity("gateway", "admin"), transition: "opacity 0.3s" }} />
 
                         {/* GW → Notification */}
                         <line x1="560" y1="112" x2="755" y2="175"
-                            stroke="#5c6bc0" strokeWidth="1.5"
+                            stroke="#3b82f6" strokeWidth="1.5"
                             style={{ opacity: lineOpacity("gateway", "notification"), transition: "opacity 0.3s" }} />
-                        <polygon points="759,170 751,170 755,179" fill="#5c6bc0"
+                        <polygon points="759,170 751,170 755,179" fill="#3b82f6"
                             style={{ opacity: lineOpacity("gateway", "notification"), transition: "opacity 0.3s" }} />
 
                         {/* ==================== Layer 2: Services ==================== */}
@@ -349,7 +349,7 @@ export default function Architecture({ variant = "landing" }: { variant?: "landi
                         >
                             <rect x="200" y="450" width="480" height="44" rx="8"
                                 fill="rgba(63,81,181,0.08)" stroke="#3f51b5" strokeWidth="1.5" />
-                            <text x="440" y="476" textAnchor="middle" fontWeight="bold" fontSize="12" fill="#5c6bc0">
+                            <text x="440" y="476" textAnchor="middle" fontWeight="bold" fontSize="12" fill="#3b82f6">
                                 Prometheus · Grafana · Loki · Promtail
                             </text>
                         </g>
@@ -366,7 +366,7 @@ export default function Architecture({ variant = "landing" }: { variant?: "landi
                     {/* Legend */}
                     <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-4 text-[10px] text-muted-foreground/60">
                         <div className="flex items-center gap-1.5">
-                            <div className="w-2.5 h-2.5 rounded border-2 border-[#7c4dff]" />
+                            <div className="w-2.5 h-2.5 rounded border-2 border-[#2563eb]" />
                             <span>Gateway</span>
                         </div>
                         <div className="flex items-center gap-1.5">

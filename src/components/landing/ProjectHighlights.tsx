@@ -17,7 +17,7 @@ const highlights = [
         label: "Microservices",
         description:
             "Independently deployable services with Spring Cloud Gateway, Eureka discovery, and Kafka event-driven communication.",
-        color: "#2d1ef5",
+        color: "#2563eb",
         tags: ["Spring Boot 3.2", "Spring Cloud", "REST API"],
     },
     {
@@ -26,7 +26,7 @@ const highlights = [
         label: "Tests",
         description:
             "Comprehensive test coverage with JUnit 5 unit tests, Testcontainers integration tests, WireMock provider simulation, Vitest, and Playwright E2E.",
-        color: "#2d1ef5",
+        color: "#2563eb",
         tags: ["Testcontainers", "WireMock", "Playwright"],
     },
     {
@@ -35,7 +35,7 @@ const highlights = [
         label: "Pull Requests",
         description:
             "Disciplined Git workflow with conventional commits, CI-gated merges, and code review across both frontend and backend repositories.",
-        color: "#2d1ef5",
+        color: "#2563eb",
         tags: ["GitHub Actions", "CI/CD", "Auto-deploy"],
     },
     {
@@ -44,7 +44,7 @@ const highlights = [
         label: "Uptime Target",
         description:
             "Production deployment on self-hosted infrastructure with Docker Compose, Cloudflare Tunnel, health checks, and automated rollback.",
-        color: "#2d1ef5",
+        color: "#2563eb",
         tags: ["Docker", "Cloudflare", "Rollback"],
     },
     {
@@ -53,7 +53,7 @@ const highlights = [
         label: "Payment Providers",
         description:
             "Full payment lifecycle with Stripe and PayPal: checkout, webhook-driven status updates, signature verification, and refunds.",
-        color: "#2d1ef5",
+        color: "#2563eb",
         tags: ["Stripe", "PayPal", "Webhooks"],
     },
     {
@@ -62,7 +62,7 @@ const highlights = [
         label: "Grafana Dashboards",
         description:
             "Built-in observability stack with Prometheus metrics, Grafana dashboards, Loki log aggregation, and Prometheus alerts.",
-        color: "#2d1ef5",
+        color: "#2563eb",
         tags: ["Prometheus", "Grafana", "Loki"],
     },
 ];
@@ -95,13 +95,13 @@ export default function ProjectHighlights() {
         <section id="highlights" className="py-24 relative">
             {/* Background */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#2d1ef5]/5 rounded-full blur-[120px]" />
+                <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#2563eb]/5 rounded-full blur-[120px]" />
             </div>
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto mb-16">
-                    <span className="text-[#2d1ef5] text-sm font-medium uppercase tracking-wider">
+                    <span className="text-[#2563eb] text-sm font-medium uppercase tracking-wider">
                         What I Built
                     </span>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">

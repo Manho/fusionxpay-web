@@ -53,7 +53,7 @@
   --card-foreground: oklch(0.23 0.02 265);
   --popover: oklch(0.995 0.002 255);
   --popover-foreground: oklch(0.23 0.02 265);
-  --primary: oklch(0.45 0.31 275);
+  --primary: oklch(0.55 0.22 255);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.95 0.075 85);
   --secondary-foreground: oklch(0.24 0.03 265);
@@ -64,7 +64,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.9 0.01 260);
   --input: oklch(0.9 0.01 260);
-  --ring: oklch(0.45 0.31 275);
+  --ring: oklch(0.55 0.22 255);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -72,24 +72,24 @@
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.985 0.004 255);
   --sidebar-foreground: oklch(0.23 0.02 265);
-  --sidebar-primary: oklch(0.45 0.31 275);
+  --sidebar-primary: oklch(0.55 0.22 255);
   --sidebar-primary-foreground: oklch(0.98 0 0);
   --sidebar-accent: oklch(0.94 0.02 265);
   --sidebar-accent-foreground: oklch(0.25 0.03 265);
   --sidebar-border: oklch(0.9 0.01 260);
-  --sidebar-ring: oklch(0.45 0.31 275);
+  --sidebar-ring: oklch(0.55 0.22 255);
 
-  --electric: #2d1ef5;
-  --electric-light: #6b5fff;
-  --cream: #7b6fff;
-  --cream-light: #a5a0ff;
+  --electric: #2563eb;
+  --electric-light: #3b82f6;
+  --cream: #60a5fa;
+  --cream-light: #93c5fd;
 
   --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(45, 30, 245, 0.1);
+  --glass-border: rgba(37, 99, 235, 0.1);
   --glass-dark-bg: rgba(255, 255, 255, 0.7);
-  --glass-dark-border: rgba(45, 30, 245, 0.12);
+  --glass-dark-border: rgba(37, 99, 235, 0.12);
   --grid-line: rgba(32, 41, 66, 0.08);
-  --scrollbar-track: #e8ebf5;
+  --scrollbar-track: #e0ecff;
   --selection-foreground: #fff;
 }
 
@@ -100,26 +100,26 @@
   --card-foreground: oklch(0.98 0 0);
   --popover: oklch(0.18 0.015 260);
   --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.45 0.31 275);
+  --primary: oklch(0.55 0.22 255);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.93 0.08 85);
   --secondary-foreground: oklch(0.14 0.01 260);
   --muted: oklch(0.25 0.02 260);
   --muted-foreground: oklch(0.65 0.02 260);
-  --accent: oklch(0.45 0.31 275);
+  --accent: oklch(0.55 0.22 255);
   --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.6 0.2 25);
   --border: oklch(0.28 0.02 260);
   --input: oklch(0.28 0.02 260);
-  --ring: oklch(0.45 0.31 275);
+  --ring: oklch(0.55 0.22 255);
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-dark-bg: rgba(0, 0, 0, 0.3);
   --glass-dark-border: rgba(255, 255, 255, 0.05);
   --grid-line: rgba(255, 255, 255, 0.12);
   --scrollbar-track: #161616;
-  --cream: #a5a0ff;
-  --cream-light: #c4bfff;
+  --cream: #93c5fd;
+  --cream-light: #bfdbfe;
 }
 
 /* ── Shiki dual-theme switching (defaultColor: 'light') ─────────────── */
@@ -151,7 +151,7 @@
 
 /* Landing page utilities */
 .text-gradient {
-  background: linear-gradient(135deg, #4338f5 0%, #7b6fff 50%, #a5a0ff 100%) !important;
+  background: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 50%, #93c5fd 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
@@ -159,7 +159,7 @@
 }
 
 .text-gradient-alt {
-  background: linear-gradient(135deg, #7b6fff 0%, #4338f5 100%) !important;
+  background: linear-gradient(135deg, #60a5fa 0%, #1d4ed8 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
@@ -179,15 +179,15 @@
 }
 
 .glow-blue {
-  box-shadow: 0 0 30px rgba(45, 30, 245, 0.15), 0 0 60px rgba(45, 30, 245, 0.08);
+  box-shadow: 0 0 30px rgba(37, 99, 235, 0.15), 0 0 60px rgba(37, 99, 235, 0.08);
 }
 
 .glow-blue-lg {
-  box-shadow: 0 0 40px rgba(45, 30, 245, 0.2), 0 0 80px rgba(45, 30, 245, 0.1);
+  box-shadow: 0 0 40px rgba(37, 99, 235, 0.2), 0 0 80px rgba(37, 99, 235, 0.1);
 }
 
 .glow-cream {
-  box-shadow: 0 0 30px rgba(123, 111, 255, 0.15), 0 0 60px rgba(123, 111, 255, 0.05);
+  box-shadow: 0 0 30px rgba(96, 165, 250, 0.15), 0 0 60px rgba(96, 165, 250, 0.05);
 }
 
 .hover-lift {
@@ -196,7 +196,7 @@
 
 .hover-lift:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(45, 30, 245, 0.08);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.08);
 }
 
 .hover-glow {
@@ -204,17 +204,17 @@
 }
 
 .hover-glow:hover {
-  box-shadow: 0 0 20px rgba(45, 30, 245, 0.1);
-  border-color: rgba(45, 30, 245, 0.25);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
+  border-color: rgba(37, 99, 235, 0.25);
 }
 
 /* Dark mode: restore stronger effects */
 .dark .glow-blue {
-  box-shadow: 0 0 40px rgba(45, 30, 245, 0.4), 0 0 80px rgba(45, 30, 245, 0.2);
+  box-shadow: 0 0 40px rgba(37, 99, 235, 0.4), 0 0 80px rgba(37, 99, 235, 0.2);
 }
 
 .dark .glow-blue-lg {
-  box-shadow: 0 0 60px rgba(45, 30, 245, 0.5), 0 0 100px rgba(45, 30, 245, 0.3);
+  box-shadow: 0 0 60px rgba(37, 99, 235, 0.5), 0 0 100px rgba(37, 99, 235, 0.3);
 }
 
 .dark .glow-cream {
@@ -222,12 +222,12 @@
 }
 
 .dark .hover-lift:hover {
-  box-shadow: 0 20px 40px rgba(45, 30, 245, 0.2);
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
 }
 
 .dark .hover-glow:hover {
-  box-shadow: 0 0 30px rgba(45, 30, 245, 0.3);
-  border-color: rgba(45, 30, 245, 0.5);
+  box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+  border-color: rgba(37, 99, 235, 0.5);
 }
 
 /* Animations */
@@ -279,11 +279,11 @@
 
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(45, 30, 245, 0.4);
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
   }
 
   50% {
-    box-shadow: 0 0 40px rgba(45, 30, 245, 0.8), 0 0 60px rgba(45, 30, 245, 0.4);
+    box-shadow: 0 0 40px rgba(37, 99, 235, 0.8), 0 0 60px rgba(37, 99, 235, 0.4);
   }
 }
 
@@ -428,7 +428,7 @@
 
 /* Selection Styling */
 ::selection {
-  background: rgba(45, 30, 245, 0.3);
+  background: rgba(37, 99, 235, 0.3);
   color: var(--selection-foreground);
 }
 
@@ -453,13 +453,13 @@ html {
 }
 
 .arch-node-gateway {
-  border-color: rgba(45, 30, 245, 0.5);
-  background: rgba(45, 30, 245, 0.06);
+  border-color: rgba(37, 99, 235, 0.5);
+  background: rgba(37, 99, 235, 0.06);
 }
 
 .arch-node-blue {
-  border-color: rgba(45, 30, 245, 0.4);
-  background: rgba(45, 30, 245, 0.04);
+  border-color: rgba(37, 99, 235, 0.4);
+  background: rgba(37, 99, 235, 0.04);
 }
 
 .arch-node-green {
