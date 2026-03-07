@@ -37,14 +37,14 @@ export default function Navigation() {
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+        <div className="hidden md:flex items-center gap-3 lg:gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noopener noreferrer" : undefined}
-              className="text-zinc-400 text-sm font-medium hover:text-white transition-colors relative group whitespace-nowrap"
+              className="text-zinc-400 text-[13px] lg:text-sm font-medium hover:text-white transition-colors relative group whitespace-nowrap"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-white/50 group-hover:w-full transition-all duration-300" />
@@ -53,30 +53,30 @@ export default function Navigation() {
         </div>
 
         {/* Desktop Controls (Theme & CTA) */}
-        <div className="hidden md:flex items-center gap-2 lg:gap-3 shrink-0">
+        <div className="hidden md:flex items-center gap-1.5 lg:gap-3 shrink-0 ml-2">
           <a
             href="https://github.com/Manho/FusionXPay"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors hidden lg:flex"
+            className="text-muted-foreground hover:text-foreground transition-colors hidden md:flex scale-90 lg:scale-100"
             aria-label="GitHub"
           >
-            <Github className="w-5 h-5" />
+            <Github className="w-4 h-4 lg:w-5 lg:h-5" />
           </a>
-          <div className="hidden lg:block">
+          <div className="hidden md:block scale-90 lg:scale-100">
             <ThemeModeSwitcher />
           </div>
           <Button
             variant="ghost"
             size="sm"
-            className="text-zinc-500 hover:text-zinc-300 font-medium tracking-wide transition-colors whitespace-nowrap"
+            className="text-zinc-500 hover:text-zinc-300 font-medium tracking-wide transition-colors whitespace-nowrap px-1.5 lg:px-3 text-[13px] lg:text-sm h-8 lg:h-9"
             asChild
           >
             <Link href="/login">Sign In</Link>
           </Button>
           <Button
             size="sm"
-            className="bg-white text-black hover:bg-zinc-200 transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] font-semibold tracking-wide border-0 whitespace-nowrap"
+            className="bg-white text-black hover:bg-zinc-200 transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] font-semibold tracking-wide border-0 whitespace-nowrap px-2.5 lg:px-4 text-[13px] lg:text-sm h-8 lg:h-9"
             asChild
           >
             <Link href="/login">Get Started</Link>
