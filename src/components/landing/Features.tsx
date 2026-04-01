@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import {
   Shield,
   Zap,
@@ -37,14 +37,14 @@ const features = [
     title: "AI Agent Operations",
     description:
       "Claude Desktop can discover 8 MCP tools to search payments, inspect orders, and prepare merchant-scoped actions.",
-    color: "#8b5cf6", // Violet to mix it up
+    color: "#2563eb",
   },
   {
     icon: ShieldAlert,
     title: "Human-in-the-Loop Safety",
     description:
       "Write flows return confirmation tokens first. No payment or refund executes until a human explicitly confirms it.",
-    color: "#8b5cf6",
+    color: "#2563eb",
   },
   {
     icon: ScrollText,
@@ -55,26 +55,32 @@ const features = [
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.7 } 
-  },
-};
-
 export default function Features() {
+  const [visibleItems, setVisibleItems] = useState<number[]>([]);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = Number(entry.target.getAttribute("data-index"));
+          if (entry.isIntersecting && !visibleItems.includes(index)) {
+            setVisibleItems((prev) => [...prev, index]);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    itemRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, [visibleItems]);
+
   return (
-    <section id="features" className="py-24 relative overflow-hidden">
+    <section id="features" className="py-24 relative">
       {/* Background gradient */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#2563eb]/5 rounded-full blur-[120px]" />
@@ -82,13 +88,7 @@ export default function Features() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <motion.div 
-          className="text-center max-w-2xl mx-auto mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
+        <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-[#2563eb] text-sm font-medium uppercase tracking-wider">
             Features
           </span>
@@ -100,26 +100,23 @@ export default function Features() {
             Built with Spring Boot microservices and Spring AI, designed for
             reliability at any scale.
           </p>
-        </motion.div>
+        </div>
 
         {/* Grid */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, idx) => {
             const Icon = feature.icon;
-            // Distinguish the glow color depending on the feature's color
-            const isViolet = feature.color === "#8b5cf6";
+            const isVisible = visibleItems.includes(idx);
             return (
-              <motion.div
+              <div
                 key={feature.title}
-                variants={itemVariants}
-                className="group glass rounded-2xl p-6 hover-lift transition-all duration-300 hover-glow cursor-default"
-                // Adding custom style inline variable for generic glow if wanted, but standard CSS works well
+                ref={(el) => { itemRefs.current[idx] = el; }}
+                data-index={idx}
+                className={`group glass rounded-2xl p-6 hover-lift hover-glow cursor-default transition-all duration-700 ${isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+                  }`}
+                style={{ transitionDelay: `${idx * 100}ms` }}
               >
                 <div
                   className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110"
@@ -133,10 +130,10 @@ export default function Features() {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

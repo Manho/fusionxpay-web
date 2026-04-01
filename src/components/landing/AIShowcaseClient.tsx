@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Bot, ShieldCheck, Terminal } from "lucide-react";
-import { TerminalWindow } from "@/components/ui/TerminalWindow";
 
 const featureCards = [
   {
@@ -77,9 +76,8 @@ export default function AIShowcaseClient({ tabs }: Props) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header section — always on top */}
         <div
-          className={`mb-10 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`mb-10 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
         >
           <span className="text-[#2563eb] text-sm font-medium uppercase tracking-[0.28em]">
             AI Integration
@@ -100,9 +98,8 @@ export default function AIShowcaseClient({ tabs }: Props) {
         <div className="grid items-start gap-8 lg:grid-cols-2 xl:gap-12">
           {/* Left: feature cards — horizontal on small, stacked on mobile */}
           <div
-            className={`transition-all duration-1000 delay-100 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`transition-all duration-1000 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
               {featureCards.map((feature, index) => {
@@ -112,9 +109,8 @@ export default function AIShowcaseClient({ tabs }: Props) {
                     key={feature.title}
                     className={`rounded-2xl border p-5 transition-all duration-700 hover:-translate-y-1 hover:shadow-lg
                       bg-white/60 dark:bg-white/5 border-slate-200/80 dark:border-[#2563eb]/10
-                      backdrop-blur-sm ${
-                      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                    }`}
+                      backdrop-blur-sm ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                      }`}
                     style={{ transitionDelay: `${index * 120 + 120}ms` }}
                   >
                     <div className="flex items-start gap-4">
@@ -138,9 +134,8 @@ export default function AIShowcaseClient({ tabs }: Props) {
 
           {/* Right: code/demo panel */}
           <div
-            className={`transition-all duration-1000 delay-200 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-            }`}
+            className={`transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+              }`}
           >
             <div className="glass rounded-[28px] p-5 shadow-2xl">
               <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -149,23 +144,32 @@ export default function AIShowcaseClient({ tabs }: Props) {
                     key={tab.id}
                     type="button"
                     onClick={() => setActiveTab(index)}
-                    className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
-                      activeTab === index
+                    className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${activeTab === index
                         ? "bg-[#2563eb] text-white shadow-[0_0_20px_rgba(37,99,235,0.35)]"
                         : "bg-white/5 text-muted-foreground hover:bg-accent/50 hover:text-foreground"
-                    }`}
+                      }`}
                   >
                     {tab.label}
                   </button>
                 ))}
               </div>
 
-              <TerminalWindow title={tabs[activeTab].label} className="min-h-[380px] shadow-none">
+              {/* Code block — theme-aware, matching HowItWorks style */}
+              <div className="overflow-hidden rounded-xl border border-border/60 shadow-xl">
+                <div className="flex items-center gap-2 border-b border-border/60 px-4 py-2 bg-muted/50">
+                  <div className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
+                  <div className="flex-1" />
+                  <span className="text-[10px] uppercase tracking-wider font-medium text-[#2563eb] dark:text-[#60a5fa]">
+                    {tabs[activeTab].label}
+                  </span>
+                </div>
                 <div
                   className="min-h-[380px] overflow-x-auto text-xs sm:text-sm [&_pre]:m-0 [&_pre]:px-4 [&_pre]:py-5"
                   dangerouslySetInnerHTML={{ __html: tabs[activeTab].highlightedCode }}
                 />
-              </TerminalWindow>
+              </div>
             </div>
           </div>
         </div>
