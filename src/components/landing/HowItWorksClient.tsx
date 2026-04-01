@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Code, Settings, Rocket } from "lucide-react";
+import { Bot, Code, Settings, Rocket } from "lucide-react";
 
-const iconMap = { Code, Settings, Rocket } as const;
+const iconMap = { Code, Settings, Bot, Rocket } as const;
 type IconName = keyof typeof iconMap;
 
 export interface HighlightedTab {
@@ -39,10 +39,10 @@ export default function HowItWorksClient({ tabs }: Props) {
                         How It Works
                     </span>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-                        Get Started in <span className="text-gradient">Three Steps</span>
+                        Get Started in <span className="text-gradient">Simple Steps</span>
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
-                        From integration to production in minutes, not months.
+                        From REST integration to AI-assisted operations in minutes, not months.
                     </p>
                 </div>
 

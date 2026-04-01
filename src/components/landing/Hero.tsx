@@ -1,60 +1,24 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Shield, Globe, Zap, Github } from "lucide-react";
+import { ArrowRight, Github, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-function useCountUp(target: string, duration: number = 1500, start: boolean = false) {
-  const [value, setValue] = useState("0");
-  const hasNumber = /\d/.test(target);
-
-  const animate = useCallback(() => {
-    if (!hasNumber || !start) {
-      if (start) setValue(target);
-      return;
-    }
-    const numMatch = target.match(/([\d,.]+)/);
-    if (!numMatch) { setValue(target); return; }
-    const numStr = numMatch[1].replace(/,/g, "");
-    const endVal = parseFloat(numStr);
-    const prefix = target.slice(0, target.indexOf(numMatch[1]));
-    const suffix = target.slice(target.indexOf(numMatch[1]) + numMatch[1].length);
-    const hasComma = numMatch[1].includes(",");
-    const hasDecimal = numMatch[1].includes(".");
-    const decimalPlaces = hasDecimal ? numMatch[1].split(".")[1].length : 0;
-    const startTime = performance.now();
-
-    const step = (now: number) => {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = eased * endVal;
-      let formatted: string;
-      if (hasDecimal) {
-        formatted = current.toFixed(decimalPlaces);
-      } else {
-        formatted = Math.round(current).toString();
-      }
-      if (hasComma) {
-        formatted = Number(formatted).toLocaleString();
-      }
-      setValue(prefix + formatted + suffix);
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [target, duration, hasNumber, start]);
-
-  useEffect(() => {
-    const id = requestAnimationFrame(() => { animate(); });
-    return () => cancelAnimationFrame(id);
-  }, [animate]);
-  return value;
-}
-
 const stats = [
-  { value: "99.9%", label: "Uptime SLA" },
-  { value: "<300ms", label: "Avg Latency" },
-  { value: "6", label: "Microservices" },
+  { value: "8", label: "MCP Tools" },
+  { value: "4", label: "Safety Layers" },
+  { value: "11", label: "CLI Commands" },
+];
+
+const terminalLines = [
+  { tone: "text-zinc-400", text: "> search_payments(status: \"SUCCESS\", from: \"2026-03-01\")" },
+  { tone: "text-emerald-400", text: "✓ Found 3 payments for merchant M-123" },
+  { tone: "text-zinc-400", text: "> refund_payment(transactionId: \"PAY-2026-001\", amount: \"50.00\")" },
+  { tone: "text-amber-300", text: "⚠ CONFIRMATION_REQUIRED" },
+  { tone: "text-zinc-500", text: "  Token: cfm_xxx  Expires: 5 min" },
+  { tone: "text-zinc-400", text: "> confirm_action(token: \"cfm_xxx\")" },
+  { tone: "text-emerald-400", text: "✓ Refund processed -> USD 50.00" },
 ];
 
 export default function Hero() {
@@ -129,7 +93,7 @@ export default function Hero() {
             >
               <Sparkles className="w-4 h-4 text-[var(--cream)]" />
               <span className="text-sm text-muted-foreground">
-                Next-Gen Payment Infrastructure
+                AI-Native Payment Infrastructure
               </span>
             </div>
 
@@ -138,7 +102,7 @@ export default function Hero() {
               className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight transition-all duration-1000 delay-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-              <span className="text-foreground">Unified Payments,</span>
+              <span className="text-foreground">AI-Powered Payments,</span>
               <br />
               <span className="text-gradient">Infinite Possibilities</span>
             </h1>
@@ -148,8 +112,10 @@ export default function Hero() {
               className={`text-lg sm:text-xl text-zinc-400 max-w-lg leading-loose tracking-wide transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-              Aggregate PayPal, Stripe, and more payment channels through a single
-              API. Built with Spring Boot microservices, designed for scale.
+              Operate your payment platform through AI agents, CLI, or API. The
+              FusionXPay MCP Server connects Claude Desktop directly to merchant
+              payment operations with confirmation gates, JWT isolation, and a
+              full Kafka-backed audit trail.
             </p>
 
             {/* CTA Buttons */}
@@ -210,7 +176,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column - Dashboard Preview */}
+          {/* Right Column - MCP Preview */}
           <div
             className={`relative transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
               }`}
@@ -223,7 +189,7 @@ export default function Hero() {
               {/* Glow Effect */}
               <div className="absolute -inset-4 bg-[#2563eb]/30 rounded-3xl blur-2xl" />
 
-              {/* Dashboard Card */}
+              {/* Terminal Card */}
               <div className="relative glass bg-slate-900/40 rounded-2xl overflow-hidden border border-white/10 shadow-2xl backdrop-blur-md">
                 {/* Browser Bar */}
                 <div className="p-4 border-b border-border/60 flex items-center gap-2">
@@ -232,40 +198,49 @@ export default function Hero() {
                   <div className="w-3 h-3 rounded-full bg-green-500/60" />
                   <div className="flex-1 mx-4">
                     <div className="h-6 bg-white/5 border border-white/5 rounded-md max-w-md mx-auto flex items-center justify-center text-[11px] tracking-widest text-zinc-400">
-                      dashboard.fusionx.fun
+                      mcp.fusionx.fun
                     </div>
                   </div>
                 </div>
 
-                {/* Stats Grid */}
-                <div className="p-6 grid grid-cols-3 gap-4">
-                  {[
-                    { icon: Shield, label: "Transactions", val: "12,847", color: "#2563eb" },
-                    { icon: Globe, label: "Revenue", val: "$2.4M", color: "#60a5fa" },
-                    { icon: Zap, label: "Success Rate", val: "99.2%", color: "#2563eb" },
-                  ].map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <DashboardStatCard key={item.label} icon={Icon} label={item.label} val={item.val} color={item.color} isLoaded={isLoaded} />
-                    );
-                  })}
-                </div>
+                <div className="space-y-5 p-6">
+                  <div className="rounded-2xl border border-white/10 bg-slate-950/65 p-5 font-mono text-sm leading-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+                    {terminalLines.map((line, index) => (
+                      <div
+                        key={line.text}
+                        className={`${line.tone} transition-all duration-700 ${
+                          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+                        }`}
+                        style={{ transitionDelay: `${500 + index * 120}ms` }}
+                      >
+                        {line.text}
+                      </div>
+                    ))}
+                  </div>
 
-                {/* Chart */}
-                <div className="px-6 pb-6">
-                  <div className="h-32 bg-white/5 border border-white/5 rounded-xl flex items-end justify-around px-4 pb-4 gap-2">
-                    {[40, 65, 45, 80, 55, 70, 90, 60, 75, 85, 50, 95].map(
-                      (h, i) => (
-                        <div
-                          key={i}
-                          className="flex-1 rounded-t-sm transition-all duration-300 hover:opacity-80"
-                          style={{
-                            height: `${h}%`,
-                            background: `linear-gradient(to top, #2563eb, #3b82f6)`,
-                          }}
-                        />
-                      )
-                    )}
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="glass rounded-xl border border-[#2563eb]/20 p-4">
+                      <div className="text-[11px] uppercase tracking-[0.24em] text-[#60a5fa]">
+                        Merchant Scope
+                      </div>
+                      <div className="mt-2 text-lg font-semibold text-white">
+                        {"JWT -> X-Merchant-Id"}
+                      </div>
+                      <p className="mt-1 text-sm text-zinc-400">
+                        Gateway-enforced isolation keeps tools tied to the active merchant context.
+                      </p>
+                    </div>
+                    <div className="glass rounded-xl border border-[#2563eb]/20 p-4">
+                      <div className="text-[11px] uppercase tracking-[0.24em] text-[#60a5fa]">
+                        Audit Trail
+                      </div>
+                      <div className="mt-2 text-lg font-semibold text-white">
+                        {"Kafka -> Admin Service"}
+                      </div>
+                      <p className="mt-1 text-sm text-zinc-400">
+                        MCP and CLI actions share one audit contract and land in the same persistence flow.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -281,24 +256,5 @@ export default function Hero() {
       {/* Bottom Gradient Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
-  );
-}
-
-function DashboardStatCard({ icon: Icon, label, val, color, isLoaded }: {
-  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
-  label: string;
-  val: string;
-  color: string;
-  isLoaded: boolean;
-}) {
-  const animatedVal = useCountUp(val, 1800, isLoaded);
-  return (
-    <div className="glass rounded-xl p-4 text-center hover-glow cursor-default">
-      <Icon className="w-5 h-5 mx-auto mb-2" style={{ color }} />
-      <div className="text-lg sm:text-xl font-bold text-foreground">
-        {animatedVal}
-      </div>
-      <div className="text-xs text-muted-foreground/80">{label}</div>
-    </div>
   );
 }

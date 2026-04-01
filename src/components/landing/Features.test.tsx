@@ -40,7 +40,8 @@ describe('Features', () => {
     expect(screen.getByText(/multi-channel aggregation/i)).toBeInTheDocument()
     expect(screen.getByText(/sub-300ms latency/i)).toBeInTheDocument()
     expect(screen.getByText(/enterprise security/i)).toBeInTheDocument()
-    expect(screen.getByText(/webhook notifications/i)).toBeInTheDocument()
+    expect(screen.getByText(/ai agent operations/i)).toBeInTheDocument()
+    expect(screen.getByText(/full audit pipeline/i)).toBeInTheDocument()
   })
 
   it('registers intersection observers for feature cards', () => {

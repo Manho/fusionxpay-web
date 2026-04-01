@@ -2,6 +2,7 @@ import Navigation from "@/components/landing/Navigation";
 import Hero from "@/components/landing/Hero";
 import LogoMarquee from "@/components/landing/LogoMarquee";
 import Features from "@/components/landing/Features";
+import AIShowcase from "@/components/landing/AIShowcase";
 import Architecture from "@/components/landing/Architecture";
 import HowItWorks from "@/components/landing/HowItWorks";
 import ProjectHighlights from "@/components/landing/ProjectHighlights";
@@ -16,6 +17,7 @@ export default function Home() {
       <Hero />
       <LogoMarquee />
       <Features />
+      <AIShowcase />
       <Architecture />
       <HowItWorks />
       <ProjectHighlights />

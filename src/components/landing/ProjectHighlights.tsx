@@ -2,68 +2,68 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-    GitBranch,
-    TestTubeDiagonal,
+    Bot,
     Server,
-    Activity,
     Shield,
-    Layers,
+    ShieldCheck,
+    Terminal,
+    ScrollText,
 } from "lucide-react";
 
 const highlights = [
     {
-        icon: Layers,
-        stat: "6",
-        label: "Microservices",
-        description:
-            "Independently deployable services with Spring Cloud Gateway, Eureka discovery, and Kafka event-driven communication.",
-        color: "#2563eb",
-        tags: ["Spring Boot 3.2", "Spring Cloud", "REST API"],
-    },
-    {
-        icon: TestTubeDiagonal,
-        stat: "150+",
-        label: "Tests",
-        description:
-            "Comprehensive test coverage with JUnit 5 unit tests, Testcontainers integration tests, WireMock provider simulation, Vitest, and Playwright E2E.",
-        color: "#2563eb",
-        tags: ["Testcontainers", "WireMock", "Playwright"],
-    },
-    {
-        icon: GitBranch,
-        stat: "40+",
-        label: "Pull Requests",
-        description:
-            "Disciplined Git workflow with conventional commits, CI-gated merges, and code review across both frontend and backend repositories.",
-        color: "#2563eb",
-        tags: ["GitHub Actions", "CI/CD", "Auto-deploy"],
-    },
-    {
         icon: Server,
-        stat: "99.9%",
-        label: "Uptime Target",
+        stat: "5",
+        label: "Core Services",
         description:
-            "Production deployment on self-hosted infrastructure with Docker Compose, Cloudflare Tunnel, health checks, and automated rollback.",
+            "API Gateway, admin-service, order-service, payment-service, and notification-service remain the backend core behind the AI layer.",
         color: "#2563eb",
-        tags: ["Docker", "Cloudflare", "Rollback"],
+        tags: ["Spring Boot 3.5", "Spring Cloud", "JWT"],
+    },
+    {
+        icon: Bot,
+        stat: "8",
+        label: "MCP Tools",
+        description:
+            "Merchant-scoped MCP tools cover payments, orders, confirmation flows, and safe read/write operations over stdio.",
+        color: "#2563eb",
+        tags: ["Spring AI", "Claude Desktop", "stdio"],
+    },
+    {
+        icon: Terminal,
+        stat: "11",
+        label: "CLI Commands",
+        description:
+            "The AI CLI mirrors the MCP surface with auth, order, payment, refund, and confirm flows backed by the same gateway contracts.",
+        color: "#2563eb",
+        tags: ["Picocli", "Merchant Scope", "Shared DTOs"],
+    },
+    {
+        icon: ShieldCheck,
+        stat: "4",
+        label: "Safety Layers",
+        description:
+            "Input validation, structural tool constraints, gateway isolation, and output redaction keep AI-facing actions within safe boundaries.",
+        color: "#2563eb",
+        tags: ["AOP", "Confirmation Gate", "Redaction"],
     },
     {
         icon: Shield,
         stat: "2",
         label: "Payment Providers",
         description:
-            "Full payment lifecycle with Stripe and PayPal: checkout, webhook-driven status updates, signature verification, and refunds.",
+            "Stripe and PayPal flows cover initiation, webhook-driven lifecycle updates, and guarded refund operations.",
         color: "#2563eb",
-        tags: ["Stripe", "PayPal", "Webhooks"],
+        tags: ["Stripe", "PayPal", "Refunds"],
     },
     {
-        icon: Activity,
-        stat: "5",
-        label: "Grafana Dashboards",
+        icon: ScrollText,
+        stat: "1",
+        label: "Audit Pipeline",
         description:
-            "Built-in observability stack with Prometheus metrics, Grafana dashboards, Loki log aggregation, and Prometheus alerts.",
+            "CLI and MCP operations publish a shared audit schema to Kafka, then Admin Service persists the records for end-to-end traceability.",
         color: "#2563eb",
-        tags: ["Prometheus", "Grafana", "Loki"],
+        tags: ["Kafka", "Admin Service", "ai-audit-log"],
     },
 ];
 
@@ -108,8 +108,8 @@ export default function ProjectHighlights() {
                         Project <span className="text-gradient">Highlights</span>
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
-                        Key engineering achievements and design decisions that make
-                        FusionXPay production-ready.
+                        Key engineering decisions behind the payment platform, AI
+                        interface layer, and safety model shown on this site.
                     </p>
                 </div>
 

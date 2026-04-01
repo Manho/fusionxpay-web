@@ -7,6 +7,7 @@ Welcome to FusionXPay! This guide will help you integrate payment processing int
 FusionXPay is an open-source payment gateway that provides a unified API for processing payments across multiple payment providers. Built with modern microservices architecture, it offers:
 
 - **Unified API** - One integration for multiple payment providers
+- **AI-Native Operations** - Merchant-scoped MCP tools and CLI workflows
 - **Real-time Webhooks** - Get instant payment status updates
 - **Admin Dashboard** - Monitor and manage transactions
 - **Developer-Friendly** - RESTful API with comprehensive documentation
@@ -25,7 +26,10 @@ Learn the core concepts and API fundamentals.
 ### 3. [Webhooks](./webhooks.md)
 Handle payment callbacks and status updates.
 
-### 4. [FAQ](./faq.md)
+### 4. [AI Quick Start](./ai-quick-start.md)
+Connect Claude Desktop or the FusionXPay CLI using the same merchant credentials.
+
+### 5. [FAQ](./faq.md)
 Common questions and troubleshooting.
 
 ---
@@ -36,10 +40,10 @@ Common questions and troubleshooting.
 // Create a payment order
 const response = await fetch('https://api.fusionx.fun/api/v1/orders', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer YOUR_API_KEY'
-  },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer YOUR_JWT_TOKEN'
+    },
   body: JSON.stringify({
     merchantOrderId: 'ORDER-001',
     amount: 99.99,

@@ -8,6 +8,7 @@ import ThemeModeSwitcher from "@/components/theme/ThemeModeSwitcher";
 
 const navLinks = [
   { label: "Features", href: "#features" },
+  { label: "AI Integration", href: "#ai-showcase" },
   { label: "Architecture", href: "#architecture" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "Documentation", href: "/docs", external: false },

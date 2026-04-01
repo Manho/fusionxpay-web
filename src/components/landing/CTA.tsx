@@ -24,8 +24,9 @@ export default function CTA() {
               <span className="text-gradient">Transform Your Payments</span>?
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed relative">
-              Join hundreds of businesses already using FusionXPay to simplify
-              their payment infrastructure. Get started in minutes.
+              Start building with AI-powered payment operations. Connect Claude
+              Desktop or use the CLI, from the first tool call to a live merchant
+              workflow in minutes.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative">
               <Button
@@ -44,7 +45,7 @@ export default function CTA() {
                 className="border-border/70 text-foreground hover:bg-accent/70 text-base px-8"
                 asChild
               >
-                <a href="#pricing">View Pricing</a>
+                <Link href="/docs/user-guide/ai-quick-start">AI Quick Start</Link>
               </Button>
             </div>
           </div>

@@ -27,7 +27,7 @@ describe('Hero', () => {
   it('renders main hero content and CTAs', () => {
     render(<Hero />)
 
-    expect(screen.getByText(/unified payments,/i)).toBeInTheDocument()
+    expect(screen.getByText(/ai-powered payments,/i)).toBeInTheDocument()
     expect(screen.getByText(/infinite possibilities/i)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /live demo/i })).toHaveAttribute('href', '/login')
     expect(screen.getByRole('link', { name: /github/i })).toBeInTheDocument()
@@ -36,9 +36,8 @@ describe('Hero', () => {
   it('renders key platform stats', () => {
     render(<Hero />)
 
-    // Stats render with initial value 0 before animation
-    expect(screen.getAllByText(/uptime/i).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/latency/i).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(/microservices/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/mcp tools/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/safety layers/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/cli commands/i).length).toBeGreaterThan(0)
   })
 })

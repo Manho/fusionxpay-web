@@ -23,6 +23,7 @@ describe('Navigation', () => {
     render(<Navigation />)
 
     expect(screen.getAllByRole('link', { name: 'Features' }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: 'AI Integration' }).length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: 'How It Works' }).length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: 'Architecture' }).length).toBeGreaterThan(0)
     expect(screen.getAllByRole('link', { name: 'Documentation' }).length).toBeGreaterThan(0)

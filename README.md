@@ -5,7 +5,7 @@
 <h1 align="center"><a href="https://fusionx.fun/">FusionXPay Frontend</a></h1>
 
 <p align="center">
-  <strong>Next.js application powering the FusionXPay platform — landing page, admin dashboard, order management, and embedded documentation in one codebase.</strong>
+  <strong>Next.js application powering the FusionXPay platform — AI-native landing page, admin dashboard, order management, and embedded documentation in one codebase.</strong>
 </p>
 
 <p align="center">
@@ -22,17 +22,17 @@
 
 This single Next.js codebase ships everything users and operators see: the public landing page, authentication, merchant dashboard, order management, and a built-in docs viewer.
 
-Having everything in one place means shared design tokens, a single deployment pipeline, and consistent branding — while public pages and protected admin routes remain cleanly separated.
+Having everything in one place means shared design tokens, a single deployment pipeline, and consistent branding, while public pages, protected admin routes, and AI integration docs remain cleanly separated.
 
 ## What's Inside
 
 | Surface | Routes | What it does |
 |---------|--------|--------------|
-| Landing page | `/` | Product overview, animated architecture diagrams, feature highlights |
+| Landing page | `/` | Product overview, AI showcase, architecture diagrams, feature highlights |
 | Authentication | `/login`, `/register` | JWT-based login with protected route middleware |
 | Dashboard | `/dashboard` | Merchant and transaction overview with real-time stats |
 | Orders | `/orders`, `/orders/[id]` | Filterable table, status badges, detail drill-down with JSON viewer |
-| Docs | `/docs` | Embedded documentation reader (mirrors backend architecture docs) |
+| Docs | `/docs` | Embedded documentation reader for backend architecture and AI integration |
 
 ## Quick Start
 
