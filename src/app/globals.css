@@ -122,11 +122,22 @@
   --cream-light: #bfdbfe;
 }
 
-/* ── Shiki overrides ─────────────── */
+/* ── Shiki dual-theme switching (defaultColor: 'light') ─────────────── */
 .shiki {
   background-color: transparent !important;
 }
 
+.dark .shiki {
+  background-color: transparent !important;
+  color: var(--shiki-dark) !important;
+}
+
+.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
 
 @layer base {
   * {
@@ -175,14 +186,6 @@
   box-shadow: 0 0 40px rgba(37, 99, 235, 0.2), 0 0 80px rgba(37, 99, 235, 0.1);
 }
 
-.glow-violet {
-  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15), 0 0 60px rgba(139, 92, 246, 0.08);
-}
-
-.glow-violet-lg {
-  box-shadow: 0 0 40px rgba(139, 92, 246, 0.2), 0 0 80px rgba(139, 92, 246, 0.1);
-}
-
 .glow-cream {
   box-shadow: 0 0 30px rgba(96, 165, 250, 0.15), 0 0 60px rgba(96, 165, 250, 0.05);
 }
@@ -212,14 +215,6 @@
 
 .dark .glow-blue-lg {
   box-shadow: 0 0 60px rgba(37, 99, 235, 0.5), 0 0 100px rgba(37, 99, 235, 0.3);
-}
-
-.dark .glow-violet {
-  box-shadow: 0 0 40px rgba(139, 92, 246, 0.4), 0 0 80px rgba(139, 92, 246, 0.2);
-}
-
-.dark .glow-violet-lg {
-  box-shadow: 0 0 60px rgba(139, 92, 246, 0.5), 0 0 100px rgba(139, 92, 246, 0.3);
 }
 
 .dark .glow-cream {

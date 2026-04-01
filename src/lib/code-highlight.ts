@@ -29,7 +29,7 @@ let highlighterPromise: Promise<Highlighter> | null = null;
 function getHighlighter(): Promise<Highlighter> {
     if (!highlighterPromise) {
         highlighterPromise = createHighlighter({
-            themes: ["github-dark"],
+            themes: ["github-light", "github-dark"],
             langs: [...SUPPORTED_LANGS],
         });
     }
@@ -47,8 +47,14 @@ function normalizeLang(lang: string): SupportedLang {
 }
 
 /**
- * Highlight a code string with Shiki using a forced dark theme (github-dark).
- * This ensures consistent high-contrast terminal presentation across light/dark modes.
+ * Highlight a code string with Shiki using dual themes (github-light + github-dark).
+ *
+ * defaultColor: 'light' → Shiki writes github-light colors directly as inline style="color: #xxx"
+ * on every token span, so light mode always renders correctly without extra CSS.
+ * It also emits --shiki-dark CSS variables on each span.
+ *
+ * Our globals.css then overrides `.dark .shiki span { color: var(--shiki-dark) !important }` to
+ * switch to the dark palette when the .dark class is present.
  */
 export async function highlightCode(
     code: string,
@@ -57,6 +63,10 @@ export async function highlightCode(
     const highlighter = await getHighlighter();
     return highlighter.codeToHtml(code, {
         lang: normalizeLang(lang),
-        theme: "github-dark",
+        themes: {
+            light: "github-light",
+            dark: "github-dark",
+        },
+        defaultColor: "light", // Light colors as default inline style; dark via CSS vars
     });
 }
