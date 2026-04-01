@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Bot, ShieldCheck, Terminal } from "lucide-react";
+import { TerminalWindow } from "@/components/ui/TerminalWindow";
 
 const featureCards = [
   {
@@ -47,7 +48,7 @@ export default function AIShowcaseClient({ tabs }: Props) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
 
     if (sectionRef.current) {
@@ -74,39 +75,50 @@ export default function AIShowcaseClient({ tabs }: Props) {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12">
+        {/* Header section — always on top */}
+        <div
+          className={`mb-10 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          <span className="text-[#2563eb] text-sm font-medium uppercase tracking-[0.28em]">
+            AI Integration
+          </span>
+          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+            Your Payment Platform,
+            <br />
+            <span className="text-gradient">Now AI-Native</span>
+          </h2>
+          <p className="mt-5 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
+            Connect Claude Desktop, automate merchant tasks with the CLI, or
+            wire AI agents into the same payment surface. Every operation stays
+            merchant-scoped, confirmation-gated, and fully audited.
+          </p>
+        </div>
+
+        {/* Two-column layout with proper responsive behavior */}
+        <div className="grid items-start gap-8 lg:grid-cols-2 xl:gap-12">
+          {/* Left: feature cards — horizontal on small, stacked on mobile */}
           <div
-            className={`transition-all duration-1000 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            className={`transition-all duration-1000 delay-100 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <span className="text-[#2563eb] text-sm font-medium uppercase tracking-[0.28em]">
-              AI Integration
-            </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-              Your Payment Platform,
-              <br />
-              <span className="text-gradient">Now AI-Native</span>
-            </h2>
-            <p className="mt-5 max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Connect Claude Desktop, automate merchant tasks with the CLI, or
-              wire AI agents into the same payment surface. Every operation stays
-              merchant-scoped, confirmation-gated, and fully audited.
-            </p>
-
-            <div className="mt-8 space-y-4">
+            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
               {featureCards.map((feature, index) => {
                 const Icon = feature.icon;
                 return (
                   <div
                     key={feature.title}
-                    className={`glass hover-lift rounded-2xl border border-[#2563eb]/10 p-5 transition-all duration-700 ${
+                    className={`rounded-2xl border p-5 transition-all duration-700 hover:-translate-y-1 hover:shadow-lg
+                      bg-white/60 dark:bg-white/5 border-slate-200/80 dark:border-[#2563eb]/10
+                      backdrop-blur-sm ${
                       isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                     }`}
                     style={{ transitionDelay: `${index * 120 + 120}ms` }}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#2563eb]/10 text-[#2563eb]">
+                      <div className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#2563eb]/10 text-[#2563eb]">
                         <Icon className="h-5 w-5" />
                       </div>
                       <div>
@@ -124,12 +136,13 @@ export default function AIShowcaseClient({ tabs }: Props) {
             </div>
           </div>
 
+          {/* Right: code/demo panel */}
           <div
-            className={`transition-all duration-1000 delay-150 ${
+            className={`transition-all duration-1000 delay-200 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             }`}
           >
-            <div className="glass rounded-[28px] border border-white/10 bg-slate-900/40 p-5 shadow-2xl backdrop-blur-xl">
+            <div className="glass rounded-[28px] p-5 shadow-2xl">
               <div className="mb-4 flex flex-wrap items-center gap-2">
                 {tabs.map((tab, index) => (
                   <button
@@ -139,7 +152,7 @@ export default function AIShowcaseClient({ tabs }: Props) {
                     className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
                       activeTab === index
                         ? "bg-[#2563eb] text-white shadow-[0_0_20px_rgba(37,99,235,0.35)]"
-                        : "bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-white"
+                        : "bg-white/5 text-muted-foreground hover:bg-accent/50 hover:text-foreground"
                     }`}
                   >
                     {tab.label}
@@ -147,20 +160,12 @@ export default function AIShowcaseClient({ tabs }: Props) {
                 ))}
               </div>
 
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-950/70">
-                <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-                  <div className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-green-500/70" />
-                  <div className="ml-auto text-[10px] uppercase tracking-[0.28em] text-[#60a5fa]">
-                    {tabs[activeTab].label}
-                  </div>
-                </div>
+              <TerminalWindow title={tabs[activeTab].label} className="min-h-[380px] shadow-none">
                 <div
-                  className="min-h-[420px] overflow-x-auto text-xs sm:text-sm [&_pre]:m-0 [&_pre]:px-4 [&_pre]:py-5 [&_.shiki]:min-h-[420px] [&_.shiki]:bg-transparent!"
+                  className="min-h-[380px] overflow-x-auto text-xs sm:text-sm [&_pre]:m-0 [&_pre]:px-4 [&_pre]:py-5"
                   dangerouslySetInnerHTML={{ __html: tabs[activeTab].highlightedCode }}
                 />
-              </div>
+              </TerminalWindow>
             </div>
           </div>
         </div>

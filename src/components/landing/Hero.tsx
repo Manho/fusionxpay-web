@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Github, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { TerminalWindow } from "@/components/ui/TerminalWindow";
 
 const stats = [
   { value: "8", label: "MCP Tools" },
@@ -12,62 +14,46 @@ const stats = [
 ];
 
 const terminalLines = [
-  { tone: "text-zinc-400", text: "> search_payments(status: \"SUCCESS\", from: \"2026-03-01\")" },
-  { tone: "text-emerald-400", text: "✓ Found 3 payments for merchant M-123" },
-  { tone: "text-zinc-400", text: "> refund_payment(transactionId: \"PAY-2026-001\", amount: \"50.00\")" },
-  { tone: "text-amber-300", text: "⚠ CONFIRMATION_REQUIRED" },
-  { tone: "text-zinc-500", text: "  Token: cfm_xxx  Expires: 5 min" },
-  { tone: "text-zinc-400", text: "> confirm_action(token: \"cfm_xxx\")" },
-  { tone: "text-emerald-400", text: "✓ Refund processed -> USD 50.00" },
+  { tone: "cmd", text: "> search_payments(status: \"SUCCESS\", from: \"2026-03-01\")" },
+  { tone: "ok", text: "✓ Found 3 payments for merchant M-123" },
+  { tone: "cmd", text: "> refund_payment(transactionId: \"PAY-2026-001\", amount: \"50.00\")" },
+  { tone: "warn", text: "⚠ CONFIRMATION_REQUIRED" },
+  { tone: "muted", text: "  Token: cfm_xxx  Expires: 5 min" },
+  { tone: "cmd", text: "> confirm_action(token: \"cfm_xxx\")" },
+  { tone: "ok", text: "✓ Refund processed -> USD 50.00" },
 ];
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    const timer = requestAnimationFrame(() => {
-      setIsLoaded(true);
-    });
-    return () => cancelAnimationFrame(timer);
-  }, []);
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-      const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-      setMousePosition({ x, y });
-    };
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) / 25;
+    const y = (e.clientY - rect.top - rect.height / 2) / 25;
+    setMousePosition({ x, y });
+  };
 
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener("mousemove", handleMouseMove);
-      return () => container.removeEventListener("mousemove", handleMouseMove);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (imageRef.current) {
-      const rotateX = mousePosition.y * -8;
-      const rotateY = mousePosition.x * 8;
-      imageRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
-    }
-  }, [mousePosition]);
+  const handleMouseLeave = () => {
+    setMousePosition({ x: 0, y: 0 });
+  };
 
   return (
     <section
       ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       className="relative min-h-screen w-full overflow-hidden"
     >
       {/* Animated Background */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Gradient Orbs - Subdued for enterprise feel */}
+        {/* Gradient Orbs - Subdued for enterprise feel, enhanced with violet */}
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#2563eb]/5 rounded-full blur-[120px] animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#60a5fa]/2 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#8b5cf6]/5 rounded-full blur-[100px] animate-float-slow" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#2563eb]/2 rounded-full blur-[150px]" />
 
         {/* Grid Pattern */}
@@ -85,43 +71,56 @@ export default function Hero() {
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center pt-20">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center w-full py-12">
           {/* Left Column - Text */}
-          <div className="space-y-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", staggerChildren: 0.1 }}
+            className="space-y-8"
+          >
             {/* Badge */}
-            <div
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#2563eb]/30 transition-all duration-1000 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#2563eb]/30"
             >
-              <Sparkles className="w-4 h-4 text-[var(--cream)]" />
+              <Sparkles className="w-4 h-4 text-[#8b5cf6]" />
               <span className="text-sm text-muted-foreground">
                 AI-Native Payment Infrastructure
               </span>
-            </div>
+            </motion.div>
 
             {/* Title */}
-            <h1
-              className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight transition-all duration-1000 delay-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight"
             >
               <span className="text-foreground">AI-Powered Payments,</span>
               <br />
               <span className="text-gradient">Infinite Possibilities</span>
-            </h1>
+            </motion.h1>
 
-            {/* Description */}
-            <p
-              className={`text-lg sm:text-xl text-zinc-400 max-w-lg leading-loose tracking-wide transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
+            {/* Description - fixed for light mode readability */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-lg sm:text-xl text-muted-foreground max-w-lg leading-loose tracking-wide"
             >
               Operate your payment platform through AI agents, CLI, or API. The
               FusionXPay MCP Server connects Claude Desktop directly to merchant
               payment operations with confirmation gates, JWT isolation, and a
               full Kafka-backed audit trail.
-            </p>
+            </motion.p>
 
             {/* CTA Buttons */}
-            <div
-              className={`flex flex-wrap gap-4 items-center transition-all duration-1000 delay-500 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-wrap gap-4 items-center"
             >
               <Button
                 size="lg"
@@ -153,12 +152,14 @@ export default function Hero() {
                 <Github className="w-5 h-5" />
                 View on GitHub
               </a>
-            </div>
+            </motion.div>
 
             {/* Stats */}
-            <div
-              className={`flex gap-8 pt-4 transition-all duration-1000 delay-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="flex gap-8 pt-4"
             >
               {stats.map((stat, idx) => (
                 <div key={stat.label} className="flex items-center gap-6">
@@ -173,71 +174,87 @@ export default function Hero() {
                   )}
                 </div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Column - MCP Preview */}
-          <div
-            className={`relative transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
-              }`}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            style={{ y: y1 }}
+            className="relative"
           >
-            <div
-              ref={imageRef}
-              className="relative transition-transform duration-200 ease-out"
+            <motion.div
+              animate={{
+                rotateX: mousePosition.y * -1,
+                rotateY: mousePosition.x,
+              }}
+              transition={{ type: "spring", stiffness: 100, damping: 30, mass: 0.5 }}
+              className="relative"
               style={{ transformStyle: "preserve-3d" }}
             >
-              {/* Glow Effect */}
-              <div className="absolute -inset-4 bg-[#2563eb]/30 rounded-3xl blur-2xl" />
+              {/* Glow Effect - adaptive for light/dark */}
+              <div className="absolute -inset-4 bg-[#8b5cf6]/10 dark:bg-[#8b5cf6]/20 rounded-3xl blur-2xl" />
 
-              {/* Terminal Card */}
-              <div className="relative glass bg-slate-900/40 rounded-2xl overflow-hidden border border-white/10 shadow-2xl backdrop-blur-md">
+              {/* Terminal Card — theme-aware */}
+              <div className="relative glass rounded-2xl overflow-hidden shadow-2xl">
                 {/* Browser Bar */}
-                <div className="p-4 border-b border-border/60 flex items-center gap-2">
+                <div className="p-4 border-b border-border/60 flex items-center gap-2 bg-muted/50">
                   <div className="w-3 h-3 rounded-full bg-red-500/60" />
                   <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
                   <div className="w-3 h-3 rounded-full bg-green-500/60" />
                   <div className="flex-1 mx-4">
-                    <div className="h-6 bg-white/5 border border-white/5 rounded-md max-w-md mx-auto flex items-center justify-center text-[11px] tracking-widest text-zinc-400">
+                    <div className="h-6 bg-muted/80 border border-border/60 rounded-md max-w-md mx-auto flex items-center justify-center text-[11px] tracking-widest text-muted-foreground">
                       mcp.fusionx.fun
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-5 p-6">
-                  <div className="rounded-2xl border border-white/10 bg-slate-950/65 p-5 font-mono text-sm leading-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
-                    {terminalLines.map((line, index) => (
-                      <div
-                        key={line.text}
-                        className={`${line.tone} transition-all duration-700 ${
-                          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-                        }`}
-                        style={{ transitionDelay: `${500 + index * 120}ms` }}
-                      >
-                        {line.text}
-                      </div>
-                    ))}
-                  </div>
+                  {/* Standardized Terminal Block */}
+                  <TerminalWindow title="MCP" className="shadow-none">
+                    <div className="font-mono text-sm leading-7">
+                      {terminalLines.map((line, index) => (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.8 + index * 0.15 }}
+                          key={index}
+                          className={`
+                            ${line.tone === "cmd" ? "text-slate-400" : ""}
+                            ${line.tone === "ok" ? "text-emerald-400" : ""}
+                            ${line.tone === "warn" ? "text-amber-400 font-semibold" : ""}
+                            ${line.tone === "muted" ? "text-slate-500" : ""}
+                          `}
+                        >
+                          {line.text}
+                        </motion.div>
+                      ))}
+                    </div>
+                  </TerminalWindow>
 
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="glass rounded-xl border border-[#2563eb]/20 p-4">
-                      <div className="text-[11px] uppercase tracking-[0.24em] text-[#60a5fa]">
+                    {/* Info cards — glass style */}
+                    <div className="glass rounded-xl border border-[#8b5cf6]/20 p-4 hover-glow transition-all duration-300">
+                      <div className="text-[11px] uppercase tracking-[0.24em] text-[#8b5cf6] dark:text-[#a78bfa]">
                         Merchant Scope
                       </div>
-                      <div className="mt-2 text-lg font-semibold text-white">
+                      <div className="mt-2 text-lg font-semibold text-foreground">
                         {"JWT -> X-Merchant-Id"}
                       </div>
-                      <p className="mt-1 text-sm text-zinc-400">
+                      <p className="mt-1 text-sm text-muted-foreground">
                         Gateway-enforced isolation keeps tools tied to the active merchant context.
                       </p>
                     </div>
-                    <div className="glass rounded-xl border border-[#2563eb]/20 p-4">
-                      <div className="text-[11px] uppercase tracking-[0.24em] text-[#60a5fa]">
+                    <div className="glass rounded-xl border border-[#2563eb]/20 p-4 hover-glow transition-all duration-300">
+                      <div className="text-[11px] uppercase tracking-[0.24em] text-[#2563eb] dark:text-[#60a5fa]">
                         Audit Trail
                       </div>
-                      <div className="mt-2 text-lg font-semibold text-white">
+                      <div className="mt-2 text-lg font-semibold text-foreground">
                         {"Kafka -> Admin Service"}
                       </div>
-                      <p className="mt-1 text-sm text-zinc-400">
+                      <p className="mt-1 text-sm text-muted-foreground">
                         MCP and CLI actions share one audit contract and land in the same persistence flow.
                       </p>
                     </div>
@@ -246,15 +263,23 @@ export default function Hero() {
               </div>
 
               {/* Floating Elements */}
-              <div className="absolute -top-6 -right-6 w-20 h-20 bg-[#60a5fa]/20 rounded-2xl backdrop-blur-xl border border-[#60a5fa]/30 animate-float" />
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#2563eb]/30 rounded-full backdrop-blur-xl border border-[#2563eb]/40 animate-float-slow animate-pulse-glow" />
-            </div>
-          </div>
+              <motion.div 
+                animate={{ y: [0, -20, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-6 -right-6 w-20 h-20 bg-[#60a5fa]/20 rounded-2xl backdrop-blur-xl border border-[#60a5fa]/30" 
+              />
+              <motion.div 
+                animate={{ y: [0, 15, 0], rotate: [0, 10, 0] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#8b5cf6]/30 rounded-full backdrop-blur-xl border border-[#8b5cf6]/40 glow-violet" 
+              />
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
       {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
     </section>
   );
 }
