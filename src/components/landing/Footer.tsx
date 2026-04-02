@@ -15,6 +15,8 @@ const footerLinks = {
     title: "Developers",
     links: [
       { label: "Documentation", href: "/docs" },
+      { label: "AI Integration", href: "/docs/developer/11-ai-integration" },
+      { label: "MCP Quick Start", href: "/docs/user-guide/ai-quick-start" },
       { label: "API Reference", href: "/docs/developer/03-api-and-auth" },
       { label: "Quick Start", href: "/docs/user-guide/quick-start" },
       { label: "Security Model", href: "/docs/developer/07-security-model" },
@@ -60,8 +62,8 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground/80 leading-relaxed max-w-xs mb-6">
-              A production-ready payment gateway platform built with Java 21
-              microservices, demonstrating enterprise architecture patterns.
+              An AI-native payment platform built with Java 21 microservices,
+              Spring AI, MCP tooling, and a confirmation-gated audit pipeline.
             </p>
             <div className="flex items-center gap-3">
               <a

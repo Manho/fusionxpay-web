@@ -55,6 +55,35 @@ const rule = await fusionxpay.routing.create({
 });`,
   },
   {
+    id: "ai",
+    iconName: "Bot" as const,
+    label: "AI Integrate",
+    title: "AI-Native Operations",
+    description:
+      "Connect an AI agent through MCP or drive the same merchant-scoped workflows from the FusionXPay CLI.",
+    features: [
+      "8 MCP tools natively discoverable by any AI agent",
+      "CLI commands for auth, orders, payments, and confirm flows",
+      "Human-in-the-loop confirmation on write actions",
+      "Kafka-backed audit records for every AI-facing operation",
+    ],
+    lang: "json",
+    code: `// AI Agent MCP config
+{
+  "mcpServers": {
+    "fusionxpay": {
+      "command": "java",
+      "args": ["-jar", "ai-mcp-server-1.0.0.jar"],
+      "env": {
+        "FUSIONX_EMAIL": "merchant@example.com",
+        "FUSIONX_PASSWORD": "merchant123",
+        "FUSIONX_GATEWAY_BASE_URL": "https://api.fusionx.fun"
+      }
+    }
+  }
+}`,
+  },
+  {
     id: "launch",
     iconName: "Rocket" as const,
     label: "Go Live",

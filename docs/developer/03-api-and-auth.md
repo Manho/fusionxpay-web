@@ -12,31 +12,23 @@ Recommended frontend admin base URL:
 
 ## 3.2 Auth Layers
 
-FusionXPay currently uses two distinct auth methods:
-
-1. **Gateway API key** (`X-API-Key`) at gateway filter level.
-2. **Admin JWT** inside `admin-service` for authenticated admin endpoints.
+FusionXPay currently uses **JWT bearer tokens** as the primary auth mechanism across frontend, gateway, CLI, and MCP-driven merchant flows.
 
 ### Important behavior
 
-- Gateway bypass list currently includes `/api/v1/auth/**` and swagger-related endpoints.
-- Admin login path is `/api/v1/admin/auth/login`, which is protected at gateway level unless caller includes `X-API-Key`.
+- Gateway validates the `Authorization: Bearer <token>` header.
+- On success, gateway injects `X-Merchant-Id` and related merchant headers downstream.
+- Admin login path is `/api/v1/admin/auth/login`; successful login returns the JWT used for subsequent requests.
+- Merchant isolation depends on downstream services honoring the forwarded merchant context.
 
 ## 3.3 Main Endpoint Map
-
-### Gateway auth endpoints
-
-| Method | Path | Purpose |
-|---|---|---|
-| POST | `/api/v1/auth/register` | Create gateway user and API key |
-| POST | `/api/v1/auth/login` | Login and retrieve API key |
 
 ### Admin endpoints
 
 | Method | Path | Auth |
 |---|---|---|
-| POST | `/api/v1/admin/auth/login` | Public in admin-service, still through gateway |
-| POST | `/api/v1/admin/auth/register` | Public in admin-service |
+| POST | `/api/v1/admin/auth/login` | Public login endpoint |
+| POST | `/api/v1/admin/auth/register` | Public registration endpoint |
 | GET | `/api/v1/admin/auth/me` | JWT required |
 | GET | `/api/v1/admin/orders` | JWT required |
 | GET | `/api/v1/admin/orders/{orderId}` | JWT required |
@@ -55,6 +47,7 @@ FusionXPay currently uses two distinct auth methods:
 | Method | Path |
 |---|---|
 | POST | `/api/v1/payment/request` |
+| GET | `/api/v1/payment/search` |
 | GET | `/api/v1/payment/transaction/{transactionId}` |
 | GET | `/api/v1/payment/order/{orderId}` |
 | GET | `/api/v1/payment/providers` |
@@ -87,8 +80,7 @@ FusionXPay currently uses two distinct auth methods:
 
 ## 3.6 Source References
 
-- Gateway filter: `services/api-gateway/src/main/java/com/fusionxpay/api/gateway/filter/ApiKeyAuthFilter.java`
-- Gateway auth controller: `services/api-gateway/src/main/java/com/fusionxpay/api/gateway/controller/AuthController.java`
+- Gateway filter: `services/api-gateway/src/main/java/com/fusionxpay/api/gateway/filter/JwtAuthFilter.java`
 - Admin auth controller: `services/admin-service/src/main/java/com/fusionxpay/admin/controller/AuthController.java`
 - Admin JWT provider/filter: `services/admin-service/src/main/java/com/fusionxpay/admin/security/JwtTokenProvider.java`, `services/admin-service/src/main/java/com/fusionxpay/admin/security/JwtAuthenticationFilter.java`
 - Payment webhooks: `services/payment-service/src/main/java/com/fusionxpay/payment/controller/StripeWebhookController.java`, `services/payment-service/src/main/java/com/fusionxpay/payment/controller/PayPalCallbackController.java`

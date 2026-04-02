@@ -5,7 +5,7 @@ Get your first payment running in 5 minutes.
 ## Prerequisites
 
 - A FusionXPay account (or run locally for testing)
-- Your API credentials (merchant ID + API key)
+- Your merchant login credentials and JWT token flow
 - A web server that can receive webhooks
 
 ---
@@ -26,7 +26,7 @@ API Endpoint: http://localhost:8080/api/v1
 
 1. Sign up at [https://fusionx.fun](https://fusionx.fun)
 2. Verify your email
-3. Get your API key from the dashboard
+3. Sign in and obtain a JWT from `/api/v1/admin/auth/login`
 
 ---
 
@@ -56,7 +56,7 @@ const createPayment = async () => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer YOUR_API_KEY'
+    'Authorization': 'Bearer YOUR_JWT_TOKEN'
     },
     body: JSON.stringify({
       merchantOrderId: 'ORDER-001',
@@ -133,7 +133,7 @@ Check payment status anytime:
 
 ```bash
 curl -X GET https://api.fusionx.fun/api/v1/orders/FXP-20260210-123456 \
-  -H "Authorization: Bearer YOUR_API_KEY"
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
 ---

@@ -1,60 +1,56 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Shield, Globe, Zap, Github } from "lucide-react";
+import { ArrowRight, Github, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-function useCountUp(target: string, duration: number = 1500, start: boolean = false) {
-  const [value, setValue] = useState("0");
-  const hasNumber = /\d/.test(target);
-
-  const animate = useCallback(() => {
-    if (!hasNumber || !start) {
-      if (start) setValue(target);
-      return;
-    }
-    const numMatch = target.match(/([\d,.]+)/);
-    if (!numMatch) { setValue(target); return; }
-    const numStr = numMatch[1].replace(/,/g, "");
-    const endVal = parseFloat(numStr);
-    const prefix = target.slice(0, target.indexOf(numMatch[1]));
-    const suffix = target.slice(target.indexOf(numMatch[1]) + numMatch[1].length);
-    const hasComma = numMatch[1].includes(",");
-    const hasDecimal = numMatch[1].includes(".");
-    const decimalPlaces = hasDecimal ? numMatch[1].split(".")[1].length : 0;
-    const startTime = performance.now();
-
-    const step = (now: number) => {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = eased * endVal;
-      let formatted: string;
-      if (hasDecimal) {
-        formatted = current.toFixed(decimalPlaces);
-      } else {
-        formatted = Math.round(current).toString();
-      }
-      if (hasComma) {
-        formatted = Number(formatted).toLocaleString();
-      }
-      setValue(prefix + formatted + suffix);
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [target, duration, hasNumber, start]);
-
-  useEffect(() => {
-    const id = requestAnimationFrame(() => { animate(); });
-    return () => cancelAnimationFrame(id);
-  }, [animate]);
-  return value;
-}
-
 const stats = [
-  { value: "99.9%", label: "Uptime SLA" },
-  { value: "<300ms", label: "Avg Latency" },
-  { value: "6", label: "Microservices" },
+  { value: "8", label: "MCP Tools" },
+  { value: "4", label: "Safety Layers" },
+  { value: "11", label: "CLI Commands" },
+];
+
+const terminalLines = [
+  {
+    tone: "user",
+    text: "Check recent payments and prepare a refund for transaction 87a46da7.",
+  },
+  {
+    tone: "agent",
+    text: "I'll search payments first, then prepare a refund.",
+  },
+  { tone: "blank", text: "" },
+  { tone: "meta", text: "2 tool calls finished", hint: "(ctrl+o to expand)" },
+  { tone: "tree", icon: "├─", text: "fusionx payment search --page 0 --size 20" },
+  { tone: "tree", icon: "│  └─", text: "Done" },
+  { tone: "tree", icon: "└─", text: "fusionx payment refund --transaction-id 87a46da7" },
+  { tone: "tree", icon: "   └─", text: "Done" },
+  { tone: "blank", text: "" },
+  { tone: "muted", text: "Payments: 2 found" },
+  {
+    tone: "result",
+    text: "- 87a46da7 | order 41205537 | USD 19.25 | SUCCESS",
+  },
+  {
+    tone: "result",
+    text: "- 1c4d55c2 | order ca14e290 | USD 18.75 | PROCESSING",
+  },
+  { tone: "warn", text: "Status: CONFIRMATION_REQUIRED" },
+  { tone: "token", text: "Token: cfm_dc400d03" },
+  { tone: "blank", text: "" },
+  { tone: "agent", text: "Human confirmation required before any refund is executed.\nReply \"confirm\" to continue." },
+  { tone: "blank", text: "" },
+  { tone: "user", text: "Confirm the refund." },
+  { tone: "blank", text: "" },
+  { tone: "meta", text: "1 tool call finished", hint: "(ctrl+o to expand)" },
+  { tone: "tree", icon: "└─", text: "fusionx payment confirm --token cfm_dc400d03" },
+  { tone: "tree", icon: "   └─", text: "Done" },
+  { tone: "blank", text: "" },
+  { tone: "ok", text: "Status: CONFIRMED" },
+  { tone: "ok", text: "Refund Status: SUCCESS" },
+  { tone: "muted", text: "Refund ID: rf_9d12 | Amount: USD 19.25" },
+  { tone: "agent", text: "Refund completed and recorded in the audit trail." },
 ];
 
 export default function Hero() {
@@ -124,38 +120,41 @@ export default function Hero() {
           <div className="space-y-8">
             {/* Badge */}
             <div
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#2563eb]/30 transition-all duration-1000 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#2563eb]/30 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms" }}
             >
               <Sparkles className="w-4 h-4 text-[var(--cream)]" />
               <span className="text-sm text-muted-foreground">
-                Next-Gen Payment Infrastructure
+                Next-Gen Payment Gateway
               </span>
             </div>
 
             {/* Title */}
             <h1
-              className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight transition-all duration-1000 delay-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-slate-800 dark:text-slate-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "200ms" }}
             >
-              <span className="text-foreground">Unified Payments,</span>
+              AI-Powered
               <br />
-              <span className="text-gradient">Infinite Possibilities</span>
+              Payment Aggregation
             </h1>
 
-            {/* Description */}
+            {/* Description - fixed for light mode readability */}
             <p
-              className={`text-lg sm:text-xl text-zinc-400 max-w-lg leading-loose tracking-wide transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`text-lg sm:text-xl text-muted-foreground max-w-lg leading-loose tracking-wide ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "300ms" }}
             >
-              Aggregate PayPal, Stripe, and more payment channels through a single
-              API. Built with Spring Boot microservices, designed for scale.
+              A unified payment platform supporting Stripe, PayPal, and more. Securely manage operations through standard APIs, or empower any AI agent to automate your workflows via our developer CLI and built-in MCP server.
             </p>
 
             {/* CTA Buttons */}
             <div
-              className={`flex flex-wrap gap-4 items-center transition-all duration-1000 delay-500 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`flex flex-wrap gap-4 items-center ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "500ms" }}
             >
               <Button
                 size="lg"
@@ -191,8 +190,9 @@ export default function Hero() {
 
             {/* Stats */}
             <div
-              className={`flex gap-8 pt-4 transition-all duration-1000 delay-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`flex gap-8 pt-4 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "700ms" }}
             >
               {stats.map((stat, idx) => (
                 <div key={stat.label} className="flex items-center gap-6">
@@ -210,69 +210,105 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column - Dashboard Preview */}
+          {/* Right Column - MCP Preview */}
           <div
-            className={`relative transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+            className={`relative ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
               }`}
+            style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "300ms" }}
           >
             <div
               ref={imageRef}
               className="relative transition-transform duration-200 ease-out"
               style={{ transformStyle: "preserve-3d" }}
             >
-              {/* Glow Effect */}
-              <div className="absolute -inset-4 bg-[#2563eb]/30 rounded-3xl blur-2xl" />
+              {/* Glow Effect - adaptive for light/dark */}
+              <div className="absolute -inset-4 bg-[#2563eb]/10 dark:bg-[#2563eb]/30 rounded-3xl blur-2xl" />
 
-              {/* Dashboard Card */}
-              <div className="relative glass bg-slate-900/40 rounded-2xl overflow-hidden border border-white/10 shadow-2xl backdrop-blur-md">
-                {/* Browser Bar */}
-                <div className="p-4 border-b border-border/60 flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/60" />
-                  <div className="flex-1 mx-4">
-                    <div className="h-6 bg-white/5 border border-white/5 rounded-md max-w-md mx-auto flex items-center justify-center text-[11px] tracking-widest text-zinc-400">
-                      dashboard.fusionx.fun
-                    </div>
+              {/* Terminal Window - Ghostty/Claude Code style */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-[#0f0f11] border border-border/50 dark:border-white/10">
+                {/* Terminal Header */}
+                <div className="px-4 py-3 border-b border-border/50 dark:border-white/5 flex items-center bg-muted/30 dark:bg-[#18181b]">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                    <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+                  </div>
+                  <div className="flex-1 text-center mr-12">
+                    <span className="text-[12px] font-medium text-muted-foreground font-mono tracking-wide">
+                      claude — zsh
+                    </span>
                   </div>
                 </div>
 
-                {/* Stats Grid */}
-                <div className="p-6 grid grid-cols-3 gap-4">
-                  {[
-                    { icon: Shield, label: "Transactions", val: "12,847", color: "#2563eb" },
-                    { icon: Globe, label: "Revenue", val: "$2.4M", color: "#60a5fa" },
-                    { icon: Zap, label: "Success Rate", val: "99.2%", color: "#2563eb" },
-                  ].map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <DashboardStatCard key={item.label} icon={Icon} label={item.label} val={item.val} color={item.color} isLoaded={isLoaded} />
-                    );
-                  })}
-                </div>
-
-                {/* Chart */}
-                <div className="px-6 pb-6">
-                  <div className="h-32 bg-white/5 border border-white/5 rounded-xl flex items-end justify-around px-4 pb-4 gap-2">
-                    {[40, 65, 45, 80, 55, 70, 90, 60, 75, 85, 50, 95].map(
-                      (h, i) => (
-                        <div
-                          key={i}
-                          className="flex-1 rounded-t-sm transition-all duration-300 hover:opacity-80"
-                          style={{
-                            height: `${h}%`,
-                            background: `linear-gradient(to top, #2563eb, #3b82f6)`,
-                          }}
-                        />
-                      )
-                    )}
+                {/* Terminal Body */}
+                <div className="p-4 sm:p-5 font-mono text-[11px] sm:text-[12px] leading-[1.6] sm:leading-[1.65] text-left">
+                  {terminalLines.map((line, index) => (
+                    <div
+                      key={index}
+                      className={`${
+                          line.tone === "user" ? "text-slate-800 dark:text-zinc-100 flex items-start gap-3" :
+                          line.tone === "agent" ? "text-slate-700 dark:text-zinc-300 flex items-start gap-3" :
+                          line.tone === "meta" ? "flex items-start gap-3" :
+                          line.tone === "shell" ? "text-[#2563eb] dark:text-blue-400 font-medium ml-[20px]" :
+                          line.tone === "ok" ? "text-emerald-600 dark:text-emerald-400 font-medium ml-[20px]" :
+                          line.tone === "warn" ? "text-amber-600 dark:text-amber-400 font-semibold ml-[20px]" :
+                          line.tone === "token" ? "text-violet-600 dark:text-violet-400 ml-[20px]" :
+                          line.tone === "tree" ? "" :
+                          line.tone === "blank" ? "h-2" :
+                          line.tone === "result" ? "text-slate-700 dark:text-zinc-300 ml-[20px]" :
+                          "text-muted-foreground ml-[20px]"
+                        } ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+                        }`}
+                      style={{ 
+                        transitionProperty: "opacity, transform",
+                        transitionDuration: "700ms",
+                        transitionDelay: `${500 + index * 120}ms` 
+                      }}
+                    >
+                      {line.tone === "meta" ? (
+                        <>
+                          <div className="h-2 w-2 shrink-0 rounded-full bg-emerald-500 mt-[6px]" />
+                          <div className="flex-1">
+                            <span className="text-slate-800 dark:text-zinc-200">{line.text}</span>
+                            <span className="text-slate-400 dark:text-slate-500 ml-2">{line.hint}</span>
+                          </div>
+                        </>
+                      ) : line.tone === "tree" ? (
+                        <div className="flex items-start">
+                          <span className="text-slate-400 dark:text-slate-500 whitespace-pre shrink-0 ml-[0.5px]">{line.icon} </span>
+                          <span className={`${line.text === "Done" ? "text-slate-500 dark:text-slate-500" : "text-[#2563eb] dark:text-blue-400"} break-words`}>{line.text}</span>
+                        </div>
+                      ) : line.tone === "user" ? (
+                        <>
+                          <span className="text-[#2563eb] dark:text-blue-400 font-medium shrink-0 pt-[1px]">{">"}</span>
+                          <span className="whitespace-pre-wrap">{line.text}</span>
+                        </>
+                      ) : line.tone === "agent" ? (
+                        <>
+                          <div className="h-2 w-2 shrink-0 rounded-full bg-black dark:bg-white mt-[6px]" />
+                          <span className="whitespace-pre-wrap flex-1">{line.text}</span>
+                        </>
+                      ) : (
+                        <span className="whitespace-pre-wrap inline-block w-full">{line.text}</span>
+                      )}
+                    </div>
+                  ))}
+                  
+                  {/* Blinking Cursor */}
+                  <div 
+                    className={`mt-1 flex items-center ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                    style={{ 
+                      transitionProperty: "opacity",
+                      transitionDuration: "700ms",
+                      transitionDelay: `${500 + terminalLines.length * 120}ms` 
+                    }}
+                  >
+                    <span className="text-[#2563eb] dark:text-blue-400 font-medium mr-2">{">"}</span>
+                    <span className="w-2.5 h-5 bg-foreground/80 animate-pulse" />
                   </div>
                 </div>
               </div>
 
-              {/* Floating Elements */}
-              <div className="absolute -top-6 -right-6 w-20 h-20 bg-[#60a5fa]/20 rounded-2xl backdrop-blur-xl border border-[#60a5fa]/30 animate-float" />
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#2563eb]/30 rounded-full backdrop-blur-xl border border-[#2563eb]/40 animate-float-slow animate-pulse-glow" />
             </div>
           </div>
         </div>
@@ -281,24 +317,5 @@ export default function Hero() {
       {/* Bottom Gradient Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
-  );
-}
-
-function DashboardStatCard({ icon: Icon, label, val, color, isLoaded }: {
-  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
-  label: string;
-  val: string;
-  color: string;
-  isLoaded: boolean;
-}) {
-  const animatedVal = useCountUp(val, 1800, isLoaded);
-  return (
-    <div className="glass rounded-xl p-4 text-center hover-glow cursor-default">
-      <Icon className="w-5 h-5 mx-auto mb-2" style={{ color }} />
-      <div className="text-lg sm:text-xl font-bold text-foreground">
-        {animatedVal}
-      </div>
-      <div className="text-xs text-muted-foreground/80">{label}</div>
-    </div>
   );
 }

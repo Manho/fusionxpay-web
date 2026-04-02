@@ -25,9 +25,9 @@ const techGroups: TechGroup[] = [
                 description: "Modern LTS runtime with virtual threads",
             },
             {
-                name: "Spring Boot 3.2",
+                name: "Spring Boot 3.5",
                 icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg",
-                description: "Microservices framework with Cloud support",
+                description: "Microservices framework with Cloud and AI module support",
             },
             {
                 name: "Spring Cloud Gateway",
@@ -75,6 +75,27 @@ const techGroups: TechGroup[] = [
                 name: "TypeScript 5",
                 icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
                 description: "End-to-end type safety",
+            },
+        ],
+    },
+    {
+        title: "AI & Integration",
+        color: "#2563eb",
+        items: [
+            {
+                name: "Spring AI 1.0",
+                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg",
+                description: "MCP server tooling and AI module foundation",
+            },
+            {
+                name: "MCP Protocol",
+                icon: "/logo.svg",
+                description: "stdio tool transport for standard AI agent integrations",
+            },
+            {
+                name: "Picocli CLI",
+                icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+                description: "11 audited merchant commands for terminal workflows",
             },
         ],
     },
@@ -139,8 +160,8 @@ export default function TechStack() {
                     <span className="text-[var(--cream)] text-sm font-medium uppercase tracking-wider">
                         Tech Stack
                     </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-                        Built With <span className="text-gradient">Modern Tools</span>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
+                        Built With Modern Tools
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
                         Enterprise-grade technologies chosen for reliability, scalability,
@@ -149,7 +170,7 @@ export default function TechStack() {
                 </div>
 
                 {/* Groups */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-6xl mx-auto">
                     {techGroups.map((group, groupIdx) => {
                         const isVisible = visibleGroups.includes(groupIdx);
                         return (

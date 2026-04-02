@@ -15,6 +15,10 @@ FusionXPay is a microservices payment platform with a dedicated admin dashboard.
 - Order query and order detail view with filtering and pagination
 - Payment orchestration with provider integrations (Stripe, PayPal)
 - Asynchronous notification flow
+- AI agent operations through the FusionXPay MCP Server
+- Merchant CLI flows for auth, orders, payments, refunds, and confirmations
+- 4-layer AI safety chain: input validation, tool constraints, gateway isolation, and output scrubbing
+- Kafka-backed audit persistence for both MCP and CLI actions
 - Marketing landing page with interactive architecture diagram
 - Light/dark theme support across all pages
 - Operational visibility with Prometheus/Grafana
@@ -44,6 +48,7 @@ FusionXPay is a microservices payment platform with a dedicated admin dashboard.
 
 - Domain can be temporarily pending during registration/review.
 - Stripe/PayPal secrets may be blank before provider onboarding.
+- Fraud-analysis LLM features are still a later-stage enhancement, not part of the current MCP tool set.
 - Security model is partially centralized in gateway + admin-service JWT; see `docs/07-security-model.md`.
 
 ## 1.7 Success Criteria

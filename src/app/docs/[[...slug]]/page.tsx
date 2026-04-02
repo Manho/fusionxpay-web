@@ -86,6 +86,10 @@ const DOC_NAV_SECTIONS: NavSection[] = [
         href: "/docs/user-guide/webhooks",
       },
       {
+        title: "AI Quick Start",
+        href: "/docs/user-guide/ai-quick-start",
+      },
+      {
         title: "FAQ",
         href: "/docs/user-guide/faq",
       },
@@ -120,6 +124,10 @@ const DOC_NAV_SECTIONS: NavSection[] = [
       {
         title: "Appendix: File Map",
         href: "/docs/developer/10-appendix-file-map",
+      },
+      {
+        title: "AI Integration",
+        href: "/docs/developer/11-ai-integration",
       },
     ],
   },

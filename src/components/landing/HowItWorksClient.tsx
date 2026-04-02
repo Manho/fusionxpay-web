@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Code, Settings, Rocket } from "lucide-react";
+import { Bot, Code, Settings, Rocket } from "lucide-react";
 
-const iconMap = { Code, Settings, Rocket } as const;
+const iconMap = { Code, Settings, Bot, Rocket } as const;
 type IconName = keyof typeof iconMap;
 
 export interface HighlightedTab {
@@ -38,11 +38,11 @@ export default function HowItWorksClient({ tabs }: Props) {
                     <span className="text-[var(--cream)] text-sm font-medium uppercase tracking-wider">
                         How It Works
                     </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-                        Get Started in <span className="text-gradient">Three Steps</span>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
+                        Get Started in Simple Steps
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
-                        From integration to production in minutes, not months.
+                        From REST integration to AI-assisted operations in minutes, not months.
                     </p>
                 </div>
 
@@ -68,8 +68,7 @@ export default function HowItWorksClient({ tabs }: Props) {
                                     />
                                     <div>
                                         <div
-                                            className="font-medium text-sm"
-                                            style={{ color: isActive ? "#fff" : undefined }}
+                                            className={`font-medium text-sm ${isActive ? "text-foreground" : ""}`}
                                         >
                                             {tab.label}
                                         </div>
@@ -97,7 +96,7 @@ export default function HowItWorksClient({ tabs }: Props) {
                             ))}
                         </ul>
 
-                        {/* Code Block — Shiki highlighted */}
+                        {/* Code Block */}
                         <div className="rounded-xl overflow-hidden border border-border/60 shadow-xl">
                             <div className="flex items-center gap-2 px-4 py-2 border-b border-border/60 bg-muted/50">
                                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
