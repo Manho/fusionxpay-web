@@ -36,13 +36,13 @@ export default function HowItWorksClient({ tabs }: Props) {
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <span className="text-[var(--cream)] text-sm font-medium uppercase tracking-wider">
-                        How It Works
+                        Platform Capabilities
                     </span>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
-                        Get Started in Simple Steps
+                        Unleash Your Payment Infrastructure
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
-                        From REST integration to AI-assisted operations in minutes, not months.
+                        Experience seamless API integrations, flexible routing configurations, and native AI operations out of the box.
                     </p>
                 </div>
 
@@ -72,9 +72,6 @@ export default function HowItWorksClient({ tabs }: Props) {
                                         >
                                             {tab.label}
                                         </div>
-                                        <div className="text-xs opacity-70 hidden lg:block">
-                                            Step {idx + 1}
-                                        </div>
                                     </div>
                                 </button>
                             );
@@ -97,18 +94,20 @@ export default function HowItWorksClient({ tabs }: Props) {
                         </ul>
 
                         {/* Code Block */}
-                        <div className="rounded-xl overflow-hidden border border-border/60 shadow-xl">
-                            <div className="flex items-center gap-2 px-4 py-2 border-b border-border/60 bg-muted/50">
-                                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-                                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-                                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                        <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-[#0f0f11] border border-border/50 dark:border-white/10">
+                            <div className="px-4 py-3 border-b border-border/50 dark:border-white/5 flex items-center bg-muted/30 dark:bg-[#18181b]">
+                                <div className="flex gap-2">
+                                    <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                                    <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+                                </div>
                                 <div className="flex-1" />
-                                <span className="text-[10px] uppercase tracking-wider font-medium text-[#2563eb] dark:text-[#60a5fa]">
+                                <span className="text-[11px] font-medium text-muted-foreground font-mono tracking-wider uppercase">
                                     {current.lang}
                                 </span>
                             </div>
                             <div
-                                className="text-xs sm:text-sm overflow-x-auto [&_pre]:m-0 [&_pre]:px-4 [&_pre]:py-4"
+                                className="font-mono text-[12px] sm:text-[13px] leading-[1.6] text-left overflow-x-auto [&_pre]:m-0 [&_pre]:px-4 [&_pre]:py-5 sm:[&_pre]:px-6 sm:[&_pre]:py-6 [&_pre]:bg-transparent"
                                 dangerouslySetInnerHTML={{ __html: current.highlightedCode }}
                             />
                         </div>
