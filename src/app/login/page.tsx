@@ -2,8 +2,12 @@
 
 import { LoginForm } from "@/components/auth/LoginForm"
 import { ShieldCheck } from "lucide-react"
+import { useSearchParams } from "next/navigation"
 
 export default function LoginPage() {
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get("redirect") ?? undefined
+
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       <div className="hidden lg:flex flex-col bg-muted/30 p-10 text-white dark:border-r border-border/10">
@@ -30,7 +34,7 @@ export default function LoginPage() {
             <ShieldCheck className="h-8 w-8 text-primary" />
             <span className="text-xl font-bold">FusionXPay</span>
           </div>
-          <LoginForm />
+          <LoginForm redirectTo={redirectTo} />
         </div>
       </div>
     </div>

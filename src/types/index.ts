@@ -10,6 +10,25 @@ export interface LoginResponse {
   merchant: MerchantInfo;
 }
 
+export interface AiConsentViewResponse {
+  sessionId: string;
+  userCode?: string | null;
+  clientType: 'CLI' | 'MCP';
+  audience: string;
+  flowMode: 'CALLBACK' | 'DEVICE_CODE';
+  merchantEmail: string;
+  merchantName: string;
+  expiresIn: number;
+  callbackDisplay?: string | null;
+}
+
+export interface AiConsentApproveResponse {
+  flowMode: 'CALLBACK' | 'DEVICE_CODE';
+  approved: boolean;
+  redirectUrl?: string | null;
+  message: string;
+}
+
 export interface MerchantInfo {
   id: number;
   merchantCode: string;
