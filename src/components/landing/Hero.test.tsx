@@ -27,8 +27,8 @@ describe('Hero', () => {
   it('renders main hero content and CTAs', () => {
     render(<Hero />)
 
-    expect(screen.getByText(/ai-powered payments,/i)).toBeInTheDocument()
-    expect(screen.getByText(/infinite possibilities/i)).toBeInTheDocument()
+    expect(screen.getByText(/ai-powered/i)).toBeInTheDocument()
+    expect(screen.getByText(/payment aggregation/i)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /live demo/i })).toHaveAttribute('href', '/login')
     expect(screen.getByRole('link', { name: /github/i })).toBeInTheDocument()
   })
