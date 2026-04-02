@@ -19,6 +19,7 @@ interface TerminalLine {
 }
 
 const blankLine: TerminalLine = { tone: "blank", text: "" };
+// Landing demo terminal uses prerecorded transcript data with a lightweight state machine.
 const SEARCH_TRANSACTION_ID = "87a46da7";
 const PROCESSING_TRANSACTION_ID = "1c4d55c2";
 const CONFIRM_TOKEN = "cfm_dc400d03";
