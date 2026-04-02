@@ -104,6 +104,7 @@ const rule = await fusionxpay.routing.create({
     "gateway":      { "status": "UP" },
     "payment":      { "status": "UP" },
     "order":        { "status": "UP" },
+    "admin":        { "status": "UP" },
     "notification": { "status": "UP" }
   }
 }`,
