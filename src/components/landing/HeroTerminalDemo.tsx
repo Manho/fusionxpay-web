@@ -76,6 +76,37 @@ const processingRejectedLines: TerminalLine[] = [
   { tone: "agent", text: `Try: refund ${SEARCH_TRANSACTION_ID}` },
 ];
 
+const defaultTranscriptLines: TerminalLine[] = [
+  { tone: "user", text: `Check recent payments and prepare a refund for transaction ${SEARCH_TRANSACTION_ID}.` },
+  { tone: "agent", text: "I'll search payments first, then prepare a refund." },
+  blankLine,
+  { tone: "meta", text: "2 tool calls finished", hint: "(ctrl+o to expand)" },
+  { tone: "tree", icon: "├─", text: "fusionx payment search --page 0 --size 20" },
+  { tone: "tree", icon: "│  └─", text: "Done" },
+  { tone: "tree", icon: "└─", text: `fusionx payment refund --transaction-id ${SEARCH_TRANSACTION_ID}` },
+  { tone: "tree", icon: "   └─", text: "Done" },
+  blankLine,
+  { tone: "muted", text: "Payments: 2 found" },
+  { tone: "result", text: "- 87a46da7 | order 41205537 | USD 19.25 | SUCCESS" },
+  { tone: "result", text: "- 1c4d55c2 | order ca14e290 | USD 18.75 | PROCESSING" },
+  { tone: "warn", text: "Status: CONFIRMATION_REQUIRED" },
+  { tone: "token", text: `Token: ${CONFIRM_TOKEN}` },
+  blankLine,
+  { tone: "agent", text: "Human confirmation required before any refund is executed." },
+  { tone: "agent", text: "Reply \"confirm\" to continue." },
+  blankLine,
+  { tone: "user", text: "Confirm the refund." },
+  blankLine,
+  { tone: "meta", text: "1 tool call finished", hint: "(ctrl+o to expand)" },
+  { tone: "tree", icon: "└─", text: `fusionx payment confirm --token ${CONFIRM_TOKEN}` },
+  { tone: "tree", icon: "   └─", text: "Done" },
+  blankLine,
+  { tone: "ok", text: "Status: CONFIRMED" },
+  { tone: "ok", text: "Refund Status: SUCCESS" },
+  { tone: "muted", text: "Refund ID: rf_9d12 | Amount: USD 19.25" },
+  { tone: "agent", text: "Refund completed and recorded in the audit trail." },
+];
+
 const notFoundLines = (input: string): TerminalLine[] => [
   { tone: "user", text: input },
   blankLine,
@@ -184,7 +215,7 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
     if (state === "idle") {
       return hasInteracted
         ? replayLines("idle")
-        : [...searchedLines, blankLine, ...confirmationLines, blankLine, ...confirmedLines];
+        : defaultTranscriptLines;
     }
     if (state === "searched") {
       return searchedLines;
