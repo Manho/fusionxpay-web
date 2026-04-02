@@ -1,9 +1,18 @@
-"use client";
-
 import { LoginForm } from "@/components/auth/LoginForm"
 import { ShieldCheck } from "lucide-react"
 
-export default function LoginPage() {
+export const dynamic = "force-dynamic"
+
+interface LoginPageProps {
+  searchParams: Promise<{
+    redirect?: string
+  }>
+}
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const resolvedSearchParams = await searchParams
+  const redirectTo = resolvedSearchParams.redirect
+
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       <div className="hidden lg:flex flex-col bg-muted/30 p-10 text-white dark:border-r border-border/10">
@@ -30,7 +39,7 @@ export default function LoginPage() {
             <ShieldCheck className="h-8 w-8 text-primary" />
             <span className="text-xl font-bold">FusionXPay</span>
           </div>
-          <LoginForm />
+          <LoginForm redirectTo={redirectTo} />
         </div>
       </div>
     </div>

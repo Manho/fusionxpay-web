@@ -32,7 +32,11 @@ const formSchema = z.object({
   }),
 })
 
-export function LoginForm() {
+interface LoginFormProps {
+  redirectTo?: string
+}
+
+export function LoginForm({ redirectTo }: LoginFormProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -63,7 +67,9 @@ export function LoginForm() {
         auth.setUser(merchant)
       }
 
-      if (merchant?.role === "ADMIN") {
+      if (redirectTo) {
+        router.push(redirectTo)
+      } else if (merchant?.role === "ADMIN") {
         router.push("/dashboard")
       } else {
         router.push("/orders")
