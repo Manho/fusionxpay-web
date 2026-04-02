@@ -75,9 +75,9 @@ const rule = await fusionxpay.routing.create({
       "command": "java",
       "args": ["-jar", "ai-mcp-server-1.0.0.jar"],
       "env": {
-        "FUSIONX_EMAIL": "merchant@example.com",
-        "FUSIONX_PASSWORD": "merchant123",
-        "FUSIONX_GATEWAY_BASE_URL": "https://api.fusionx.fun"
+        "FUSIONX_GATEWAY_BASE_URL": "https://api.fusionx.fun",
+        "FUSIONX_AUDIENCE": "ai-mcp",
+        "FUSIONX_AUTH_MODE": "browser"
       }
     }
   }

@@ -36,13 +36,13 @@ export default function HowItWorksClient({ tabs }: Props) {
                 {/* Header */}
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <span className="text-[var(--cream)] text-sm font-medium uppercase tracking-wider">
-                        How It Works
+                        Platform Capabilities
                     </span>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
-                        Get Started in Simple Steps
+                        Unleash Your Payment Infrastructure
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
-                        From REST integration to AI-assisted operations in minutes, not months.
+                        Experience seamless API integrations, flexible routing configurations, and native AI operations out of the box.
                     </p>
                 </div>
 
@@ -71,9 +71,6 @@ export default function HowItWorksClient({ tabs }: Props) {
                                             className={`font-medium text-sm ${isActive ? "text-foreground" : ""}`}
                                         >
                                             {tab.label}
-                                        </div>
-                                        <div className="text-xs opacity-70 hidden lg:block">
-                                            Step {idx + 1}
                                         </div>
                                     </div>
                                 </button>
