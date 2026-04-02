@@ -38,8 +38,8 @@ export default function HowItWorksClient({ tabs }: Props) {
                     <span className="text-[var(--cream)] text-sm font-medium uppercase tracking-wider">
                         How It Works
                     </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-                        Get Started in <span className="text-gradient">Simple Steps</span>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
+                        Get Started in Simple Steps
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
                         From REST integration to AI-assisted operations in minutes, not months.

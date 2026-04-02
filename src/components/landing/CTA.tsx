@@ -19,13 +19,12 @@ export default function CTA() {
               <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/5 to-transparent" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 relative">
-              Ready to{" "}
-              <span className="text-gradient">Transform Your Payments</span>?
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 relative text-slate-800 dark:text-slate-200">
+              Ready to Transform Your Payments?
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed relative">
-              Start building with AI-powered payment operations. Connect Claude
-              Desktop or use the CLI, from the first tool call to a live merchant
+              Start building with AI-powered payment operations. Connect any AI
+              agent via MCP or use the developer CLI, from the first tool call to a live merchant
               workflow in minutes.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative">

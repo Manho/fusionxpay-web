@@ -27,7 +27,7 @@ const highlights = [
         description:
             "Merchant-scoped MCP tools cover payments, orders, confirmation flows, and safe read/write operations over stdio.",
         color: "#2563eb",
-        tags: ["Spring AI", "Claude Desktop", "stdio"],
+        tags: ["Spring AI", "MCP", "stdio"],
     },
     {
         icon: Terminal,
@@ -104,8 +104,8 @@ export default function ProjectHighlights() {
                     <span className="text-[#2563eb] text-sm font-medium uppercase tracking-wider">
                         What I Built
                     </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-                        Project <span className="text-gradient">Highlights</span>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
+                        Project Highlights
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
                         Key engineering decisions behind the payment platform, AI

@@ -90,7 +90,7 @@ const techGroups: TechGroup[] = [
             {
                 name: "MCP Protocol",
                 icon: "/logo.svg",
-                description: "stdio tool transport for Claude Desktop integrations",
+                description: "stdio tool transport for standard AI agent integrations",
             },
             {
                 name: "Picocli CLI",
@@ -160,8 +160,8 @@ export default function TechStack() {
                     <span className="text-[var(--cream)] text-sm font-medium uppercase tracking-wider">
                         Tech Stack
                     </span>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-                        Built With <span className="text-gradient">Modern Tools</span>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
+                        Built With Modern Tools
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
                         Enterprise-grade technologies chosen for reliability, scalability,

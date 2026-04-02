@@ -69,8 +69,8 @@ export default function Pricing() {
           <span className="text-[#ffe9a9] text-sm font-medium uppercase tracking-wider">
             Pricing
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-            Simple, <span className="text-gradient">Transparent</span> Pricing
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
+            Simple, Transparent Pricing
           </h2>
           <p className="text-muted-foreground leading-relaxed">
             Start free and scale as you grow. No hidden fees, no surprises.

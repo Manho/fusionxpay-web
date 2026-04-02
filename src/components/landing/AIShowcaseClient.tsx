@@ -8,7 +8,7 @@ const featureCards = [
     icon: Bot,
     title: "MCP Server",
     description:
-      "8 discoverable tools exposed over stdio so Claude Desktop can call payment operations natively.",
+      "8 discoverable tools exposed over stdio so any AI agent can call payment operations natively.",
   },
   {
     icon: Terminal,
@@ -82,15 +82,14 @@ export default function AIShowcaseClient({ tabs }: Props) {
           <span className="text-[#2563eb] text-sm font-medium uppercase tracking-[0.28em]">
             AI Integration
           </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-slate-800 dark:text-slate-200">
             Your Payment Platform,
             <br />
-            <span className="text-gradient">Now AI-Native</span>
+            Now AI-Native
           </h2>
           <p className="mt-5 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Connect Claude Desktop, automate merchant tasks with the CLI, or
-            wire AI agents into the same payment surface. Every operation stays
-            merchant-scoped, confirmation-gated, and fully audited.
+            Empower any AI agent to automate merchant tasks via the MCP server or the developer CLI.
+            Every operation stays merchant-scoped, confirmation-gated, and fully audited.
           </p>
         </div>
 

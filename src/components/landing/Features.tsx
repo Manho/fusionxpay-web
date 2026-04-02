@@ -36,7 +36,7 @@ const features = [
     icon: Bot,
     title: "AI Agent Operations",
     description:
-      "Claude Desktop can discover 8 MCP tools to search payments, inspect orders, and prepare merchant-scoped actions.",
+      "AI agents can discover 8 MCP tools to search payments, inspect orders, and prepare merchant-scoped actions.",
     color: "#2563eb",
   },
   {
@@ -92,8 +92,8 @@ export default function Features() {
           <span className="text-[#2563eb] text-sm font-medium uppercase tracking-wider">
             Features
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-            Payments Meet <span className="text-gradient">AI</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
+            Payments Meet AI
           </h2>
           <p className="text-muted-foreground leading-relaxed">
             A complete payment infrastructure enhanced with AI-native operations.

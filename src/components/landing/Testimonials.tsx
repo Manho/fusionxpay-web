@@ -55,8 +55,8 @@ export default function Testimonials() {
           <span className="text-[#2563eb] text-sm font-medium uppercase tracking-wider">
             Testimonials
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-            Loved by <span className="text-gradient">Engineering Teams</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
+            Loved by Engineering Teams
           </h2>
           <p className="text-muted-foreground leading-relaxed">
             See why developers and businesses trust FusionXPay for their payment

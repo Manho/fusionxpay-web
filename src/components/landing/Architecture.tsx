@@ -73,8 +73,8 @@ export default function Architecture({
             <span className="text-[#2563eb] text-sm font-medium uppercase tracking-wider">
               Architecture
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4">
-              AI-Enhanced <span className="text-gradient">Architecture</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-4 text-slate-800 dark:text-slate-200">
+              AI-Enhanced Architecture
             </h2>
             <p className="text-muted-foreground leading-relaxed">
               Spring AI MCP Server, 4-layer safety chain, and 6 microservices — connected
@@ -114,7 +114,7 @@ export default function Architecture({
             <g style={nodeStyle("agents")} onMouseEnter={() => setHoveredNode("agents")} onMouseLeave={() => setHoveredNode(null)}>
               <rect x="230" y="76" width="190" height="30" rx="8"
                 fill="rgba(148,163,184,0.06)" stroke="#94a3b8" strokeWidth="1.5" />
-              <text x="325" y="95" textAnchor="middle" fontWeight="600" fontSize="12" fill="#94a3b8">🤖 Claude Desktop · Cursor</text>
+              <text x="325" y="95" textAnchor="middle" fontWeight="600" fontSize="12" fill="#94a3b8">🤖 AI Assistants</text>
             </g>
 
             <g style={nodeStyle("dashboard")} onMouseEnter={() => setHoveredNode("dashboard")} onMouseLeave={() => setHoveredNode(null)}>

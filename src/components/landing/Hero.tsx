@@ -12,13 +12,16 @@ const stats = [
 ];
 
 const terminalLines = [
-  { tone: "cmd", text: "> search_payments(status: \"SUCCESS\", from: \"2026-03-01\")" },
-  { tone: "ok", text: "✓ Found 3 payments for merchant M-123" },
-  { tone: "cmd", text: "> refund_payment(transactionId: \"PAY-2026-001\", amount: \"50.00\")" },
-  { tone: "warn", text: "⚠ CONFIRMATION_REQUIRED" },
-  { tone: "muted", text: "  Token: cfm_xxx  Expires: 5 min" },
-  { tone: "cmd", text: "> confirm_action(token: \"cfm_xxx\")" },
-  { tone: "ok", text: "✓ Refund processed -> USD 50.00" },
+  { tone: "cmd", text: "$ claude" },
+  { tone: "ok", text: "Welcome to Claude Code! I can help you automate payment operations via FusionXPay MCP or CLI." },
+  { tone: "cmd", text: "> Check recent failed payments across Stripe and PayPal" },
+  { tone: "muted", text: "Running tool `search_payments(status: \"FAILED\")`..." },
+  { tone: "ok", text: "✓ Found 2 failed Stripe payments and 1 failed PayPal payment today." },
+  { tone: "cmd", text: "> Refund the first Stripe payment" },
+  { tone: "warn", text: "⚠ Action requires confirmation. Token: cfm_xxx" },
+  { tone: "cmd", text: "> yes, please proceed" },
+  { tone: "muted", text: "Running tool `confirm_action(token: \"cfm_xxx\")`..." },
+  { tone: "ok", text: "✓ Refund processed successfully -> USD 50.00 (Stripe)" },
 ];
 
 export default function Hero() {
@@ -93,18 +96,18 @@ export default function Hero() {
             >
               <Sparkles className="w-4 h-4 text-[var(--cream)]" />
               <span className="text-sm text-muted-foreground">
-                AI-Native Payment Infrastructure
+                Next-Gen Payment Gateway
               </span>
             </div>
 
             {/* Title */}
             <h1
-              className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight transition-all duration-1000 delay-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-slate-800 dark:text-slate-200 transition-all duration-1000 delay-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-              <span className="text-foreground">AI-Powered Payments,</span>
+              AI-Powered
               <br />
-              <span className="text-gradient">Infinite Possibilities</span>
+              Payment Aggregation
             </h1>
 
             {/* Description - fixed for light mode readability */}
@@ -112,10 +115,7 @@ export default function Hero() {
               className={`text-lg sm:text-xl text-muted-foreground max-w-lg leading-loose tracking-wide transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-              Operate your payment platform through AI agents, CLI, or API. The
-              FusionXPay MCP Server connects Claude Desktop directly to merchant
-              payment operations with confirmation gates, JWT isolation, and a
-              full Kafka-backed audit trail.
+              A unified payment platform supporting Stripe, PayPal, and more. Securely manage operations through standard APIs, or empower any AI agent to automate your workflows via our developer CLI and built-in MCP server.
             </p>
 
             {/* CTA Buttons */}
@@ -189,81 +189,51 @@ export default function Hero() {
               {/* Glow Effect - adaptive for light/dark */}
               <div className="absolute -inset-4 bg-[#2563eb]/10 dark:bg-[#2563eb]/30 rounded-3xl blur-2xl" />
 
-              {/* Terminal Card — theme-aware, matching HowItWorks style */}
-              <div className="relative glass rounded-2xl overflow-hidden shadow-2xl">
-                {/* Browser Bar */}
-                <div className="p-4 border-b border-border/60 flex items-center gap-2 bg-muted/50">
-                  <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/60" />
-                  <div className="flex-1 mx-4">
-                    <div className="h-6 bg-muted/80 border border-border/60 rounded-md max-w-md mx-auto flex items-center justify-center text-[11px] tracking-widest text-muted-foreground">
-                      mcp.fusionx.fun
-                    </div>
+              {/* Terminal Window - Ghostty/Claude Code style */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-[#0f0f11] border border-border/50 dark:border-white/10">
+                {/* Terminal Header */}
+                <div className="px-4 py-3 border-b border-border/50 dark:border-white/5 flex items-center bg-muted/30 dark:bg-[#18181b]">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                    <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+                  </div>
+                  <div className="flex-1 text-center mr-12">
+                    <span className="text-[12px] font-medium text-muted-foreground font-mono tracking-wide">
+                      claude — zsh
+                    </span>
                   </div>
                 </div>
 
-                <div className="space-y-5 p-6">
-                  {/* Terminal code block — same style as HowItWorks code block */}
-                  <div className="rounded-xl overflow-hidden border border-border/60 shadow-xl">
-                    <div className="flex items-center gap-2 px-4 py-2 border-b border-border/60 bg-muted/50">
-                      <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                      <div className="flex-1" />
-                      <span className="text-[10px] uppercase tracking-wider font-medium text-[#2563eb] dark:text-[#60a5fa]">
-                        MCP
-                      </span>
+                {/* Terminal Body */}
+                <div className="p-6 font-mono text-sm sm:text-base leading-8 sm:leading-8 min-h-[420px] text-left">
+                  {terminalLines.map((line, index) => (
+                    <div
+                      key={index}
+                      className={`transition-all duration-700 ${
+                          line.tone === "cmd" ? "text-[#2563eb] dark:text-blue-400 font-medium" :
+                          line.tone === "ok" ? "text-emerald-600 dark:text-emerald-400" :
+                          line.tone === "warn" ? "text-amber-600 dark:text-amber-400 font-medium" :
+                          "text-muted-foreground"
+                        } ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+                        }`}
+                      style={{ transitionDelay: `${500 + index * 120}ms` }}
+                    >
+                      {line.text}
                     </div>
-                    <div className="p-5 font-mono text-sm leading-7">
-                      {terminalLines.map((line, index) => (
-                        <div
-                          key={index}
-                          className={`transition-all duration-700 ${line.tone === "cmd" ? "text-muted-foreground" :
-                              line.tone === "ok" ? "text-emerald-600 dark:text-emerald-400" :
-                                line.tone === "warn" ? "text-amber-600 dark:text-amber-400 font-semibold" :
-                                  "text-muted-foreground/70"
-                            } ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-                            }`}
-                          style={{ transitionDelay: `${500 + index * 120}ms` }}
-                        >
-                          {line.text}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {/* Info cards — glass style */}
-                    <div className="glass rounded-xl border border-[#2563eb]/20 p-4">
-                      <div className="text-[11px] uppercase tracking-[0.24em] text-[#2563eb] dark:text-[#60a5fa]">
-                        Merchant Scope
-                      </div>
-                      <div className="mt-2 text-lg font-semibold text-foreground">
-                        {"JWT -> X-Merchant-Id"}
-                      </div>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Gateway-enforced isolation keeps tools tied to the active merchant context.
-                      </p>
-                    </div>
-                    <div className="glass rounded-xl border border-[#2563eb]/20 p-4">
-                      <div className="text-[11px] uppercase tracking-[0.24em] text-[#2563eb] dark:text-[#60a5fa]">
-                        Audit Trail
-                      </div>
-                      <div className="mt-2 text-lg font-semibold text-foreground">
-                        {"Kafka -> Admin Service"}
-                      </div>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        MCP and CLI actions share one audit contract and land in the same persistence flow.
-                      </p>
-                    </div>
+                  ))}
+                  
+                  {/* Blinking Cursor */}
+                  <div 
+                    className={`mt-1 flex items-center transition-all duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                    style={{ transitionDelay: `${500 + terminalLines.length * 120}ms` }}
+                  >
+                    <span className="text-[#2563eb] dark:text-blue-400 font-medium mr-2">{">"}</span>
+                    <span className="w-2.5 h-5 bg-foreground/80 animate-pulse" />
                   </div>
                 </div>
               </div>
 
-              {/* Floating Elements */}
-              <div className="absolute -top-6 -right-6 w-20 h-20 bg-[#60a5fa]/20 rounded-2xl backdrop-blur-xl border border-[#60a5fa]/30 animate-float" />
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-[#2563eb]/30 rounded-full backdrop-blur-xl border border-[#2563eb]/40 animate-float-slow animate-pulse-glow" />
             </div>
           </div>
         </div>

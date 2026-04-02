@@ -62,13 +62,13 @@ const rule = await fusionxpay.routing.create({
     description:
       "Connect an AI agent through MCP or drive the same merchant-scoped workflows from the FusionXPay CLI.",
     features: [
-      "8 MCP tools discoverable by Claude Desktop",
+      "8 MCP tools natively discoverable by any AI agent",
       "CLI commands for auth, orders, payments, and confirm flows",
       "Human-in-the-loop confirmation on write actions",
       "Kafka-backed audit records for every AI-facing operation",
     ],
     lang: "json",
-    code: `// Claude Desktop config
+    code: `// AI Agent MCP config
 {
   "mcpServers": {
     "fusionxpay": {
