@@ -1,12 +1,17 @@
-"use client";
-
 import { LoginForm } from "@/components/auth/LoginForm"
 import { ShieldCheck } from "lucide-react"
-import { useSearchParams } from "next/navigation"
 
-export default function LoginPage() {
-  const searchParams = useSearchParams()
-  const redirectTo = searchParams.get("redirect") ?? undefined
+export const dynamic = "force-dynamic"
+
+interface LoginPageProps {
+  searchParams: Promise<{
+    redirect?: string
+  }>
+}
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const resolvedSearchParams = await searchParams
+  const redirectTo = resolvedSearchParams.redirect
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">

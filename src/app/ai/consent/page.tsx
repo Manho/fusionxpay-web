@@ -1,9 +1,14 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
 import AiConsentPanel from "@/components/auth/AiConsentPanel";
 
-export default function AiConsentPage() {
-  const searchParams = useSearchParams();
-  return <AiConsentPanel mode="session" initialSessionId={searchParams.get("session") ?? undefined} />;
+export const dynamic = "force-dynamic";
+
+interface AiConsentPageProps {
+  searchParams: Promise<{
+    session?: string;
+  }>;
+}
+
+export default async function AiConsentPage({ searchParams }: AiConsentPageProps) {
+  const resolvedSearchParams = await searchParams;
+  return <AiConsentPanel mode="session" initialSessionId={resolvedSearchParams.session} />;
 }

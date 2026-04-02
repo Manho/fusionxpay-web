@@ -1,9 +1,14 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
 import AiConsentPanel from "@/components/auth/AiConsentPanel";
 
-export default function AiDevicePage() {
-  const searchParams = useSearchParams();
-  return <AiConsentPanel mode="device" initialUserCode={searchParams.get("user_code") ?? undefined} />;
+export const dynamic = "force-dynamic";
+
+interface AiDevicePageProps {
+  searchParams: Promise<{
+    user_code?: string;
+  }>;
+}
+
+export default async function AiDevicePage({ searchParams }: AiDevicePageProps) {
+  const resolvedSearchParams = await searchParams;
+  return <AiConsentPanel mode="device" initialUserCode={resolvedSearchParams.user_code} />;
 }
