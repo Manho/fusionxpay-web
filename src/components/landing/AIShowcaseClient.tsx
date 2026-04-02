@@ -8,19 +8,19 @@ const featureCards = [
     icon: Bot,
     title: "MCP Server",
     description:
-      "8 discoverable tools exposed over stdio so any AI agent can call payment operations natively.",
+      "8 discoverable tools exposed over stdio via MCP. Features browser-based merchant authorization with device-code fallback for headless agents.",
   },
   {
     icon: Terminal,
     title: "Developer CLI",
     description:
-      "11 merchant-scoped commands covering auth, orders, payments, confirmation flows, and audit-aware terminal output.",
+      "11 merchant-scoped commands equipped with seamless browser login, confirmation-gated write operations, and an audit-aware terminal UI.",
   },
   {
     icon: ShieldCheck,
-    title: "4-Layer Safety",
+    title: "Comprehensive Safety",
     description:
-      "Input validation, AOP audit, output scrubbing, and JWT merchant isolation protect every AI-facing action.",
+      "Browser authorization, audience-scoped session tokens, AOP guardrails, and JWT merchant isolation strictly secure every AI-facing action.",
   },
 ];
 
@@ -154,18 +154,20 @@ export default function AIShowcaseClient({ tabs }: Props) {
               </div>
 
               {/* Code block — theme-aware, matching HowItWorks style */}
-              <div className="overflow-hidden rounded-xl border border-border/60 shadow-xl">
-                <div className="flex items-center gap-2 border-b border-border/60 px-4 py-2 bg-muted/50">
-                  <div className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-white dark:bg-[#0f0f11] border border-border/50 dark:border-white/10">
+                <div className="flex items-center gap-2 border-b border-border/50 dark:border-white/5 bg-muted/30 dark:bg-[#18181b] px-4 py-3">
+                  <div className="flex gap-2">
+                    <div className="h-3 w-3 rounded-full bg-[#ff5f56]" />
+                    <div className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+                    <div className="h-3 w-3 rounded-full bg-[#27c93f]" />
+                  </div>
                   <div className="flex-1" />
-                  <span className="text-[10px] uppercase tracking-wider font-medium text-[#2563eb] dark:text-[#60a5fa]">
+                  <span className="text-[11px] font-medium text-muted-foreground font-mono tracking-wider uppercase">
                     {tabs[activeTab].label}
                   </span>
                 </div>
                 <div
-                  className="min-h-[380px] overflow-x-auto text-xs sm:text-sm [&_pre]:m-0 [&_pre]:px-4 [&_pre]:py-5"
+                  className="min-h-[380px] overflow-x-auto text-left font-mono text-[12px] sm:text-[13px] leading-[1.6] [&_pre]:m-0 [&_pre]:px-4 [&_pre]:py-5 sm:[&_pre]:px-6 sm:[&_pre]:py-6 [&_pre]:bg-transparent"
                   dangerouslySetInnerHTML={{ __html: tabs[activeTab].highlightedCode }}
                 />
               </div>
