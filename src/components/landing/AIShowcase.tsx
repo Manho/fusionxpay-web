@@ -18,66 +18,49 @@ const tabsData = [
       }
     }
   }
-}
-
-// 🔐 First launch naturally triggers a secure browser approval flow
-// 💻 Device code fallback ensures readiness for headless environments
-// 🚫 No sensitive merchant password is ever stored in the MCP runtime`,
+}`,
   },
   {
     id: "cli",
     label: "CLI",
-    lang: "bash",
-    code: `$ fusionx auth login
-Opening your browser to approve this CLI session...
-Verification URL: https://fusionx.fun/ai/device
-User code: A1B2C3D4
+    lang: "custom-html",
+    code: `<div class="flex gap-3"><span class="text-[#2563eb] dark:text-blue-400 font-medium shrink-0 pt-[1px]">&gt;</span><span>fusionx auth login</span></div>
+<div class="flex gap-3"><div class="h-2 w-2 shrink-0 rounded-full bg-black dark:bg-white mt-[6px]"></div><span class="flex-1 text-slate-700 dark:text-zinc-300">Browser approval required: fusionx.fun/ai/device</span></div>
+<div class="ml-[20px] text-emerald-600 dark:text-emerald-400 font-medium">Status: APPROVED</div>
 
-Approved. Session token stored.
-Audience: ai-cli
+<div class="flex gap-3 mt-2"><span class="text-[#2563eb] dark:text-blue-400 font-medium shrink-0 pt-[1px]">&gt;</span><span>fusionx payment search --size 2</span></div>
+<div class="ml-[20px] text-slate-700 dark:text-zinc-300">- 87a46da7 | USD 19.25 | SUCCESS</div>
+<div class="ml-[20px] text-slate-700 dark:text-zinc-300">- 1c4d55c2 | USD 18.75 | PROCESSING</div>
 
-$ fusionx payment search --page 0 --size 20
-Payments: 2 total (page 0/0)
-- 87a46da7 | order 41205537 | USD 19.25 | SUCCESS
-- 1c4d55c2 | order ca14e290 | USD 18.75 | PROCESSING
+<div class="flex gap-3 mt-2"><span class="text-[#2563eb] dark:text-blue-400 font-medium shrink-0 pt-[1px]">&gt;</span><span>fusionx payment refund 87a46da7</span></div>
+<div class="ml-[20px] text-amber-600 dark:text-amber-400 font-semibold">Status: CONFIRMATION_REQUIRED</div>
+<div class="ml-[20px] text-violet-600 dark:text-violet-400">Token: cfm_dc4</div>
 
-$ fusionx payment refund --transaction-id 87a46da7
-Status: CONFIRMATION_REQUIRED
-Token: cfm_dc400d03
-
-$ fusionx payment confirm --token cfm_dc400d03
-Status: CONFIRMED
-Refund Status: SUCCESS
-Refund ID: rf_9d12 | Amount: USD 19.25`,
+<div class="flex gap-3 mt-2"><span class="text-[#2563eb] dark:text-blue-400 font-medium shrink-0 pt-[1px]">&gt;</span><span>fusionx payment confirm cfm_dc4</span></div>
+<div class="ml-[20px] text-emerald-600 dark:text-emerald-400 font-medium">Refund Status: SUCCESS</div>
+<div class="ml-[20px] text-muted-foreground">ID: rf_9d12 | Amount: USD 19.25</div>`,
   },
   {
     id: "safety",
     label: "Safety",
-    lang: "text",
-    code: `1. Browser Authorization
-   - First-party approval page
-   - Device code fallback
-   - No password stored in CLI/MCP
+    lang: "custom-html",
+    code: `<div class="flex gap-3"><span class="text-[#2563eb] dark:text-blue-400 font-medium shrink-0 pt-[1px]">&gt;</span><span>fusionx safety check</span></div>
+<div class="flex gap-3"><div class="h-2 w-2 shrink-0 rounded-full bg-emerald-500 mt-[6px]"></div><span class="text-slate-800 dark:text-zinc-200">5-layer platform security diagnostics complete</span></div>
 
-2. Audience-Scoped Session Tokens
-   - ai-cli / ai-mcp
-   - Short-lived access token
-   - Refresh + revoke support
+<div class="ml-[20px] mt-1.5 font-semibold text-slate-800 dark:text-zinc-200">✔ Browser Authorization</div>
+<div class="ml-[40px] text-muted-foreground">Device code fallback ready</div>
 
-3. InputSafetyAspect
-   - Regex prompt-injection detection
-   - Max input length guard
-   - Suspicious character ratio check
+<div class="ml-[20px] mt-1.5 font-semibold text-slate-800 dark:text-zinc-200">✔ Session &amp; Audience Tokens</div>
+<div class="ml-[40px] text-muted-foreground">Strictly scoped short-lived access</div>
 
-4. ToolAuditAspect
-   - Correlation ID per tool call
-   - Merchant-scoped action summary
-   - Kafka publish -> ai-audit-log
+<div class="ml-[20px] mt-1.5 font-semibold text-slate-800 dark:text-zinc-200">✔ Input Safety Aspect</div>
+<div class="ml-[40px] text-muted-foreground">Prompt-injection guards active</div>
 
-5. OutputSafetyAspect + Gateway Isolation
-   - PII and secret redaction
-   - JWT -> X-Merchant-Id
-   - Human confirmation for writes`,
+<div class="ml-[20px] mt-1.5 font-semibold text-slate-800 dark:text-zinc-200">✔ Tool Audit Aspect</div>
+<div class="ml-[40px] text-muted-foreground">Kafka ai-audit-log connected</div>
+
+<div class="ml-[20px] mt-1.5 font-semibold text-slate-800 dark:text-zinc-200">✔ Output Safety Aspect &amp; Gateway</div>
+<div class="ml-[40px] text-muted-foreground">PII redacted &amp; Human confirmation ENABLED</div>`,
   },
 ];
 
@@ -85,7 +68,10 @@ export default async function AIShowcase() {
   const tabs: AIShowcaseTab[] = await Promise.all(
     tabsData.map(async (tab) => ({
       ...tab,
-      highlightedCode: await highlightCode(tab.code, tab.lang),
+      highlightedCode:
+        tab.lang === "custom-html"
+          ? "<div class=\"px-4 py-5 sm:px-6 sm:py-6 flex flex-col gap-1.5\">" + tab.code + "</div>"
+          : await highlightCode(tab.code, tab.lang),
     }))
   );
 
