@@ -12,16 +12,45 @@ const stats = [
 ];
 
 const terminalLines = [
-  { tone: "cmd", text: "$ claude" },
-  { tone: "ok", text: "Welcome to Claude Code! I can help you automate payment operations via FusionXPay MCP or CLI." },
-  { tone: "cmd", text: "> Check recent failed payments across Stripe and PayPal" },
-  { tone: "muted", text: "Running tool `search_payments(status: \"FAILED\")`..." },
-  { tone: "ok", text: "✓ Found 2 failed Stripe payments and 1 failed PayPal payment today." },
-  { tone: "cmd", text: "> Refund the first Stripe payment" },
-  { tone: "warn", text: "⚠ Action requires confirmation. Token: cfm_xxx" },
-  { tone: "cmd", text: "> yes, please proceed" },
-  { tone: "muted", text: "Running tool `confirm_action(token: \"cfm_xxx\")`..." },
-  { tone: "ok", text: "✓ Refund processed successfully -> USD 50.00 (Stripe)" },
+  {
+    tone: "user",
+    text: "Check recent payments and prepare a refund for transaction 87a46da7.",
+  },
+  {
+    tone: "agent",
+    text: "I'll search payments first, then prepare a refund.",
+  },
+  { tone: "blank", text: "" },
+  { tone: "meta", text: "2 tool calls finished", hint: "(ctrl+o to expand)" },
+  { tone: "tree", icon: "├─", text: "fusionx payment search --page 0 --size 20" },
+  { tone: "tree", icon: "│  └─", text: "Done" },
+  { tone: "tree", icon: "└─", text: "fusionx payment refund --transaction-id 87a46da7" },
+  { tone: "tree", icon: "   └─", text: "Done" },
+  { tone: "blank", text: "" },
+  { tone: "muted", text: "Payments: 2 found" },
+  {
+    tone: "result",
+    text: "- 87a46da7 | order 41205537 | USD 19.25 | SUCCESS",
+  },
+  {
+    tone: "result",
+    text: "- 1c4d55c2 | order ca14e290 | USD 18.75 | PROCESSING",
+  },
+  { tone: "warn", text: "Status: CONFIRMATION_REQUIRED" },
+  { tone: "token", text: "Token: cfm_dc400d03" },
+  { tone: "blank", text: "" },
+  { tone: "agent", text: "Human confirmation required before any refund is executed.\nReply \"confirm\" to continue." },
+  { tone: "blank", text: "" },
+  { tone: "user", text: "Confirm the refund." },
+  { tone: "blank", text: "" },
+  { tone: "meta", text: "1 tool call finished", hint: "(ctrl+o to expand)" },
+  { tone: "tree", icon: "└─", text: "fusionx payment confirm --token cfm_dc400d03" },
+  { tone: "tree", icon: "   └─", text: "Done" },
+  { tone: "blank", text: "" },
+  { tone: "ok", text: "Status: CONFIRMED" },
+  { tone: "ok", text: "Refund Status: SUCCESS" },
+  { tone: "muted", text: "Refund ID: rf_9d12 | Amount: USD 19.25" },
+  { tone: "agent", text: "Refund completed and recorded in the audit trail." },
 ];
 
 export default function Hero() {
@@ -91,8 +120,9 @@ export default function Hero() {
           <div className="space-y-8">
             {/* Badge */}
             <div
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#2563eb]/30 transition-all duration-1000 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#2563eb]/30 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms" }}
             >
               <Sparkles className="w-4 h-4 text-[var(--cream)]" />
               <span className="text-sm text-muted-foreground">
@@ -102,8 +132,9 @@ export default function Hero() {
 
             {/* Title */}
             <h1
-              className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-slate-800 dark:text-slate-200 transition-all duration-1000 delay-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-slate-800 dark:text-slate-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "200ms" }}
             >
               AI-Powered
               <br />
@@ -112,16 +143,18 @@ export default function Hero() {
 
             {/* Description - fixed for light mode readability */}
             <p
-              className={`text-lg sm:text-xl text-muted-foreground max-w-lg leading-loose tracking-wide transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`text-lg sm:text-xl text-muted-foreground max-w-lg leading-loose tracking-wide ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "300ms" }}
             >
               A unified payment platform supporting Stripe, PayPal, and more. Securely manage operations through standard APIs, or empower any AI agent to automate your workflows via our developer CLI and built-in MCP server.
             </p>
 
             {/* CTA Buttons */}
             <div
-              className={`flex flex-wrap gap-4 items-center transition-all duration-1000 delay-500 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`flex flex-wrap gap-4 items-center ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "500ms" }}
             >
               <Button
                 size="lg"
@@ -157,8 +190,9 @@ export default function Hero() {
 
             {/* Stats */}
             <div
-              className={`flex gap-8 pt-4 transition-all duration-1000 delay-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`flex gap-8 pt-4 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
+              style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "700ms" }}
             >
               {stats.map((stat, idx) => (
                 <div key={stat.label} className="flex items-center gap-6">
@@ -178,8 +212,9 @@ export default function Hero() {
 
           {/* Right Column - MCP Preview */}
           <div
-            className={`relative transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+            className={`relative ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
               }`}
+            style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms", transitionDelay: "300ms" }}
           >
             <div
               ref={imageRef}
@@ -206,27 +241,67 @@ export default function Hero() {
                 </div>
 
                 {/* Terminal Body */}
-                <div className="p-6 font-mono text-sm sm:text-base leading-8 sm:leading-8 min-h-[420px] text-left">
+                <div className="p-4 sm:p-5 font-mono text-[11px] sm:text-[12px] leading-[1.6] sm:leading-[1.65] text-left">
                   {terminalLines.map((line, index) => (
                     <div
                       key={index}
-                      className={`transition-all duration-700 ${
-                          line.tone === "cmd" ? "text-[#2563eb] dark:text-blue-400 font-medium" :
-                          line.tone === "ok" ? "text-emerald-600 dark:text-emerald-400" :
-                          line.tone === "warn" ? "text-amber-600 dark:text-amber-400 font-medium" :
-                          "text-muted-foreground"
+                      className={`${
+                          line.tone === "user" ? "text-slate-800 dark:text-zinc-100 flex items-start gap-3" :
+                          line.tone === "agent" ? "text-slate-700 dark:text-zinc-300 flex items-start gap-3" :
+                          line.tone === "meta" ? "flex items-start gap-3" :
+                          line.tone === "shell" ? "text-[#2563eb] dark:text-blue-400 font-medium ml-[20px]" :
+                          line.tone === "ok" ? "text-emerald-600 dark:text-emerald-400 font-medium ml-[20px]" :
+                          line.tone === "warn" ? "text-amber-600 dark:text-amber-400 font-semibold ml-[20px]" :
+                          line.tone === "token" ? "text-violet-600 dark:text-violet-400 ml-[20px]" :
+                          line.tone === "tree" ? "" :
+                          line.tone === "blank" ? "h-2" :
+                          line.tone === "result" ? "text-slate-700 dark:text-zinc-300 ml-[20px]" :
+                          "text-muted-foreground ml-[20px]"
                         } ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
                         }`}
-                      style={{ transitionDelay: `${500 + index * 120}ms` }}
+                      style={{ 
+                        transitionProperty: "opacity, transform",
+                        transitionDuration: "700ms",
+                        transitionDelay: `${500 + index * 120}ms` 
+                      }}
                     >
-                      {line.text}
+                      {line.tone === "meta" ? (
+                        <>
+                          <div className="h-2 w-2 shrink-0 rounded-full bg-emerald-500 mt-[6px]" />
+                          <div className="flex-1">
+                            <span className="text-slate-800 dark:text-zinc-200">{line.text}</span>
+                            <span className="text-slate-400 dark:text-slate-500 ml-2">{line.hint}</span>
+                          </div>
+                        </>
+                      ) : line.tone === "tree" ? (
+                        <div className="flex items-start">
+                          <span className="text-slate-400 dark:text-slate-500 whitespace-pre shrink-0 ml-[0.5px]">{line.icon} </span>
+                          <span className={`${line.text === "Done" ? "text-slate-500 dark:text-slate-500" : "text-[#2563eb] dark:text-blue-400"} break-words`}>{line.text}</span>
+                        </div>
+                      ) : line.tone === "user" ? (
+                        <>
+                          <span className="text-[#2563eb] dark:text-blue-400 font-medium shrink-0 pt-[1px]">{">"}</span>
+                          <span className="whitespace-pre-wrap">{line.text}</span>
+                        </>
+                      ) : line.tone === "agent" ? (
+                        <>
+                          <div className="h-2 w-2 shrink-0 rounded-full bg-black dark:bg-white mt-[6px]" />
+                          <span className="whitespace-pre-wrap flex-1">{line.text}</span>
+                        </>
+                      ) : (
+                        <span className="whitespace-pre-wrap inline-block w-full">{line.text}</span>
+                      )}
                     </div>
                   ))}
                   
                   {/* Blinking Cursor */}
                   <div 
-                    className={`mt-1 flex items-center transition-all duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
-                    style={{ transitionDelay: `${500 + terminalLines.length * 120}ms` }}
+                    className={`mt-1 flex items-center ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                    style={{ 
+                      transitionProperty: "opacity",
+                      transitionDuration: "700ms",
+                      transitionDelay: `${500 + terminalLines.length * 120}ms` 
+                    }}
                   >
                     <span className="text-[#2563eb] dark:text-blue-400 font-medium mr-2">{">"}</span>
                     <span className="w-2.5 h-5 bg-foreground/80 animate-pulse" />
