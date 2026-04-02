@@ -2,7 +2,14 @@
 
 import { useMemo, useState } from "react";
 
-type DemoState = "idle" | "searched" | "confirmation_required" | "confirmed" | "invalid_input";
+type DemoState =
+  | "idle"
+  | "searched"
+  | "confirmation_required"
+  | "confirmed"
+  | "rejected_processing"
+  | "not_found"
+  | "invalid_input";
 
 interface TerminalLine {
   tone: "user" | "agent" | "meta" | "tree" | "blank" | "muted" | "result" | "warn" | "token" | "ok";
@@ -12,16 +19,19 @@ interface TerminalLine {
 }
 
 const blankLine: TerminalLine = { tone: "blank", text: "" };
+const SEARCH_TRANSACTION_ID = "87a46da7";
+const PROCESSING_TRANSACTION_ID = "1c4d55c2";
+const CONFIRM_TOKEN = "cfm_dc400d03";
 
 const searchedLines: TerminalLine[] = [
   { tone: "user", text: "check recent payments" },
   { tone: "agent", text: "I'll search recent merchant payments first." },
-  { tone: "blank", text: "" },
+  blankLine,
   { tone: "meta", text: "1 tool call finished", hint: "(ctrl+o to expand)" },
   { tone: "tree", icon: "└─", text: "fusionx payment search --page 0 --size 20" },
   { tone: "tree", icon: "   └─", text: "Done" },
-  { tone: "blank", text: "" },
-  { tone: "muted", text: "Payments: 2 found" },
+  blankLine,
+  { tone: "muted", text: "Latest merchant payments" },
   { tone: "result", text: "- 87a46da7 | order 41205537 | USD 19.25 | SUCCESS" },
   { tone: "result", text: "- 1c4d55c2 | order ca14e290 | USD 18.75 | PROCESSING" },
 ];
@@ -29,51 +39,151 @@ const searchedLines: TerminalLine[] = [
 const confirmationLines: TerminalLine[] = [
   { tone: "user", text: "refund 87a46da7" },
   { tone: "agent", text: "I'll prepare the refund and wait for explicit confirmation." },
-  { tone: "blank", text: "" },
+  blankLine,
   { tone: "meta", text: "1 tool call finished", hint: "(ctrl+o to expand)" },
   { tone: "tree", icon: "└─", text: "fusionx payment refund --transaction-id 87a46da7" },
   { tone: "tree", icon: "   └─", text: "Done" },
-  { tone: "blank", text: "" },
+  blankLine,
   { tone: "warn", text: "Status: CONFIRMATION_REQUIRED" },
-  { tone: "token", text: "Token: cfm_dc400d03" },
+  { tone: "token", text: `Token: ${CONFIRM_TOKEN}` },
   { tone: "agent", text: "Human confirmation required before any refund is executed." },
   { tone: "agent", text: "Reply \"confirm\" to continue." },
 ];
 
 const confirmedLines: TerminalLine[] = [
   { tone: "user", text: "confirm" },
-  { tone: "blank", text: "" },
+  blankLine,
   { tone: "meta", text: "1 tool call finished", hint: "(ctrl+o to expand)" },
-  { tone: "tree", icon: "└─", text: "fusionx payment confirm --token cfm_dc400d03" },
+  { tone: "tree", icon: "└─", text: `fusionx payment confirm --token ${CONFIRM_TOKEN}` },
   { tone: "tree", icon: "   └─", text: "Done" },
-  { tone: "blank", text: "" },
+  blankLine,
   { tone: "ok", text: "Status: CONFIRMED" },
   { tone: "ok", text: "Refund Status: SUCCESS" },
   { tone: "muted", text: "Refund ID: rf_9d12 | Amount: USD 19.25" },
   { tone: "agent", text: "Refund completed and recorded in the audit trail." },
 ];
 
+const processingRejectedLines: TerminalLine[] = [
+  { tone: "user", text: "refund 1c4d55c2" },
+  blankLine,
+  { tone: "meta", text: "1 tool call finished", hint: "(ctrl+o to expand)" },
+  { tone: "tree", icon: "└─", text: "fusionx payment refund --transaction-id 1c4d55c2" },
+  { tone: "tree", icon: "   └─", text: "Done" },
+  blankLine,
+  { tone: "warn", text: "Status: REJECTED" },
+  { tone: "muted", text: "Reason: Transaction is still PROCESSING" },
+  { tone: "agent", text: `Try: refund ${SEARCH_TRANSACTION_ID}` },
+];
+
+const notFoundLines = (input: string): TerminalLine[] => [
+  { tone: "user", text: input },
+  blankLine,
+  { tone: "warn", text: "Error: Payment transaction not found" },
+  { tone: "agent", text: `Use a transaction id like ${SEARCH_TRANSACTION_ID}.` },
+];
+
 function invalidLines(expected: DemoState): TerminalLine[] {
-  const suggestion = expected === "searched"
-    ? "Try: refund 87a46da7"
+  const suggestion = expected === "searched" || expected === "rejected_processing" || expected === "not_found"
+    ? `Try: refund ${SEARCH_TRANSACTION_ID}`
     : expected === "confirmation_required"
       ? "Try: confirm"
       : "Try: check recent payments";
 
   return [
-    { tone: "agent", text: "I only support a small scripted CLI demo in this landing page." },
+    { tone: "agent", text: "I can help with a small demo flow here." },
     { tone: "agent", text: suggestion },
   ];
 }
+
+function normalizeInput(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[`"'.,!?]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizeWord(word: string) {
+  if (word.startsWith("chec")) return "check";
+  if (word.startsWith("paymen")) return "payment";
+  if (word === "payments") return "payment";
+  if (word === "latest") return "recent";
+  if (word === "show" || word === "list") return "check";
+  return word;
+}
+
+function fuzzyWords(input: string) {
+  return normalizeInput(input).split(" ").filter(Boolean).map(normalizeWord);
+}
+
+function extractRefundId(input: string) {
+  const match = normalizeInput(input).match(/\brefund\b(?:\s+(?:payment|tx|transaction))?\s+([a-z0-9]+)/);
+  return match?.[1] ?? null;
+}
+
+function matchesSearchIntent(input: string) {
+  const words = fuzzyWords(input);
+  const hasAction = words.includes("check") || words.includes("search");
+  const hasRecent = words.includes("recent");
+  const hasPayment = words.includes("payment");
+  return hasAction && hasPayment && (hasRecent || words.length <= 3);
+}
+
+function matchesConfirmIntent(input: string) {
+  const words = fuzzyWords(input);
+  return words.includes("confirm") || normalizeInput(input).startsWith(`fusionx payment confirm --token ${CONFIRM_TOKEN}`);
+}
+
+function replayLines(state: Exclude<DemoState, "invalid_input">): TerminalLine[] {
+  if (state === "idle") {
+    return [
+      { tone: "agent", text: "Try a payment query or refund command." },
+      { tone: "agent", text: 'Examples: "check recent payments", "refund 87a46da7", "confirm"' },
+    ];
+  }
+  if (state === "searched") {
+    return searchedLines;
+  }
+  if (state === "confirmation_required") {
+    return [...searchedLines, blankLine, ...confirmationLines];
+  }
+  if (state === "rejected_processing") {
+    return [...searchedLines, blankLine, ...processingRejectedLines];
+  }
+  if (state === "not_found") {
+    return [...searchedLines, blankLine, ...notFoundLines(notFoundInputSeed)];
+  }
+  return [...searchedLines, blankLine, ...confirmationLines, blankLine, ...confirmedLines];
+}
+
+const notFoundInputSeed = "refund unknown";
 
 export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
   const [state, setState] = useState<DemoState>("idle");
   const [lastStableState, setLastStableState] = useState<Exclude<DemoState, "invalid_input">>("idle");
   const [command, setCommand] = useState("");
+  const [notFoundInput, setNotFoundInput] = useState(notFoundInputSeed);
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  const placeholder = useMemo(() => {
+    const stable = state === "invalid_input" ? lastStableState : state;
+    if (stable === "searched" || stable === "rejected_processing" || stable === "not_found") {
+      return `Try: refund ${SEARCH_TRANSACTION_ID}`;
+    }
+    if (stable === "confirmation_required") {
+      return "Try: confirm";
+    }
+    if (stable === "confirmed") {
+      return "Try: replay";
+    }
+    return 'Try: "check recent payments"';
+  }, [state, lastStableState]);
 
   const lines = useMemo<TerminalLine[]>(() => {
     if (state === "idle") {
-      return [...searchedLines, blankLine, ...confirmationLines, blankLine, ...confirmedLines];
+      return hasInteracted
+        ? replayLines("idle")
+        : [...searchedLines, blankLine, ...confirmationLines, blankLine, ...confirmedLines];
     }
     if (state === "searched") {
       return searchedLines;
@@ -84,35 +194,70 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
     if (state === "confirmed") {
       return [...searchedLines, blankLine, ...confirmationLines, blankLine, ...confirmedLines];
     }
-    return [
-      ...(lastStableState === "idle" ? [] : lastStableState === "searched" ? searchedLines : lastStableState === "confirmation_required" ? [...searchedLines, blankLine, ...confirmationLines] : [...searchedLines, blankLine, ...confirmationLines, blankLine, ...confirmedLines]),
-      blankLine,
-      ...invalidLines(lastStableState === "idle" ? "idle" : lastStableState),
-    ];
-  }, [state, lastStableState]);
+    if (state === "rejected_processing") {
+      return [...searchedLines, blankLine, ...processingRejectedLines];
+    }
+    if (state === "not_found") {
+      return [...searchedLines, blankLine, ...notFoundLines(notFoundInput)];
+    }
+    return [...replayLines(lastStableState), blankLine, ...invalidLines(lastStableState)];
+  }, [state, lastStableState, notFoundInput, hasInteracted]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const normalized = command.trim().toLowerCase();
+    const rawInput = command.trim();
+    const normalized = normalizeInput(rawInput);
     const current = state === "invalid_input" ? lastStableState : state;
 
-    const matchesSearch = normalized === "check recent payments" || normalized.startsWith("fusionx payment search");
-    const matchesRefund = normalized === "refund 87a46da7" || normalized.startsWith("fusionx payment refund --transaction-id 87a46da7");
-    const matchesConfirm = normalized === "confirm" || normalized.startsWith("fusionx payment confirm --token cfm_dc400d03");
-
-    if ((current === "idle" || current === "searched") && matchesSearch) {
-      setState("searched");
-      setLastStableState("searched");
-    } else if ((current === "searched" || current === "confirmation_required") && matchesRefund) {
-      setState("confirmation_required");
-      setLastStableState("confirmation_required");
-    } else if ((current === "confirmation_required" || current === "confirmed") && matchesConfirm) {
-      setState("confirmed");
-      setLastStableState("confirmed");
-    } else {
-      setState("invalid_input");
+    if (!normalized) {
+      return;
     }
 
+    if (normalized === "replay" || normalized === "reset") {
+      setState("idle");
+      setLastStableState("idle");
+      setNotFoundInput(notFoundInputSeed);
+      setHasInteracted(false);
+      setCommand("");
+      return;
+    }
+
+    if ((current === "idle" || current === "searched" || current === "rejected_processing" || current === "not_found") && matchesSearchIntent(normalized)) {
+      setState("searched");
+      setLastStableState("searched");
+      setCommand("");
+      return;
+    }
+
+    const refundId = extractRefundId(normalized);
+    if (refundId) {
+      if (refundId.startsWith(SEARCH_TRANSACTION_ID)) {
+        setState("confirmation_required");
+        setLastStableState("confirmation_required");
+      } else if (refundId.startsWith(PROCESSING_TRANSACTION_ID)) {
+        setState("rejected_processing");
+        setLastStableState("rejected_processing");
+      } else {
+        setState("not_found");
+        setLastStableState("not_found");
+        setNotFoundInput(rawInput);
+      }
+      setCommand("");
+      return;
+    }
+
+    if (matchesConfirmIntent(normalized)) {
+      if (current === "confirmation_required" || current === "confirmed") {
+        setState("confirmed");
+        setLastStableState("confirmed");
+      } else {
+        setState("invalid_input");
+      }
+      setCommand("");
+      return;
+    }
+
+    setState("invalid_input");
     setCommand("");
   };
 
@@ -189,8 +334,13 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
           <span className="text-[#2563eb] dark:text-blue-400 font-mono text-sm">{">"}</span>
           <input
             value={command}
-            onChange={(event) => setCommand(event.target.value)}
-            placeholder='Try: "check recent payments"'
+            onChange={(event) => {
+              if (!hasInteracted && event.target.value.trim().length > 0) {
+                setHasInteracted(true);
+              }
+              setCommand(event.target.value);
+            }}
+            placeholder={placeholder}
             className="flex-1 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground/70 font-mono"
           />
           <button
@@ -198,6 +348,8 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
             onClick={() => {
               setState("idle");
               setLastStableState("idle");
+              setNotFoundInput(notFoundInputSeed);
+              setHasInteracted(false);
               setCommand("");
             }}
             className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors"
