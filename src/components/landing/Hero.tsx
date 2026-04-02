@@ -184,7 +184,6 @@ export default function Hero() {
               <div className="absolute -inset-4 bg-[#2563eb]/10 dark:bg-[#2563eb]/30 rounded-3xl blur-2xl" />
 
               <HeroTerminalDemo isLoaded={isLoaded} />
-
             </div>
           </div>
         </div>
