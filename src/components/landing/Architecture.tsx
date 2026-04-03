@@ -4,8 +4,8 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 /* ── Relation graph for interactive hover highlighting ── */
 const relations: Record<string, string[]> = {
-  merchant: ["gateway"],
-  agents: ["mcp", "ai-cli"],
+  merchant: ["gateway", "agents"],
+  agents: ["mcp", "ai-cli", "merchant"],
   mcp: ["agents", "aop"],
   "ai-cli": ["agents", "aop"],
   aop: ["mcp", "ai-cli", "gateway", "kafka"],
@@ -123,17 +123,17 @@ export default function Architecture({
             </text>
 
             <g style={nodeStyle("mcp")} onMouseEnter={() => setHoveredNode("mcp")} onMouseLeave={() => setHoveredNode(null)}>
-              <rect x="80" y="155" width="340" height="36" rx="8"
+              <rect x="150" y="155" width="200" height="36" rx="8"
                 fill="rgba(37,99,235,0.08)" stroke="#2563eb" strokeWidth="2" />
-              <text x="250" y="175" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#2563eb">
+              <text x="250" y="173" textAnchor="middle" dominantBaseline="middle" alignmentBaseline="middle" fontWeight="bold" fontSize="13" fill="#2563eb">
                 MCP Server
               </text>
             </g>
 
             <g style={nodeStyle("ai-cli")} onMouseEnter={() => setHoveredNode("ai-cli")} onMouseLeave={() => setHoveredNode(null)}>
-              <rect x="460" y="155" width="360" height="36" rx="8"
+              <rect x="540" y="155" width="200" height="36" rx="8"
                 fill="rgba(37,99,235,0.08)" stroke="#2563eb" strokeWidth="2" />
-              <text x="640" y="175" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#2563eb">
+              <text x="640" y="173" textAnchor="middle" dominantBaseline="middle" alignmentBaseline="middle" fontWeight="bold" fontSize="13" fill="#2563eb">
                 AI CLI
               </text>
             </g>
@@ -154,25 +154,31 @@ export default function Architecture({
             </g>
 
             {/* Arrows: Users → AI Layer */}
-            <path d="M 600,106 C 500,120 350,120 250,155" fill="none" stroke="#94a3b8" strokeWidth="1.3"
+            {/* Merchant → AI Agents */}
+            <g style={{ opacity: lineOpacity("merchant", "agents"), transition: "opacity 0.3s" }}>
+              <line x1="340" y1="91" x2="532" y2="91" stroke="#94a3b8" strokeWidth="1.3" strokeDasharray="4,2" />
+              <polygon points="532,87 538,91 532,95" fill="#94a3b8" />
+            </g>
+
+            <path d="M 600,106 C 500,120 350,120 250,153" fill="none" stroke="#94a3b8" strokeWidth="1.3"
               style={{ opacity: lineOpacity("agents", "mcp"), transition: "opacity 0.3s" }} />
-            <polygon points="252,151 248,151 250,158" fill="#94a3b8"
+            <polygon points="253,146 247,146 250,153" fill="#94a3b8"
               style={{ opacity: lineOpacity("agents", "mcp"), transition: "opacity 0.3s" }} />
             
-            <path d="M 640,106 L 640,155" fill="none" stroke="#94a3b8" strokeWidth="1.3"
+            <path d="M 640,106 L 640,153" fill="none" stroke="#94a3b8" strokeWidth="1.3"
               style={{ opacity: lineOpacity("agents", "ai-cli"), transition: "opacity 0.3s" }} />
-            <polygon points="642,151 638,151 640,158" fill="#94a3b8"
+            <polygon points="643,146 637,146 640,153" fill="#94a3b8"
               style={{ opacity: lineOpacity("agents", "ai-cli"), transition: "opacity 0.3s" }} />
 
             {/* AI Layer → AOP */}
-            <line x1="250" y1="191" x2="250" y2="238" stroke="#2563eb" strokeWidth="1.3"
+            <line x1="250" y1="191" x2="250" y2="236" stroke="#2563eb" strokeWidth="1.3"
               style={{ opacity: lineOpacity("mcp", "aop"), transition: "opacity 0.3s" }} />
-            <polygon points="246,234 254,234 250,241" fill="#2563eb"
+            <polygon points="247,229 253,229 250,236" fill="#2563eb"
               style={{ opacity: lineOpacity("mcp", "aop"), transition: "opacity 0.3s" }} />
 
-            <line x1="640" y1="191" x2="640" y2="238" stroke="#2563eb" strokeWidth="1.3"
+            <line x1="640" y1="191" x2="640" y2="236" stroke="#2563eb" strokeWidth="1.3"
               style={{ opacity: lineOpacity("ai-cli", "aop"), transition: "opacity 0.3s" }} />
-            <polygon points="636,234 644,234 640,241" fill="#2563eb"
+            <polygon points="637,229 643,229 640,236" fill="#2563eb"
               style={{ opacity: lineOpacity("ai-cli", "aop"), transition: "opacity 0.3s" }} />
 
             {/* ==================== Layer 3: Gateway ==================== */}
@@ -192,9 +198,9 @@ export default function Architecture({
             </g>
 
             {/* AOP → Gateway */}
-            <line x1="440" y1="264" x2="440" y2="290" stroke="#f59e0b" strokeWidth="1.3"
+            <line x1="440" y1="264" x2="440" y2="288" stroke="#f59e0b" strokeWidth="1.3"
               style={{ opacity: lineOpacity("aop", "gateway"), transition: "opacity 0.3s" }} />
-            <polygon points="436,286 444,286 440,293" fill="#f59e0b"
+            <polygon points="437,281 443,281 440,288" fill="#f59e0b"
               style={{ opacity: lineOpacity("aop", "gateway"), transition: "opacity 0.3s" }} />
 
             {/* Merchant → Gateway (Routed around the side) */}
@@ -273,20 +279,20 @@ export default function Architecture({
             {/* ==================== Inter-service calls ==================== */}
             {/* Payment → Order (Feign) */}
             <g style={{ opacity: lineOpacity("payment", "order"), transition: "opacity 0.3s" }}>
-              <path d="M 250,403 L 205,403" fill="none"
+              <path d="M 250,403 L 209,403" fill="none"
                 stroke="#1976d2" strokeWidth="1.5" strokeDasharray="6,3" />
-              <polygon points="208,399 200,403 208,407" fill="#1976d2" />
+              <polygon points="209,399 202,403 209,407" fill="#1976d2" />
               <text x="227" y="398" textAnchor="middle" fontSize="9" fill="#1976d2">
                 Feign
               </text>
             </g>
 
-            {/* Admin → Order (REST) */}
+            {/* Admin → Order (REST, direct service call) */}
             <g style={{ opacity: lineOpacity("admin", "order"), transition: "opacity 0.3s" }}>
-              <path d="M 460,415 C 460,455 205,455 205,419"
+              <path d="M 460,431 C 460,480 120,480 120,431"
                 stroke="#1976d2" strokeWidth="1.5" strokeDasharray="6,3" fill="none" />
-              <polygon points="208,423 200,423 205,416" fill="#1976d2" />
-              <text x="340" y="442" textAnchor="middle" fontSize="9" fill="#1976d2">
+              <polygon points="116,431 124,431 120,424" fill="#1976d2" />
+              <text x="300" y="473" textAnchor="middle" fontSize="9" fill="#1976d2">
                 REST (query orders)
               </text>
             </g>
@@ -331,9 +337,9 @@ export default function Architecture({
             {/* Services → Data stores */}
             {/* Payment → Kafka (produce) */}
             <g style={{ opacity: lineOpacity("payment", "kafka"), transition: "opacity 0.3s" }}>
-              <path d="M 330,431 L 330,550" fill="none"
+              <path d="M 330,431 L 330,541" fill="none"
                 stroke="#ff8f00" strokeWidth="1.5" />
-              <polygon points="326,546 334,546 330,553" fill="#ff8f00" />
+              <polygon points="326,541 334,541 330,548" fill="#ff8f00" />
               <text x="345" y="495" fontSize="9" fill="#ff8f00" fontStyle="italic">
                 produce
               </text>
@@ -370,9 +376,9 @@ export default function Architecture({
 
             {/* Spring AOP → Kafka (ai-audit-log routed side) */}
             <g style={{ opacity: lineOpacity("aop", "kafka"), transition: "opacity 0.3s" }}>
-              <path d="M 850,251 C 880,251 880,577 670,577" fill="none"
+              <path d="M 850,251 C 880,251 880,577 679,577" fill="none"
                 stroke="#ff8f00" strokeWidth="1.5" strokeDasharray="4,3" />
-              <polygon points="674,573 674,581 667,577" fill="#ff8f00" />
+              <polygon points="679,573 679,581 672,577" fill="#ff8f00" />
               <text x="865" y="420" fontSize="9" fill="#ff8f00" fontStyle="italic" style={{ textAnchor: "middle", transformOrigin: "865px 420px", transform: "rotate(90deg)" }}>
                 ai-audit-log
               </text>
