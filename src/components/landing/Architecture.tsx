@@ -128,9 +128,6 @@ export default function Architecture({
               <text x="250" y="175" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#2563eb">
                 MCP Server
               </text>
-              <text x="410" y="175" textAnchor="end" fontSize="10" fill="#60a5fa">
-                Spring AI · 8 tools · stdio
-              </text>
             </g>
 
             <g style={nodeStyle("ai-cli")} onMouseEnter={() => setHoveredNode("ai-cli")} onMouseLeave={() => setHoveredNode(null)}>
@@ -138,12 +135,6 @@ export default function Architecture({
                 fill="rgba(37,99,235,0.08)" stroke="#2563eb" strokeWidth="2" />
               <text x="640" y="175" textAnchor="middle" fontWeight="bold" fontSize="13" fill="#2563eb">
                 AI CLI
-              </text>
-              <text x="810" y="169" textAnchor="end" fontSize="9" fill="#60a5fa">
-                Picocli · 11 commands
-              </text>
-              <text x="810" y="182" textAnchor="end" fontSize="9" fill="#60a5fa">
-                audit-aware
               </text>
             </g>
 
