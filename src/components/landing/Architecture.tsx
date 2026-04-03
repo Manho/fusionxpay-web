@@ -12,7 +12,7 @@ const relations: Record<string, string[]> = {
   gateway: ["merchant", "aop", "order", "payment", "admin", "notification", "redis"],
   order: ["gateway", "payment", "mysql", "kafka"],
   payment: ["gateway", "order", "mysql", "kafka", "redis"],
-  admin: ["gateway", "mysql", "kafka"],
+  admin: ["gateway", "order", "mysql", "kafka"],
   notification: ["gateway", "mysql", "kafka"],
   mysql: ["order", "payment", "admin", "notification", "monitoring"],
   kafka: ["payment", "aop", "order", "notification", "admin"],
@@ -142,7 +142,7 @@ export default function Architecture({
             <rect x="30" y="214" width="820" height="56" rx="10"
               fill="none" stroke="#f59e0b" strokeWidth="1" strokeDasharray="6 4" opacity="0.4" />
             <text x="50" y="234" fontSize="10" fill="#f59e0b" fontWeight="600" opacity="0.7">
-              CROSS-CUTTING SAFETY · 3-Layer Spring AOP
+              CROSS-CUTTING SAFETY
             </text>
 
             <g style={nodeStyle("aop")} onMouseEnter={() => setHoveredNode("aop")} onMouseLeave={() => setHoveredNode(null)}>
@@ -160,9 +160,9 @@ export default function Architecture({
               <polygon points="532,87 538,91 532,95" fill="#94a3b8" />
             </g>
 
-            <path d="M 600,106 C 500,120 350,120 250,153" fill="none" stroke="#94a3b8" strokeWidth="1.3"
+            <path d="M 640,106 C 640,135 250,120 250,148" fill="none" stroke="#94a3b8" strokeWidth="1.3"
               style={{ opacity: lineOpacity("agents", "mcp"), transition: "opacity 0.3s" }} />
-            <polygon points="253,146 247,146 250,153" fill="#94a3b8"
+            <polygon points="253,148 247,148 250,155" fill="#94a3b8"
               style={{ opacity: lineOpacity("agents", "mcp"), transition: "opacity 0.3s" }} />
             
             <path d="M 640,106 L 640,153" fill="none" stroke="#94a3b8" strokeWidth="1.3"
@@ -289,10 +289,10 @@ export default function Architecture({
 
             {/* Admin → Order (REST, direct service call) */}
             <g style={{ opacity: lineOpacity("admin", "order"), transition: "opacity 0.3s" }}>
-              <path d="M 460,431 C 460,480 120,480 120,431"
+              <path d="M 460,428 C 400,455 260,455 200,428"
                 stroke="#1976d2" strokeWidth="1.5" strokeDasharray="6,3" fill="none" />
-              <polygon points="116,431 124,431 120,424" fill="#1976d2" />
-              <text x="300" y="473" textAnchor="middle" fontSize="9" fill="#1976d2">
+              <polygon points="204,432 197,428 204,424" fill="#1976d2" />
+              <text x="330" y="466" textAnchor="middle" fontSize="9" fill="#1976d2">
                 REST (query orders)
               </text>
             </g>
