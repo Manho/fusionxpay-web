@@ -153,6 +153,13 @@ function extractRefundId(input: string) {
   return match?.[1] ?? null;
 }
 
+function commandFromPlaceholder(placeholder: string) {
+  return placeholder
+    .replace(/^Try:\s*/i, "")
+    .replace(/^"(.*)"$/, "$1")
+    .trim();
+}
+
 function matchesSearchIntent(input: string) {
   const words = fuzzyWords(input);
   const hasAction = words.includes("check") || words.includes("search");
@@ -298,6 +305,28 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
     inputRef.current?.focus();
   };
 
+  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Tab") {
+      return;
+    }
+
+    const suggestedCommand = commandFromPlaceholder(placeholder);
+    const normalizedSuggestion = normalizeInput(suggestedCommand);
+    const normalizedCommand = normalizeInput(command);
+
+    if (!suggestedCommand) {
+      return;
+    }
+
+    if (normalizedCommand.length > 0 && !normalizedSuggestion.startsWith(normalizedCommand)) {
+      return;
+    }
+
+    event.preventDefault();
+    setCommand(suggestedCommand);
+    setHasInteracted(true);
+  };
+
   const handleInputShellPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     const target = event.target as HTMLElement;
     if (target.closest("button") || target === inputRef.current) {
@@ -405,6 +434,7 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
               id="command-input"
               type="text"
               value={command}
+              onKeyDown={handleInputKeyDown}
               onChange={(event) => {
                 if (!hasInteracted && event.target.value.trim().length > 0) {
                   setHasInteracted(true);

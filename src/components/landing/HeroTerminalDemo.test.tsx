@@ -88,4 +88,30 @@ describe("HeroTerminalDemo", () => {
 
     expect(input).toHaveValue("refund 87a46da7");
   });
+
+  it("autocompletes the placeholder command on tab", async () => {
+    render(<HeroTerminalDemo isLoaded />);
+
+    const user = userEvent.setup();
+    const input = screen.getByPlaceholderText(/check recent payments/i);
+
+    await user.click(input);
+    await user.keyboard("{Tab}");
+
+    expect(input).toHaveValue("check recent payments");
+    expect(screen.queryByText(/Latest merchant payments/i)).not.toBeInTheDocument();
+  });
+
+  it("autocompletes partial input with the current placeholder suggestion", async () => {
+    render(<HeroTerminalDemo isLoaded />);
+
+    const user = userEvent.setup();
+    const input = screen.getByPlaceholderText(/check recent payments/i);
+
+    await user.type(input, "chec");
+    await user.keyboard("{Tab}{Enter}");
+
+    expect(screen.getByText(/Latest merchant payments/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/refund 87a46da7/i)).toBeInTheDocument();
+  });
 });
