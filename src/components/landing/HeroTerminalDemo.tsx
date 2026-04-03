@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 type DemoState =
   | "idle"
@@ -196,6 +196,7 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
   const [command, setCommand] = useState("");
   const [notFoundInput, setNotFoundInput] = useState(notFoundInputSeed);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const placeholder = useMemo(() => {
     const stable = state === "invalid_input" ? lastStableState : state;
@@ -293,8 +294,28 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
     setCommand("");
   };
 
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
+
+  const handleInputShellPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLElement;
+    if (target.closest("button") || target === inputRef.current) {
+      return;
+    }
+
+    event.preventDefault();
+    focusInput();
+  };
+
   return (
     <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-[#0f0f11] border border-border/50 dark:border-white/10">
+      <style>{`
+        @keyframes terminal-blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+      `}</style>
       <div className="px-4 py-3 border-b border-border/50 dark:border-white/5 flex items-center bg-muted/30 dark:bg-[#18181b]">
         <div className="flex gap-2">
           <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
@@ -362,19 +383,41 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
       </div>
 
       <form onSubmit={handleSubmit} className="border-t border-border/50 dark:border-white/5 px-4 py-3 bg-background/80 dark:bg-[#111215]">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3" onPointerDown={handleInputShellPointerDown}>
           <span className="text-[#2563eb] dark:text-blue-400 font-mono text-sm">{">"}</span>
-          <input
-            value={command}
-            onChange={(event) => {
-              if (!hasInteracted && event.target.value.trim().length > 0) {
-                setHasInteracted(true);
-              }
-              setCommand(event.target.value);
-            }}
-            placeholder={placeholder}
-            className="flex-1 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground/70 font-mono"
-          />
+          <label
+            htmlFor="command-input"
+            className="relative flex-1 flex items-center min-h-[24px] cursor-text group"
+            onClick={focusInput}
+          >
+            {/* Visual Text & Blinking Terminal Cursor (IN FLOW) */}
+            <div className="flex items-center w-full font-mono text-sm whitespace-pre truncate pointer-events-none">
+              <span className="text-foreground">{command}</span>
+              <span className="inline-block w-[8px] h-[15px] bg-slate-800 dark:bg-zinc-200 ml-[1px]" style={{ animation: 'terminal-blink 3.5s ease-in-out infinite' }} />
+              {command.length === 0 && (
+                <span className="text-muted-foreground/70 ml-2">{placeholder}</span>
+              )}
+            </div>
+            
+            {/* Invisible Core Input */}
+            <input
+              ref={inputRef}
+              id="command-input"
+              type="text"
+              value={command}
+              onChange={(event) => {
+                if (!hasInteracted && event.target.value.trim().length > 0) {
+                  setHasInteracted(true);
+                }
+                setCommand(event.target.value);
+              }}
+              placeholder={placeholder}
+              aria-label="Terminal command input"
+              className="absolute inset-0 w-full h-full bg-transparent outline-none text-transparent caret-transparent z-10"
+              spellCheck={false}
+              autoComplete="off"
+            />
+          </label>
           <button
             type="button"
             onClick={() => {

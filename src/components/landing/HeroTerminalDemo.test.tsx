@@ -77,4 +77,15 @@ describe("HeroTerminalDemo", () => {
 
     expect(screen.getByPlaceholderText(/check recent payments/i)).toBeInTheDocument();
   });
+
+  it("focuses the hidden input when the visible terminal area is clicked", async () => {
+    render(<HeroTerminalDemo isLoaded />);
+
+    const user = userEvent.setup();
+    const input = screen.getByRole("textbox", { name: /terminal command input/i });
+    await user.click(screen.getByText(/try: "check recent payments"/i));
+    await user.keyboard("refund 87a46da7");
+
+    expect(input).toHaveValue("refund 87a46da7");
+  });
 });
