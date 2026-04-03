@@ -374,7 +374,7 @@ export default function HeroTerminalDemo({ isLoaded }: { isLoaded: boolean }) {
                 <span className="whitespace-pre-wrap flex-1">{line.text}</span>
               </>
             ) : (
-              <span className={`whitespace-pre-wrap inline-block w-full ${line.tone === "muted" ? "text-muted-foreground ml-[20px]" : line.tone === "blank" ? "" : line.tone === "result" ? "" : "ml-[20px]"}`}>
+              <span className="whitespace-pre-wrap inline-block w-full">
                 {line.text}
               </span>
             )}
