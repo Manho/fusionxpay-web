@@ -5,17 +5,17 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 /* ── Relation graph for interactive hover highlighting ── */
 const relations: Record<string, string[]> = {
   merchant: ["gateway"],
-  agents: ["mcp", "ai-cli", "aop"],
-  mcp: ["agents", "aop", "gateway", "kafka"],
-  "ai-cli": ["agents", "gateway", "kafka"],
-  aop: ["mcp", "kafka", "gateway"],
-  gateway: ["merchant", "mcp", "ai-cli", "aop", "order", "payment", "admin", "notification", "redis"],
-  order: ["gateway", "payment", "admin", "mysql", "kafka"],
+  agents: ["mcp", "ai-cli"],
+  mcp: ["agents", "aop"],
+  "ai-cli": ["agents", "aop"],
+  aop: ["mcp", "ai-cli", "gateway", "kafka"],
+  gateway: ["merchant", "aop", "order", "payment", "admin", "notification", "redis"],
+  order: ["gateway", "payment", "mysql", "kafka"],
   payment: ["gateway", "order", "mysql", "kafka", "redis"],
-  admin: ["gateway", "order", "mysql", "kafka"],
-  notification: ["gateway", "kafka", "mysql"],
+  admin: ["gateway", "mysql", "kafka"],
+  notification: ["gateway", "mysql", "kafka"],
   mysql: ["order", "payment", "admin", "notification", "monitoring"],
-  kafka: ["mcp", "ai-cli", "aop", "order", "payment", "admin", "notification"],
+  kafka: ["payment", "aop", "order", "notification", "admin"],
   redis: ["gateway", "payment", "monitoring"],
   monitoring: ["mysql", "redis"],
 };
@@ -99,7 +99,7 @@ export default function Architecture({
             {/* ==================== Layer 1: External Users ==================== */}
             <rect x="30" y="50" width="820" height="64" rx="10"
               fill="none" stroke="#94a3b8" strokeWidth="1" strokeDasharray="6 4" opacity="0.4" />
-            <text x="50" y="66" fontSize="10" fill="#94a3b8" fontWeight="600" opacity="0.7">
+            <text x="50" y="74" fontSize="10" fill="#94a3b8" fontWeight="600" opacity="0.7">
               EXTERNAL USERS &amp; AI AGENTS
             </text>
 
@@ -118,7 +118,7 @@ export default function Architecture({
             {/* ==================== Layer 2: AI Interface ==================== */}
             <rect x="30" y="128" width="820" height="72" rx="10"
               fill="none" stroke="#2563eb" strokeWidth="1" strokeDasharray="6 4" opacity="0.4" />
-            <text x="50" y="144" fontSize="10" fill="#2563eb" fontWeight="600" opacity="0.7">
+            <text x="50" y="152" fontSize="10" fill="#2563eb" fontWeight="600" opacity="0.7">
               AI INTERFACE LAYER
             </text>
 
@@ -150,7 +150,7 @@ export default function Architecture({
             {/* ==================== Layer 2B: AOP Safety ==================== */}
             <rect x="30" y="214" width="820" height="56" rx="10"
               fill="none" stroke="#f59e0b" strokeWidth="1" strokeDasharray="6 4" opacity="0.4" />
-            <text x="50" y="230" fontSize="10" fill="#f59e0b" fontWeight="600" opacity="0.7">
+            <text x="50" y="234" fontSize="10" fill="#f59e0b" fontWeight="600" opacity="0.7">
               CROSS-CUTTING SAFETY · 3-Layer Spring AOP
             </text>
 
@@ -295,7 +295,7 @@ export default function Architecture({
               <path d="M 460,415 C 460,455 205,455 205,419"
                 stroke="#1976d2" strokeWidth="1.5" strokeDasharray="6,3" fill="none" />
               <polygon points="208,423 200,423 205,416" fill="#1976d2" />
-              <text x="340" y="450" textAnchor="middle" fontSize="9" fill="#1976d2">
+              <text x="340" y="442" textAnchor="middle" fontSize="9" fill="#1976d2">
                 REST (query orders)
               </text>
             </g>
