@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import ThemeController from "@/components/theme/ThemeController";
+import { Analytics } from "@vercel/analytics/next";
 
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
@@ -73,6 +74,7 @@ export default function RootLayout({
       >
         <ThemeController />
         {children}
+        <Analytics />
       </body>
     </html>
   );
