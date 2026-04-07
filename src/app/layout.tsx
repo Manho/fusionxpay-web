@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { IBM_Plex_Sans } from "next/font/google";
+import { Analytics } from '@vercel/analytics/next';
 import "./globals.css";
-import VercelWebAnalytics from "@/components/analytics/VercelWebAnalytics";
 import ThemeController from "@/components/theme/ThemeController";
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -75,9 +74,7 @@ export default function RootLayout({
       >
         <ThemeController />
         {children}
-        <Suspense fallback={null}>
-          <VercelWebAnalytics />
-        </Suspense>
+        <Analytics />
       </body>
     </html>
   );
