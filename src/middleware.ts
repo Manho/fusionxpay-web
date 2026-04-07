@@ -3,11 +3,20 @@ import type { NextRequest } from 'next/server'
 
 const TOKEN_KEY = 'fusionxpay_admin_token'
 const USER_KEY = 'fusionxpay_admin_user'
+const observabilityBasePath = process.env.NEXT_PUBLIC_VERCEL_OBSERVABILITY_BASEPATH
+  ?.trim()
+  .replace(/^\/+|\/+$/g, '')
 
 // Routes that don't require authentication
 // Use exact match for root, startsWith for others
 const publicRoutesExact = ['/']
-const publicRoutesPrefix = ['/login', '/register', '/docs']
+const publicRoutesPrefix = [
+  '/login',
+  '/register',
+  '/docs',
+  '/_vercel',
+  ...(observabilityBasePath ? [`/${observabilityBasePath}`] : []),
+]
 
 function parseUserRole(request: NextRequest): 'ADMIN' | 'MERCHANT' | null {
   const raw = request.cookies.get(USER_KEY)?.value
@@ -65,6 +74,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.svg$).*)',
+    '/((?!api|_next/static|_next/image|_vercel|favicon.ico|.*\\.svg$).*)',
   ],
 }
