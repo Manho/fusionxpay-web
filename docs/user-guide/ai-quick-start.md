@@ -22,9 +22,9 @@ Add a FusionXPay MCP entry to your Claude Desktop config:
       "command": "java",
       "args": ["-jar", "ai-mcp-server-1.0.0.jar"],
       "env": {
-        "FUSIONX_EMAIL": "merchant@example.com",
-        "FUSIONX_PASSWORD": "merchant123",
-        "FUSIONX_GATEWAY_BASE_URL": "http://localhost:8080"
+        "FUSIONX_GATEWAY_BASE_URL": "http://localhost:8080",
+        "FUSIONX_AUDIENCE": "ai-mcp",
+        "FUSIONX_AUTH_MODE": "browser"
       }
     }
   }
@@ -44,7 +44,12 @@ What you can do after connecting:
 ### Authenticate
 
 ```bash
-fusionx auth login --email merchant@example.com --password merchant123
+fusionx auth login
+# By default, this opens your browser and uses a local callback server.
+# If you are in a remote or headless environment, use the device-code fallback:
+# fusionx auth login --device
+
+# Once approved, you can verify your status:
 fusionx auth status
 ```
 

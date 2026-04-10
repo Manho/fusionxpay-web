@@ -10,12 +10,12 @@ What exists today:
 - `ai-cli` for terminal-driven merchant workflows
 - shared DTOs, confirmation objects, and audit schema in `ai-common`
 - Kafka-backed audit persistence through `admin-service`
+- OAuth-inspired local callback (PKCE) and device code flows for MCP and CLI auth
 
 What does **not** exist yet:
 
 - LLM-driven fraud scoring in production flows
 - autonomous write execution without human confirmation
-- OAuth-based MCP auth
 
 ## 11.2 MCP Server
 
